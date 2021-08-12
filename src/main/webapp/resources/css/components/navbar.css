@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 861px;
+  margin: 10px 0;
+}
+
+.navbar_header {
+	display: flex;
+  height: 50px;
+}
+.navbar_logo {
+	width: 50px;
+  height: 50px;
+	background-color: red;
+}
+
+.navbar_menu {
+	display: flex;
+}
+
+.navbar_menu_element {
+	background-color: green;
+}
+
+.navbar_userInfo {
+	display: flex;
+	width: 100px;
+	height: 50px;
+  background-color: blue;
+	
+}

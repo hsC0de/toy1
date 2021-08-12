@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="common">
+    <select id="selectItems" parameterType="hashmap" resultType="hashmap">
+        SELECT CD   AS CODE
+             , CDNM AS VALUE
+          FROM CODE A
+         WHERE UPCD = #{upcd}
+    </select>
+    
+    <select id="selectMembers" parameterType="hashmap" resultType="hashmap">
+      SELECT NAME AS CODE
+           , NAME AS VALUE
+        FROM MEMBERS
+       WHERE 1=1
+         <if test='upcd != null and upcd != "" '>
+         AND GENDER = #{upcd}    
+         </if>
+    </select>
+    
+    <select id="getUserInfo" parameterType="hashmap" resultType="hashmap">
+      SELECT NAME
+           , EMAIL
+           , PASSWORD
+        FROM MEMBERS A
+       WHERE A.NAME = #{NAME}
+    </select>
+</mapper>
