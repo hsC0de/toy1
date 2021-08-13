@@ -20,6 +20,30 @@
          </if>
     </select>
     
+    
+    <insert id="insertPost" parameterType="hashmap">
+      INSERT INTO BOARD ( BNO
+                        , UPD_SEQ
+                        , ID
+                        , TITLE
+                        , REG_DATE
+                        , CONTENT
+                        , TYPE
+                        , CNT
+                        , GRP_KEY
+                        , KIND )
+                 VALUES ( SEQ_BOARD.NEXTVAL
+                        , 0
+                        , #{id}
+                        , #{title}
+                        , SYSDATE
+                        , #{content}
+                        , #{type}
+                        , 0
+                        , SYS_GUID()
+                        , #{kind} )
+    </insert>
+    
     <insert id="insertFileInfo">
       INSERT INTO MCO_FILES ( GROUP_KEY
                             , FILE_KEY

@@ -5,6 +5,8 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/resources/js/board.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Board</title>
@@ -23,7 +25,7 @@
                 <ul>
                   <li>공지글</li>
                   <li>자유게시판</li>
-                  <li>회원게시판</li>
+                  <li>질문게시판</li>
                 </ul>
               </li>
             </ul>
@@ -45,6 +47,21 @@
       <div class="board">
         <div class="board_title">
           <span>00게시판</span>
+        </div>
+        <div class="board_option">
+          <ul>
+            <li>
+              <select>
+                <option value="5">5개씩</option>
+                <option value="10">10개씩</option>
+                <option value="15" selected>15개씩</option>
+                <option value="20">20개씩</option>
+                <option value="30">30개씩</option>
+                <option value="40">40개씩</option>
+                <option value="50">50개씩</option>
+              </select>
+            </li>
+          </ul>
         </div>
         <table class="board_table">
           <thead>
@@ -166,5 +183,7 @@
     </main>
     
   </div>
+  
+  
 </body>
 </html>

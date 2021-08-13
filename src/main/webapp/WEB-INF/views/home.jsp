@@ -23,7 +23,7 @@
 	    				  <ul>
 	    				    <li>공지글</li>
 	    				    <li>자유게시판</li>
-	    				    <li>회원게시판</li>
+	    				    <li>질문게시판</li>
 	    				  </ul>
 	            </li>
 	          </ul>
@@ -33,7 +33,7 @@
       <div class="navbar_userInfo">
         <a href="#"><img/></a>
         <a href="#"><img/></a>
-        <a href="#"><img/></a>
+        <a href="/login" style="color: #fff;"><img/>Login</a>
       </div>
     </header>
     <div class="front-img">

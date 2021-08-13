@@ -68,7 +68,7 @@ td {
   padding: 10px;
   text-align: center;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 td:nth-child(2),
@@ -109,4 +109,22 @@ td:last-child {
 
 .board_new span:hover {
 	text-decoration: underline;
+}
+
+.board_option {
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+.board_option select {
+	padding: 4px 25px 4px 8px;
+  font-family: 'Noto Sans KR', sans-serif;
+	font-size:13px;
+	color: rgba(0, 0, 0, 0.7);
+	box-sizing: border-box;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	-webkit-appearance:none; /* 크롬 화살표 없애기 */
+  -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
+  appearance:none; /* 화살표 없애기 */
+  background: url("/node_modules/bootstrap-icons/icons/caret-down-fill.svg") no-repeat 92% 50%/11px auto;
 }
