@@ -63,15 +63,15 @@
     </div>
     <div id="container">
 	    <div class="content">
-				<form id="loginForm" name="loginform" method="post" action="/signUp">
-				  <fieldset class="login_form">
+				<form id="registerForm" name="registerForm" method="post" action="/joinMember">
+				  <fieldset class="register_form">
 					  <div class="id_area">
 						  <input type="text" name="id" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
 					  </div>
 					  <div class="pw_area">
 						  <input type="password" name="password" id="password" placeholder="비밀번호" minlength="2" maxlength="16"/>
 					  </div>
-						  <input type="submit" id="loginButton" value="제출"/>
+						  <input type="submit" id="submitButton" value="제출"/>
 				  </fieldset>
 				</form>
 	    </div>

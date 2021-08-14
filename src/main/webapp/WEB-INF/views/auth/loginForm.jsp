@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-//   session.invalidate();
-  System.out.println("SESSION ID [" + (session == null? null : session.getId()) + "]");
-  String oripath = (String) request.getParameter("oripath");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>

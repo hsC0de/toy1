@@ -36,6 +36,6 @@ public class BoardController {
     @ResponseBody
     public String regPost(@RequestParam Map<String, Object> map) {
         int result = boardService.regPost("board.insertPost", map);
-        return "등록되었슈";
+        return "ok";
     }
 }

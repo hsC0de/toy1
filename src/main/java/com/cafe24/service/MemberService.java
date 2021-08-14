@@ -13,14 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class BoardService {
+public class MemberService {
 
-    public final CommonDao dao;
+    private final CommonDao commonDao;
     
     @Transactional
-    public int regPost(String statement, Map<String, Object> condition) {
-        int result = dao.insert(statement, condition);
+    public int joinMember(String statement, Map<String, Object> condition) {
         
+        
+        
+        int result = commonDao.insert(statement, condition);
         return result;
     }
 }

@@ -28,4 +28,15 @@
         FROM MEMBERS A
        WHERE A.NAME = #{NAME}
     </select>
+    
+    <insert id="insertMemberInfo">
+      INSERT INTO MEMBERS ( ID
+                          , PASSWORD
+                          , JOIN_DATE
+                          , AUTH_GRP_CD )
+                   VALUES ( #{id}
+                          , #{password}
+                          , SYSDATE
+                          , '30')
+    </insert>
 </mapper>
