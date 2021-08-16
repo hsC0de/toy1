@@ -29,6 +29,12 @@
        WHERE A.NAME = #{NAME}
     </select>
     
+    <select id="existMembers" parameterType="hashmap" resultType="int">
+    SELECT COUNT(*) AS CNT
+      FROM MEMBERS
+     WHERE ID = #{id}
+  </select>
+    
     <insert id="insertMemberInfo">
       INSERT INTO MEMBERS ( ID
                           , PASSWORD

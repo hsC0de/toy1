@@ -35,7 +35,7 @@
       <div class="navbar_userInfo">
         <a href="#"><img/></a>
         <a href="#"><img/></a>
-        <a href="#"><img/></a>
+        <a href="/common/login" style="color: #fff;"><img/>Login</a>
       </div>
     </header>
     <div class="front-img">

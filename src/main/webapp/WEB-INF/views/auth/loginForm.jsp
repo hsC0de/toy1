@@ -7,42 +7,55 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+  <link rel="stylesheet" href="/resources/css/styles.css" />
 <style>
+    
+    body {
+      
+      background-color: #F5F6F7;
+    }
+    
     .id_area {
       box-sizing: border-box;
       width: 461px;
       height: 46px;
-      border: 1px solid rgba(0, 0, 0, 0.8);
+      border: 1px solid #dadada;
       padding:10px;
       margin-bottom: 10px;
+      background-color: #fff;
     }
     #id {
       font-size: 15px;
       border: none;
       width: 100%;
+      vertical-align: middle;
+      margin-top: 4px;
     }
     
     .pw_area {
       box-sizing: border-box;
       width: 461px;
       height: 46px;
-      border: 1px solid rgba(0, 0, 0, 0.5);
+      border: 1px solid #dadada;
       padding:10px;
       margin-bottom: 10px;
+      background-color: #fff;
     }
     
     #password {
       font-size: 15px;
       border: none;
       width: 100%;
+      vertical-align: middle;
+      margin-top: 4px;
     }
     
     #loginButton {
       box-sizing: border-box;
       width: 461px;
       height: 46px;
-      border: 1px solid #03C75A;
-      background: #03C75A;
+      border: 1px solid #3D96C2;
+      background-color: #3D96C2;
       padding:10px;
       margin-bottom: 10px;
       color: #fff;
@@ -51,10 +64,31 @@
       font-size: 17px;
       font-weight: 700;
     }
+    
+    .login_form {
+      width: 461px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+    }
+    
+    .login_tools {
+      width: 100%;
+      display:flex;
+      justify-content: space-between;
+    }
+    
   </style>
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
-	
+	  $(function() {
+	    var idObj = $(".id_info");
+	    var pwObj = $(".pw_info");
+	    
+	    
+	  });
 	</script>
 </head>
 <body>
@@ -66,7 +100,7 @@
     </div>
     <div id="container">
       <div class="content">
-        <form id="loginForm" name="loginform" method="post" action="/login">
+        <form id="loginForm" name="loginform" method="post" action="/common/login">
           <fieldset class="login_form">
             <div class="id_area">
               <input type="text" name="id" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
@@ -74,14 +108,16 @@
             <div class="pw_area">
               <input type="password" name="password" id="password" placeholder="비밀번호" minlength="2" maxlength="16"/>
             </div>
-              <input type="submit" id="loginButton" value="로그인"/>
-              <div class="checkbox">
-        <label>
-          <input name="remember-me" type="checkbox" value="Remember Me">Remember Me
-          
-      <a href="/signUp">Sign up</a>
-        </label>
-      </div>
+            <div class="id_info"></div>
+            <input type="submit" id="loginButton" value="로그인"/>
+            <div class="login_tools">
+	            <div class="checkbox">
+			          <label>
+			            <input name="remember-me" type="checkbox" value="Remember Me">로그인 상태 유지
+			          </label>
+	            </div>
+	            <div><a href="/common/signUp">회원가입</a></div>
+            </div>
           </fieldset>
         </form>
       </div>

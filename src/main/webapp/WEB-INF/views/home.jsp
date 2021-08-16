@@ -8,6 +8,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Main</title>
+	<script>
+	  
+	</script>
 </head>
 <body>
   <div id="wrap">
@@ -33,7 +36,7 @@
       <div class="navbar_userInfo">
         <a href="#"><img/></a>
         <a href="#"><img/></a>
-        <a href="/login" style="color: #fff;"><img/>Login</a>
+        <a href="/common/login" style="color: #fff;"><img/>Login</a>
       </div>
     </header>
     <div class="front-img">
@@ -46,5 +49,6 @@
       </div>
     </div>
   </div>
+  <a href="/common/getBoardList">aaaaa</a>
 </body>
 </html>

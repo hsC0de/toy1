@@ -6,7 +6,10 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:config/root-context.xml</param-value>
+		<param-value>
+		  classpath:config/root-context.xml,
+		  classpath:config/security-context.xml
+		  </param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -34,7 +37,7 @@
 	</servlet-mapping>
 
   <filter> 
-    <filter-name>encodingFilter</filter-name> 
+    <filter-name>characterEncodingFilter</filter-name> 
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
     <init-param> 
        <param-name>encoding</param-name> 
@@ -46,7 +49,7 @@
     </init-param> 
  </filter> 
  <filter-mapping> 
-    <filter-name>encodingFilter</filter-name> 
+    <filter-name>characterEncodingFilter</filter-name> 
     <url-pattern>/*</url-pattern> 
  </filter-mapping>
  

@@ -38,4 +38,6 @@ public class BoardController {
         int result = boardService.regPost("board.insertPost", map);
         return "ok";
     }
+    
+    
 }

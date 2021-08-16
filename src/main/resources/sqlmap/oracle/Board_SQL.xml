@@ -20,6 +20,17 @@
          </if>
     </select>
     
+    <resultMap type="map" id="selectClob">
+
+      <result property="content" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />  
+
+    </resultMap>
+
+    <select id="getBoardList" parameterType="map" resultMap="selectClob">
+
+      SELECT CONTENT FROM TEST_CLOB
+
+    </select>
     
     <insert id="insertPost" parameterType="hashmap">
       INSERT INTO BOARD ( BNO
