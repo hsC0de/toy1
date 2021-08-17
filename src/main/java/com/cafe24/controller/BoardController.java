@@ -1,14 +1,20 @@
 package com.cafe24.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.domain.BoardVO;
 import com.cafe24.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +30,24 @@ public class BoardController {
     
     @GetMapping("list")
     public String list() {
-        return "board/board";
+        return "board/list";
+    }
+    
+    @GetMapping(value="boardList", produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<BoardVO> boardList() {
+        List<BoardVO> resultList = new ArrayList<>();
+        resultList = boardService.boardList("board.getBoardList", null);
+        return resultList;
+    }
+    
+    @GetMapping("get")
+    public String get(@RequestParam("bno") Long bno, Model model) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("bno", bno);
+        map = boardService.get("board.getBoardContent", map);
+        model.addAttribute("board", map);
+        return "board/get";
     }
     
     @GetMapping("writing")
@@ -35,7 +58,7 @@ public class BoardController {
     @PostMapping("regPost")
     @ResponseBody
     public String regPost(@RequestParam Map<String, Object> map) {
-        int result = boardService.regPost("board.insertPost", map);
+        boardService.regPost("board.insertPost", map);
         return "ok";
     }
     

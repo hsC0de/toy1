@@ -5,12 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Register</title>
   <link rel="stylesheet" href="/resources/css/styles.css" />
   <style>
     body {
       
       background-color: #F5F6F7;
+    }
+    
+    #container {
+      width: 490px;
+      margin: 0 auto;
     }
     .id_area {
       box-sizing: border-box;
@@ -113,7 +118,6 @@
     }
     .register_form {
       width: 490px;
-      margin: 0 auto;
       padding-bottom: 40px;
       border: none;
       background-color: #F5F6F7;
@@ -287,65 +291,66 @@
 </head>
 <body>
   <div class="wrap">
-    <div id="header">
-      <img src="#" class="mainLogo">
-    </div>
     <div id="container">
-	    <div class="content">
-				<form id="registerForm" name="registerForm" method="post" action="/common/joinMember">
-				  <fieldset class="register_form">
-				    <div class="input_area">
-					    <div class="id_area_container">
-					      <div class="input_name">
-		              <div>
-		                <span>
-		                  아이디
-		                </span><span>*</span>
-		              </div>
-                </div>
-							  <div class="id_area">
-								  <input type="text" name="id" id="id" minlength="2" maxlength="20"/>
+	    <div id="header">
+	      <img src="#" class="mainLogo">
+	    </div>
+	    <div id="register_container">
+		    <div class="content">
+					<form id="registerForm" name="registerForm" method="post" action="/common/joinMember">
+					  <fieldset class="register_form">
+					    <div class="input_area">
+						    <div class="id_area_container">
+						      <div class="input_name">
+			              <div>
+			                <span>
+			                  아이디
+			                </span><span>*</span>
+			              </div>
+	                </div>
+								  <div class="id_area">
+									  <input type="text" name="id" id="id" minlength="2" maxlength="20"/>
+								  </div>
+								  <div id="id_check" class="btn_id_check"><span>중복확인</span></div>
+								  
+						    </div>
+						    
+	              <div class="id_info"></div>
+		            <div class="pw_area_container">
+		              <div class="input_name">
+	                  <div>
+	                    <span>
+	                      비밀번호
+	                    </span><span>*</span>
+	                  </div>
+	                </div>
+								  <div class="pw_area">
+									  <input type="password" name="password" id="password" minlength="2" maxlength="16"/>
+								  </div>
 							  </div>
-							  <div id="id_check" class="btn_id_check"><span>중복확인</span></div>
-							  
+							  <div class="pw_area_container">
+							    <div class="input_name">
+	                  <div class="password_label">
+	                    <span>
+	                      비밀번호 확인
+	                    </span><span>*</span>
+	                  </div>
+	                </div>
+	                <div class="pw_area">
+	                  <input type="password" name="passwordCheck" id="passwordCheck" minlength="2" maxlength="16"/>
+	                </div>
+	                
+	              </div>
+	              <div class="password_info"></div>
+								  <input type="submit" id="submitButton" value="제출"/>
 					    </div>
-					    
-              <div class="id_info"></div>
-	            <div class="pw_area_container">
-	              <div class="input_name">
-                  <div>
-                    <span>
-                      비밀번호
-                    </span><span>*</span>
-                  </div>
-                </div>
-							  <div class="pw_area">
-								  <input type="password" name="password" id="password" minlength="2" maxlength="16"/>
-							  </div>
-						  </div>
-						  <div class="pw_area_container">
-						    <div class="input_name">
-                  <div class="password_label">
-                    <span>
-                      비밀번호 확인
-                    </span><span>*</span>
-                  </div>
-                </div>
-                <div class="pw_area">
-                  <input type="password" name="passwordCheck" id="passwordCheck" minlength="2" maxlength="16"/>
-                </div>
-                
-              </div>
-              <div class="password_info"></div>
-							  <input type="submit" id="submitButton" value="제출"/>
-				    </div>
-				  </fieldset>
-				</form>
+					  </fieldset>
+					</form>
+		    </div>
+	    </div>
+	    <div id="footer">
 	    </div>
     </div>
-    <div id="footer">
-    </div>
-  
   </div>
 </body>
 </html>

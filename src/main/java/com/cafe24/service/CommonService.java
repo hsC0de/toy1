@@ -1,7 +1,6 @@
 package com.cafe24.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,11 +20,6 @@ public class CommonService {
     public final CommonDao dao;
     public final BCryptPasswordEncoder passwordEncoder;
     
-    
-    public List<Map<String, Object>> getBoardList() {
-        
-        return dao.selectList("board.getBoardList", null);
-    }
     
     public Map idCheck(String statement, Map<String, Object> condition) {
 

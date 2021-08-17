@@ -49,6 +49,5 @@
       </div>
     </div>
   </div>
-  <a href="/common/getBoardList">aaaaa</a>
 </body>
 </html>

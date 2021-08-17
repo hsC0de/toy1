@@ -7,9 +7,11 @@
   <link rel="stylesheet" href="/resources/css/styles.css" />
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/reply.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Board</title>
+	
 </head>
 <body>
   <div id="wrap">
@@ -87,97 +89,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                1
-              </td>
-              <td>
-                안녕하세요 가입했습니다.
-              </td>
-              <td>
-                개발자준비중
-              </td>
-              <td>
-                2021.08.12
-              </td>
-              <td>
-                2
-              </td>
-              <td>
-                1
-              </td>
-            </tr>
-            <tr>
-              <td>
-                1
-              </td>
-              <td>
-                안녕하세요 가입했습니다.
-              </td>
-              <td>
-                개발자준비중
-              </td>
-              <td>
-                2021.08.12
-              </td>
-              <td>
-                2
-              </td>
-              <td>
-                1
-              </td>
-            </tr>
-            <tr>
-              <td>
-                1
-              </td>
-              <td>
-                안녕하세요 가입했습니다.
-              </td>
-              <td>
-                개발자준비중
-              </td>
-              <td>
-                2021.08.12
-              </td>
-              <td>
-                2
-              </td>
-              <td>
-                1
-              </td>
-            </tr>
-            <tr>
-              <td>
-                1
-              </td>
-              <td>
-                안녕하세요 가입했습니다.
-              </td>
-              <td>
-                개발자준비중
-              </td>
-              <td>
-                2021.08.12
-              </td>
-              <td>
-                2
-              </td>
-              <td>
-                1
-              </td>
-            </tr>
+            
           </tbody>
           
         </table>
-        <div class="board_new">
-          <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
-        </div>
-        <div class="board_footer">
-          <div class="board_footer_paging">
-          </div>
-          <div class="board_footer_searching">
-          </div>
+        <div class="get_tools_bottom">
+	        <div class="board_new">
+	          <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
+	        </div>
+	        <div class="board_footer">
+	          <div class="board_footer_paging">
+	          </div>
+	          <div class="board_footer_searching">
+	          </div>
+	        </div>
         </div>
       </div>
     </main>
@@ -185,5 +110,39 @@
   </div>
   
   
+  
+  
+  <script>
+    
+    $(function() {
+      var str = "";
+      $.getJSON("/board/boardList.json", function(data) {
+        
+	      for(var i = 0; i < data.length; i++) {
+		      str += '<tr>';
+		      str += '<td>' + data[i].bno + '</td>';
+		      str += '<td>';
+		      str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].bno + '" />';
+		      str += data[i].title;
+		      str += '</a>';
+		      str += '</td>';
+		      str += '<td>' + data[i].id + '</td>';
+		      str += '<td>' + replyService.displayTime(data[i].reg_date) + '</td>';
+		      str += '<td>' + data[i].cnt + '</td>';                             
+		      str += '<td>' + data[i].good + '</td>';
+		      str += '</tr>';
+	        
+	      }
+				$("tbody").html(str);
+      }).fail(function(xhr, status, err) {
+        alert(err);
+      });
+      
+      
+    
+
+    });
+    
+  </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Login</title>
   <link rel="stylesheet" href="/resources/css/styles.css" />
 <style>
     
@@ -14,7 +14,10 @@
       
       background-color: #F5F6F7;
     }
-    
+    #container {
+      width: 461px;
+      margin: 0 auto;
+    }
     .id_area {
       box-sizing: border-box;
       width: 461px;
@@ -67,7 +70,6 @@
     
     .login_form {
       width: 461px;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -95,10 +97,11 @@
 	
 <%--     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
   <div class="wrap">
+    <div id="container">
     <div id="header">
       <img src="#" class="mainLogo">
     </div>
-    <div id="container">
+    <div id="login_container">
       <div class="content">
         <form id="loginForm" name="loginform" method="post" action="/common/login">
           <fieldset class="login_form">
@@ -124,7 +127,7 @@
     </div>
     <div id="footer">
     </div>
-  
+    </div>
   </div>
 </body>
 </html>

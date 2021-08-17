@@ -92,7 +92,6 @@ td:last-child {
 }
 
 .board_new span {
-	margin: 10px 0;
 	display: inline-block;
 	border: 1px solid rgba(0,0,0, 0.2);
 	padding: 8px;
@@ -127,4 +126,13 @@ td:last-child {
   -moz-appearance:none; /* 파이어폭스 화살표 없애기 */
   appearance:none; /* 화살표 없애기 */
   background: url("/node_modules/bootstrap-icons/icons/caret-down-fill.svg") no-repeat 92% 50%/11px auto;
+}
+
+.get_tools_bottom {
+	margin: 10px 0;
+	
+}
+
+.getBoardList:hover {
+	text-decoration: underline;
 }

@@ -8,7 +8,7 @@
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Board</title>
+	<title>Writing</title>
 </head>
 <body>
   <div id="wrap">
@@ -96,11 +96,11 @@
           
 	        $.post({
 	          url: "/board/regPost",
-	          data: { id: "USER00"
+	          data: { id: "11"
 	                , title: title
 	                , content: content
 	                , type: "N"
-	                , kind: "A" },
+	                , kind: 300 },
 	          success: function(res) {
 	            alert(res);
 	            opener.location.reload();

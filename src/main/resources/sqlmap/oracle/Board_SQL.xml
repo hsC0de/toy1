@@ -20,39 +20,86 @@
          </if>
     </select>
     
-    <resultMap type="map" id="selectClob">
-
+    <resultMap type="hashmap" id="selectBoard">
+      <result property="bno" column="bno" />
+      <result property="replyCnt" column="replyCnt" />
+      <result property="id" column="id" />
+      <result property="title" column="title" />
+      <result property="cnt" column="cnt" />
+      <result property="reg_date" column="reg_date" />
+      <result property="menu_nm" column="menu_nm" />
       <result property="content" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />  
 
     </resultMap>
 
-    <select id="getBoardList" parameterType="map" resultMap="selectClob">
+    <select id="getBoardContent" parameterType="hashmap" resultMap="selectBoard">
 
-      SELECT CONTENT FROM TEST_CLOB
+      SELECT bno
+           , title
+           , reg_date
+           , cnt
+           , id
+           , NVL((SELECT COUNT(*)
+                    FROM REPLY A
+                       , BOARD B
+                   WHERE 1=1
+                     AND B.BNO = A.BNO), 0) AS replyCnt
+           , menu_nm
+           , content
+        FROM BOARD A
+           , MENU B
+       WHERE 1=1
+         AND A.KIND = B.MENU_ID
+         AND bno = #{bno}
 
     </select>
     
+    <select id="getBoardList" parameterType="hashmap" resultType="com.cafe24.domain.BoardVO">
+      SELECT bno      AS bno
+           , title    AS title
+           , id       AS id
+           , reg_date AS reg_date
+           , cnt      AS cnt
+           , NVL((SELECT COUNT(*) 
+                    FROM GOOD A
+                       , BOARD B
+                   WHERE 1=1
+                     AND B.BNO = A.BNO ), 0) AS good
+        FROM BOARD A
+       WHERE 1=1
+    ORDER BY bno DESC
+    </select>
+    
     <insert id="insertPost" parameterType="hashmap">
-      INSERT INTO BOARD ( BNO
-                        , UPD_SEQ
-                        , ID
-                        , TITLE
-                        , REG_DATE
-                        , CONTENT
-                        , TYPE
-                        , CNT
-                        , GRP_KEY
-                        , KIND )
-                 VALUES ( SEQ_BOARD.NEXTVAL
-                        , 0
-                        , #{id}
-                        , #{title}
-                        , SYSDATE
-                        , #{content}
-                        , #{type}
-                        , 0
-                        , SYS_GUID()
-                        , #{kind} )
+<!--       INSERT INTO BOARD ( BNO -->
+<!--                         , UPD_SEQ -->
+<!--                         , ID -->
+<!--                         , TITLE -->
+<!--                         , REG_DATE -->
+<!--                         , CONTENT -->
+<!--                         , TYPE -->
+<!--                         , CNT -->
+<!--                         , GRP_KEY -->
+<!--                         , KIND ) -->
+<!--                  VALUES ( SEQ_BOARD.NEXTVAL -->
+<!--                         , 0 -->
+<!--                         , #{id} -->
+<!--                         , #{title} -->
+<!--                         , SYSDATE -->
+<!--                         , #{content} -->
+<!--                         , #{type} -->
+<!--                         , 0 -->
+<!--                         , SYS_GUID() -->
+<!--                         , #{kind} ) -->
+                        
+      { CALL INSERT_BOARD ( #{id, mode=IN, jdbcType=VARCHAR}
+                          , #{title, mode=IN, jdbcType=VARCHAR}
+                          , #{content, mode=IN, jdbcType=VARCHAR}
+                          , #{type, mode=IN, jdbcType=VARCHAR}
+                          , #{kind, mode=IN, jdbcType=VARCHAR} )
+      }
+                            
+      
     </insert>
     
     <insert id="insertFileInfo">

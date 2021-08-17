@@ -1,8 +1,6 @@
 package com.cafe24.common;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -51,14 +49,5 @@ public class CommonController {
         return message;
     }
     
-    @GetMapping("getBoardList")
-    public List<Map<String, Object>> getBoardList() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        list = commonService.getBoardList();
-        
-        System.out.println();
-        
-        
-        return new ArrayList<>();
-    }
+    
 }
