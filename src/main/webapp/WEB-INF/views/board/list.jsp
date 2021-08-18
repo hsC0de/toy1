@@ -116,20 +116,20 @@
     
     $(function() {
       var str = "";
-      $.getJSON("/board/boardList.json", function(data) {
-        
+      $.getJSON("/board/boardList", function(data) {
+        console.log(data);
 	      for(var i = 0; i < data.length; i++) {
 		      str += '<tr>';
-		      str += '<td>' + data[i].bno + '</td>';
+		      str += '<td>' + data[i].BNO + '</td>';
 		      str += '<td>';
-		      str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].bno + '" />';
-		      str += data[i].title;
-		      str += '</a>';
+		      str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].BNO + '" />';
+		      str += data[i].TITLE;
+		      str += '</a><span class="getBoardListReplyCnt">[' + data[i].REPLYCNT + ']</span>';
 		      str += '</td>';
-		      str += '<td>' + data[i].id + '</td>';
-		      str += '<td>' + replyService.displayTime(data[i].reg_date) + '</td>';
-		      str += '<td>' + data[i].cnt + '</td>';                             
-		      str += '<td>' + data[i].good + '</td>';
+		      str += '<td>' + data[i].ID + '</td>';
+		      str += '<td>' + replyService.displayTime(data[i].REG_DATE) + '</td>';
+		      str += '<td>' + data[i].CNT + '</td>';                             
+		      str += '<td>' + data[i].GOOD + '</td>';
 		      str += '</tr>';
 	        
 	      }

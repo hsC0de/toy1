@@ -8,8 +8,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cafe24.domain.BoardVO;
-import com.cafe24.repository.BoardDao;
 import com.cafe24.repository.CommonDao;
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 
     public final CommonDao dao;
-    public final BoardDao boardDao;
     
-    public List<BoardVO> boardList(String statement, Map<String, Object> condition) {
-        List<BoardVO> resultList = new ArrayList<>();
-        resultList = boardDao.getBoardList(statement, condition);
+    public List<Map<String, Object>> boardList(String statement, Map<String, Object> condition) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        resultList = dao.selectList(statement, condition);
         return resultList;
     }
     

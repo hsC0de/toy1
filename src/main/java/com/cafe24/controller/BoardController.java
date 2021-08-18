@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe24.domain.BoardVO;
 import com.cafe24.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -35,8 +34,8 @@ public class BoardController {
     
     @GetMapping(value="boardList", produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<BoardVO> boardList() {
-        List<BoardVO> resultList = new ArrayList<>();
+    public List<Map<String, Object>> boardList() {
+        List<Map<String, Object>> resultList = new ArrayList<>();
         resultList = boardService.boardList("board.getBoardList", null);
         return resultList;
     }

@@ -13,9 +13,6 @@
       align-items: center;
     }
     
-    .get_tools div {
-    }
-    
     .btn_get_next {
       margin-right: 10px;
     }
@@ -54,13 +51,13 @@
     }
     
     .text_view {
-      margin: 26px 0;
+      margin: 26px 0 0 0;
     }
     
     .get_contents_container {
       padding: 30px;
       border: 1px solid #dadada;
-      border-radius: 3px;
+      border-radius: 6px;
     }
     
     hr {
@@ -76,12 +73,33 @@
     
     .contents_tools {
       display: flex;
-      
+      align-items: center;
+      font-size: 13px;
+    }
+    
+    .contents_tools a {
+      display: flex;
+      margin-right: 10px;
+    }
+    
+    .contents_comments_button {
+      align-items: center;
+    }
+    
+    .contents_comments_button img {
+      display: block;
+      margin-right: 4px;
+      width: 15px;
+    }
+    
+    .contents_comments_button span {
+      display: block;
     }
     
     .contents_comments_writer {
-      border: 1px solid #dadada;
-      border-radius: 3px;
+      border: 2px solid #dadada;
+      border-radius: 6px;
+      padding: 10px;
       
     }
     
@@ -94,16 +112,141 @@
     }
     
     .register_box a {
-      display: block;
-      margin: 10px;
+      display: inline-block;
       font-size: 14px;
-      color: #888888;
+      color: #cccccc;
       
     }
     
+    .comments_refresh_button {
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      border:none;
+    }
+    
+    .comments_refresh_button img {
+      width: 14px;
+    }
+    
+    .contents_comments_header {
+      margin: 18px 0;
+      display: flex;
+    }
+    
+    .contents_comments_tab_list {
+      display: flex;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+    
+    .contents_comments_tab_list li:first-child {
+      margin-right: 10px;
+    }
+    
+    .contents_comments_inbox_text {
+      width: 100%;
+      border: none;
+      resize: none;
+    }
+    
+    .contents_comments_inbox_text:focus {
+      outline: none;
+    }
+    
+    .contents_comments_inbox_text::placeholder {
+      color: #dadada;
+      font-size: 13px;
+    }
+    
+    
+    .contents_comments_inbox {
+      margin-bottom: 10px;
+    }
+    
+    .contents_comments_name {
+      margin-bottom: 10px;
+      display: inline-block;
+      font-size: 14px;
+    
+    }
+    
+    .contents_kind_button {
+      font-size: 13px;
+      color: #3D96C2;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .contents_kind_button span {
+      font-size: 10px;
+      display: inline-block;
+      margin-left: 5px;
+    }
+    
+    .contents_title {
+      margin-bottom: 10px;
+    }
+    
+    .contents_title span {
+      font-size: 22px;
+      font-weight: 400;
+    }
+    
+    .profile_info {
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    
+    .contents_info {
+      margin-bottom: 20px;
+    }
+    .article_info {
+      color: #bbbbbb;
+      font-size: 13px;
+    }
+    
+    .contents_comments_title {
+      font-size: 18px;
+      
+    }
+    
+    .contents_comments_list {
+      margin-bottom: 20px;
+    }
+    
+    .comments_area div {
+      margin-bottom: 10px;
+    }
+    
+    .commentsItem_id_box {
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    .commentsItem_text_box {
+      font-size: 14px;
+    }
+    
+    .commentsItem_info_box {
+      font-size: 13px;
+      color: bbbbbb;
+    }
+    
+    .commentsItem_info_box span {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    
+    .get_user_contents {
+      margin-top: 97px;
+    }
   </style>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/board.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Get</title>
@@ -156,26 +299,26 @@
 	        <div class="get_contents_container">
 	          <div class="get_contents_header">
 	            <div class="contents_kind">
-	              ${board.menu_nm}
+	              <a href="#" class="contents_kind_button">${board.menu_nm} <span>〉</span></a>
 	            </div>
 	            <div class="contents_title">
-	              ${board.title}
+	              <span>${board.title}</span>
 	            </div>
 	            <div class="contents_info">
 	              <div class="profile_area">
 	                <div class="profile_info">
 	                  <div class="nick_box">
-	                    ${board.id}
+	                    <span>${board.id}</span>
 	                  </div>
 	                </div>
 	                <div class="article_info">
-	                  <span class="date">${board.reg_date}</span>
+	                  <span class="date"></span>
 	                  <span class="cnt">조회 ${board.cnt}</span>
 	                </div>
 	              </div>
 	              <div class="contents_tools">
 	                <a href="#" role="button" class="contents_comments_button">
-	                  댓글 ${board.replyCnt}
+	                  <img src="/node_modules/bootstrap-icons/icons/chat-dots.svg"/><span>댓글 ${board.replyCnt}</span>
 	                </a>
 			            <a href="#" class="contents_url_info">
 			              URL 복사
@@ -221,11 +364,13 @@
 		            </div>
 		            <ul class="contents_comments_tab_list">
 		              <li class="comments_tab_item">
+		                <a href="#" class="tab_item_button">등록순</a>
 		              </li>
 		              <li class="comments_tab_item">
+                    <a href="#" class="tab_item_button">최신순</a>
 		              </li>
 		            </ul>
-		            <button type="button" class="comments_refresh_button"><img src=""/></button>
+		            <button type="button" class="comments_refresh_button"><img src="/node_modules/bootstrap-icons/icons/arrow-clockwise.svg"/></button>
 	            </div>
 	            <ul class="contents_comments_list">
 	              <li id="#" class="commentsItem">
@@ -235,24 +380,24 @@
 	                  </div>
 	                  <div class="commentsItem_text_box">
 	                    <p class="comments_text_view">
-	                      <span class="text_comment"></span>
+	                      <span class="text_comment">댓글 입니다.</span>
 	                    </p>
 	                  </div>
 	                  <div class="commentsItem_info_box">
 	                    <span class="commentsItem_info_date">
-	                      2020.20.20
+	                      2020.20.20. 19:19
 	                    </span>
 	                    <a href="#" role="button" class="comment_info_button">답글쓰기</a>
 	                  </div>
                   </div>
 	              </li>
-	              <li id="#" class="commentsItem commentItem-repl">
+	              <li id="#" class="commentsItem commentItem-repl"></li>
 	            </ul>
 	            <div class="contents_comments_writer">
 	              <div class="contents_comments_inbox">
 	                <span class="contents_comments_name">정해성</span>
-	                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" style="overflow: hidden; overflow-wrap: break-word; height: 17px;">
-	                </textarea>
+	                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
+	                cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
 	              </div>
 	              <div class="contents_comments_tools">
 	                <div class="register_box">
@@ -295,7 +440,7 @@
 	                      </a>
 	                    </div>
 	                    <div class="member_area">
-	                      <a href="#" role="button" class="member">끄아앙</a>
+	                      <a href="#" role="button" class="member">아이디</a>
 	                    </div>
 	                    <div class="date_area">
 	                      2020.20.20
@@ -321,11 +466,93 @@
   
   
   <script>
-    
+    autosize($(".contents_comments_inbox_text"));
     $(function() {
      
+      var date = "${board.reg_date}";
       
-    });
+      date = date.substring(0, 10).replaceAll("-", ".") + "." + date.substring(10, 16);
+      console.log(date);
+      
+      $(".date").text(date);
+      
+      $(".contents_comments_button").on("click", function(e) {
+        e.preventDefault();
+        var sp = $(".get_contents_comments").offset().top;
+        console.log(sp);
+        $(window).scrollTop(Number(sp) - 10);
+      });
+      
+      $(".btn_register").on("click", function(e) {
+        e.preventDefault();
+        
+        var comments = $(".contents_comments_inbox_text").val();
+        
+        console.log(comments);
+        
+        if(!comments) {
+          alert("내용을 입력하세요.");
+          return;
+        }
+        
+        if(confirm("등록하시겠습니까?")) {
+          
+          $.post({
+            url: "/reply/regReply",
+            data: { id: "11"
+                  , comments: comments
+                  , bno: ${board.bno} },
+            success: function(res) {
+              console.log(location.href);
+              getReplyList();
+              $(".contents_tools").load(location.href + ' .contents_tools');
+              alert(res);
+            },
+            error: function() {
+              alert("등록에 실패했습니다.");
+            }
+          });
+          
+        }
+        
+      });
+      
+      getReplyList();
+      function getReplyList() {
+        
+	      $.getJSON("/reply/getReplyList?bno=" + ${board.bno} , function(data) {
+	        var str = "";
+	        console.log(data);
+	        for(var i = 0; i < data.length; i++) {
+	          str += '<li id="#" class="commentsItem">';
+	          str += '<div class="comments_area">';
+	          str += '<div class="commentsItem_id_box">';
+	          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].ID + '</a>';
+	          str += '</div>';
+	          str += '<div class="commentsItem_text_box">';
+	          str += '<p class="comments_text_view">';
+	          str += '<span class="text_comment">' + data[i].COMMENTS + '</span>';
+	          str += '</p>';
+	          str += '</div>';
+	          str += '<div class="commentsItem_info_box">';
+	          str += '<span class="commentsItem_info_date">';
+	          str += replyService.displayTime(data[i].REG_DATE);
+	          str += '</span>';
+	          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
+	          str += '</div>';
+	          str += '</div>';
+	          str += '</li>';
+	        }
+	        
+	        $(".contents_comments_list").html(str);
+	        
+	      }).fail(function(xhr, status, err) {
+	        alert(err);
+	      });
+      }
+      
+      
+    }); 
     
   </script>
 </body>

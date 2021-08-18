@@ -39,11 +39,12 @@
            , reg_date
            , cnt
            , id
-           , NVL((SELECT COUNT(*)
-                    FROM REPLY A
-                       , BOARD B
-                   WHERE 1=1
-                     AND B.BNO = A.BNO), 0) AS replyCnt
+           , (SELECT COUNT(B.RNO) CNT
+                FROM BOARD A
+                   , REPLY B
+               WHERE 1=1
+                 AND A.BNO = B.BNO
+                 AND A.BNO = ${bno} ) AS replyCnt
            , menu_nm
            , content
         FROM BOARD A
@@ -54,20 +55,34 @@
 
     </select>
     
-    <select id="getBoardList" parameterType="hashmap" resultType="com.cafe24.domain.BoardVO">
-      SELECT bno      AS bno
-           , title    AS title
-           , id       AS id
-           , reg_date AS reg_date
-           , cnt      AS cnt
-           , NVL((SELECT COUNT(*) 
-                    FROM GOOD A
-                       , BOARD B
-                   WHERE 1=1
-                     AND B.BNO = A.BNO ), 0) AS good
+    <select id="getBoardList" parameterType="hashmap" resultType="hashmap">
+        
+      SELECT A.BNO      AS bno
+           , A.TITLE    AS title
+           , A.ID       AS id
+           , A.REG_DATE AS reg_date
+           , A.CNT      AS cnt
+           , C.CNT      AS good
+           , B.CNT      AS replyCnt
         FROM BOARD A
+           , (SELECT A.BNO BNO
+                   , COUNT(B.RNO) CNT
+                FROM BOARD A
+                   , REPLY B
+               WHERE 1=1
+                 AND A.BNO = B.BNO (+)
+            GROUP BY A.BNO) B
+           , (SELECT B.BNO BNO
+                   , COUNT(A.ID) CNT
+                FROM GOOD A
+                   , BOARD B
+               WHERE 1=1
+                 AND B.BNO = A.BNO (+)
+            GROUP BY B.BNO) C
        WHERE 1=1
-    ORDER BY bno DESC
+         AND A.BNO = B.BNO
+         AND A.BNO = C.BNO
+    ORDER BY A.BNO DESC
     </select>
     
     <insert id="insertPost" parameterType="hashmap">
