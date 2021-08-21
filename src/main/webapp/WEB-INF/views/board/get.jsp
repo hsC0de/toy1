@@ -180,9 +180,9 @@
     }
     
     .contents_kind_button span {
-      font-size: 10px;
+      font-size: 13px;
       display: inline-block;
-      margin-left: 5px;
+/*       margin-left: 7px; */
     }
     
     .contents_title {
@@ -190,7 +190,7 @@
     }
     
     .contents_title span {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 400;
     }
     
@@ -205,7 +205,7 @@
     }
     .article_info {
       color: #bbbbbb;
-      font-size: 13px;
+      font-size: 12px;
     }
     
     .contents_comments_title {
@@ -231,7 +231,7 @@
     }
     
     .commentsItem_info_box {
-      font-size: 13px;
+      font-size: 12px;
       color: bbbbbb;
     }
     
@@ -299,26 +299,26 @@
 	        <div class="get_contents_container">
 	          <div class="get_contents_header">
 	            <div class="contents_kind">
-	              <a href="#" class="contents_kind_button">${board.menu_nm} <span>〉</span></a>
+	              <a href="#" class="contents_kind_button"> <span class="kind_button_val">〉</span></a>
 	            </div>
 	            <div class="contents_title">
-	              <span>${board.title}</span>
+	              <span></span>
 	            </div>
 	            <div class="contents_info">
 	              <div class="profile_area">
 	                <div class="profile_info">
 	                  <div class="nick_box">
-	                    <span>${board.id}</span>
+	                    <span></span>
 	                  </div>
 	                </div>
 	                <div class="article_info">
 	                  <span class="date"></span>
-	                  <span class="cnt">조회 ${board.cnt}</span>
+	                  <span class="cnt">조회 </span>
 	                </div>
 	              </div>
 	              <div class="contents_tools">
 	                <a href="#" role="button" class="contents_comments_button">
-	                  <img src="/node_modules/bootstrap-icons/icons/chat-dots.svg"/><span>댓글 ${board.replyCnt}</span>
+	                  <img src="/node_modules/bootstrap-icons/icons/chat-dots.svg"/><span id="refreshReplyCnt">댓글 </span>
 	                </a>
 			            <a href="#" class="contents_url_info">
 			              URL 복사
@@ -344,10 +344,11 @@
 	          <div class="get_contents_article">
 	            <div class="contents_mainText">
 	              <p class="text_view">
-	                <span class="text_content">${board.content}</span>
+	                <span class="text_content"></span>
 	              </p>
 	            </div>
 	            <div class="get_user_contents">
+	              <a href="#" class="user_contents_list">id님의 게시글 더보기 〉</a>
 	            </div>
 	            <div class="contents_main_tools">
 		            <div class="contents_like">
@@ -425,7 +426,7 @@
 	        <div class="relatedArticles">
 	          <div class="article_board_title">
 	            <strong class="title">
-                ${board.menu_nm}
+                
               </strong>
 	            <span class="text"> 글</span>
 	          </div>
@@ -467,17 +468,66 @@
   
   <script>
     autosize($(".contents_comments_inbox_text"));
+    
+    var board = ${board};
+    
+    function getReplyList() {
+      
+      $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
+        var str = "";
+        console.log(data);
+        for(var i = 0; i < data.length; i++) {
+          str += '<li id="#" class="commentsItem">';
+          str += '<div class="comments_area">';
+          str += '<div class="commentsItem_id_box">';
+          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].id + '</a>';
+          str += '</div>';
+          str += '<div class="commentsItem_text_box">';
+          str += '<p class="comments_text_view">';
+          str += '<span class="text_comment">' + newlineReplacement(data[i].comments) + '</span>';
+          str += '</p>';
+          str += '</div>';
+          str += '<div class="commentsItem_info_box">';
+          str += '<span class="commentsItem_info_date">' + replyService.displayTime1(data[i].reg_date) + '</span>';
+          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
+          str += '</div>';
+          str += '</div>';
+          str += '</li>';
+        }
+        
+        $(".contents_comments_list").html(str);
+        
+      }).fail(function(xhr, status, err) {
+        alert(err);
+      });
+    }
+    
+    function newlineReplacement(text){
+      return text.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, "&nbsp;");
+    }
+    
     $(function() {
      
-      var date = "${board.reg_date}";
+      console.log(${board});
       
-      date = date.substring(0, 10).replaceAll("-", ".") + "." + date.substring(10, 16);
-      console.log(date);
+      $(".kind_button_val").html(board.menu_nm + " 〉");
+      $(".contents_title span").html(board.title);
+      $(".nick_box span").html(board.id);
+      $(".cnt").html("조회 " + board.cnt);
+      $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
+      $(".text_content").html(newlineReplacement(board.content));
       
+      
+      var date = board.reg_date;
+      date = replyService.displayTime1(date);
+      date = date.substring(0, 10).replaceAll("/", ".") + "." + date.substring(10, 16);
+
       $(".date").text(date);
       
-      $(".contents_comments_button").on("click", function(e) {
+//       $(document).on("click", ".contents_comments_button", function(e) {
+      $(".contents_comments_button").on("click", function(e) {  
         e.preventDefault();
+        e.stopPropagation();
         var sp = $(".get_contents_comments").offset().top;
         console.log(sp);
         $(window).scrollTop(Number(sp) - 10);
@@ -499,14 +549,14 @@
           
           $.post({
             url: "/reply/regReply",
-            data: { id: "11"
+            data: { id: "asdf"
                   , comments: comments
-                  , bno: ${board.bno} },
+                  , bno: board.bno },
             success: function(res) {
-              console.log(location.href);
-              getReplyList();
-              $(".contents_tools").load(location.href + ' .contents_tools');
               alert(res);
+              $(".contents_comments_inbox_text").val("").height(17);
+              getReplyList();
+              $("#refreshReplyCnt").load(location.href + ' #refreshReplyCnt');
             },
             error: function() {
               alert("등록에 실패했습니다.");
@@ -518,42 +568,10 @@
       });
       
       getReplyList();
-      function getReplyList() {
-        
-	      $.getJSON("/reply/getReplyList?bno=" + ${board.bno} , function(data) {
-	        var str = "";
-	        console.log(data);
-	        for(var i = 0; i < data.length; i++) {
-	          str += '<li id="#" class="commentsItem">';
-	          str += '<div class="comments_area">';
-	          str += '<div class="commentsItem_id_box">';
-	          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].ID + '</a>';
-	          str += '</div>';
-	          str += '<div class="commentsItem_text_box">';
-	          str += '<p class="comments_text_view">';
-	          str += '<span class="text_comment">' + data[i].COMMENTS + '</span>';
-	          str += '</p>';
-	          str += '</div>';
-	          str += '<div class="commentsItem_info_box">';
-	          str += '<span class="commentsItem_info_date">';
-	          str += replyService.displayTime(data[i].REG_DATE);
-	          str += '</span>';
-	          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
-	          str += '</div>';
-	          str += '</div>';
-	          str += '</li>';
-	        }
-	        
-	        $(".contents_comments_list").html(str);
-	        
-	      }).fail(function(xhr, status, err) {
-	        alert(err);
-	      });
-      }
       
       
-    }); 
-    
+      
+    });
   </script>
 </body>
 </html>

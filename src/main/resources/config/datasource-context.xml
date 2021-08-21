@@ -33,12 +33,19 @@
     <beans:property name="mapperLocations" value="classpath:/sqlmap/oracle/*_SQL.xml" />
   </beans:bean>
   
+<!-- 	<beans:bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource"> -->
+<!-- 	  <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!--     <beans:property name="url" value="#{systemProperties.dburl}" /> -->
+<!--     <beans:property name="username" value="#{systemProperties.dbid}" /> -->
+<!--     <beans:property name="password" value="#{systemProperties.dbpw}" /> -->
+<!-- 	</beans:bean> -->
+	
 	<beans:bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource">
-	  <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    <beans:property name="driverClassName" value="org.mariadb.jdbc.Driver" />
     <beans:property name="url" value="#{systemProperties.dburl}" />
     <beans:property name="username" value="#{systemProperties.dbid}" />
     <beans:property name="password" value="#{systemProperties.dbpw}" />
-	</beans:bean>
+  </beans:bean>
   
   <beans:bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
     <beans:constructor-arg ref="dataSourceSpied" />

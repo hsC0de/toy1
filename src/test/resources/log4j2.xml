@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="org.apache.log4j.xml" level="info"/>
+    <Logger name="jdbc.audit" level="off" />
+    <Logger name="jdbc.resultset" level="off" />
+    <Logger name="jdbc.connection" level="off" />
+    <Logger name="org.mybatis.spring.SqlSessionUtils" level="off" />
+    <Logger name="study.selectItems" level="off" />
+    <Logger name="log4jdbc.debug" level="off" />
+    <Logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="off" />
+    <Root level="info">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>

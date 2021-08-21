@@ -21,9 +21,9 @@ public class CommonService {
     public final BCryptPasswordEncoder passwordEncoder;
     
     
-    public Map idCheck(String statement, Map<String, Object> condition) {
+    public Map<String, Object> idCheck(String statement, Map<String, Object> condition) {
 
-        Map resultMap = new HashMap();
+        Map<String, Object> resultMap = new HashMap<>();
         int cnt = dao.selectInt(statement, condition);
         
         if(cnt > 0) {

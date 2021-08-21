@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.service.BoardService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,15 +39,19 @@ public class BoardController {
     public List<Map<String, Object>> boardList() {
         List<Map<String, Object>> resultList = new ArrayList<>();
         resultList = boardService.boardList("board.getBoardList", null);
+        log.info("" +resultList);
         return resultList;
     }
     
     @GetMapping("get")
-    public String get(@RequestParam("bno") Long bno, Model model) {
+    public String get(@RequestParam("bno") Long bno, Model model) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
         map.put("bno", bno);
         map = boardService.get("board.getBoardContent", map);
-        model.addAttribute("board", map);
+        
+        String json = new ObjectMapper().writeValueAsString(map);
+        
+        model.addAttribute("board", json);
         return "board/get";
     }
     

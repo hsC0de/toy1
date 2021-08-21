@@ -4,12 +4,22 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="reply">
+
+  <resultMap type="hashmap" id="getReplyListMap">
+    <result property="bno" column="BNO" />
+    <result property="rno" column="RNO" />
+    <result property="upd_seq" column="UPD_SEQ" />
+    <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result property="comments" column="COMMENTS" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result property="reg_date" column="REG_DATE" />
+
+  </resultMap>
   
-  <select id="getReplyList" parameterType="hashmap" resultType="hashmap">
-    SELECT bno
-         , rno
-         , upd_seq
-         , id
+  <select id="getReplyList" parameterType="hashmap" resultMap="getReplyListMap">
+    SELECT BNO
+         , RNO
+         , UPD_SEQ
+         , ID
          , comments
          , reg_date
       FROM REPLY A
@@ -19,7 +29,7 @@
   
   <insert id="insertReply" parameterType="hashmap">
     <selectKey keyProperty="rno" resultType="int" order="BEFORE">
-      SELECT NVL(MAX(RNO), 0) RNO
+      SELECT IFNULL(MAX(RNO), 0) AS RNO
         FROM REPLY
        WHERE BNO = #{bno}
     </selectKey>
@@ -35,6 +45,6 @@
                       , 0
                       , #{id}
                       , #{comments}
-                      , sysdate )
+                      , now() )
   </insert>
 </mapper>

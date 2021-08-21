@@ -42,7 +42,7 @@
                           , AUTH_GRP_CD )
                    VALUES ( #{id}
                           , #{password}
-                          , SYSDATE
+                          , NOW()
                           , '30')
     </insert>
 </mapper>

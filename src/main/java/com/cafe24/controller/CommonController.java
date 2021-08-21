@@ -1,4 +1,4 @@
-package com.cafe24.common;
+package com.cafe24.controller;
 
 import java.util.HashMap;
 import java.util.Map;

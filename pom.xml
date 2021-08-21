@@ -10,7 +10,7 @@
 	<properties>
     <java-version>1.8</java-version>
     <org.springframework-version>5.2.12.RELEASE</org.springframework-version>
-    <org.springframework.security>5.3.3.RELEASE</org.springframework.security>
+    <org.springframework.security>5.3.10.RELEASE</org.springframework.security>
     <org.aspectj-version>1.6.10</org.aspectj-version>
     <org.slf4j-version>1.6.6</org.slf4j-version>
   </properties>
@@ -100,6 +100,12 @@
         <artifactId>c3p0</artifactId>
         <version>0.9.5.5</version>
     </dependency>
+    
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>2.7.4</version>
+		</dependency>
         
     <dependency>
         <groupId>com.oracle.database.jdbc</groupId>
@@ -162,30 +168,34 @@
       <version>${org.slf4j-version}</version>
       <scope>runtime</scope>
     </dependency>
+    
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.15</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.jms</groupId>
-          <artifactId>jms</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.jdmk</groupId>
-          <artifactId>jmxtools</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.jmx</groupId>
-          <artifactId>jmxri</artifactId>
-        </exclusion>
-      </exclusions>
-      <scope>runtime</scope>
-    </dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-api</artifactId>
+	    <version>2.6.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.logging.log4j</groupId>
+		  <artifactId>log4j-core</artifactId>
+		  <version>2.6.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.logging.log4j</groupId>
+		  <artifactId>log4j-jcl</artifactId>
+		  <version>2.6.2</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.logging.log4j</groupId>
+		  <artifactId>log4j-slf4j-impl</artifactId>
+		  <version>2.6.2</version>
+		<!-- //spring framework 사용시 기본 로깅이랑 중복해서 동작할 수도 있어서 exclude 처리 -->
+		  <exclusions>
+		    <exclusion>
+		       <groupId>org.apache.logging.log4j</groupId>
+		       <artifactId>log4j-api</artifactId>
+		    </exclusion>
+		  </exclusions>
+		</dependency>
 
     <!-- @Inject -->
     <dependency>

@@ -21,100 +21,107 @@
     </select>
     
     <resultMap type="hashmap" id="selectBoard">
-      <result property="bno" column="bno" />
-      <result property="replyCnt" column="replyCnt" />
-      <result property="id" column="id" />
-      <result property="title" column="title" />
-      <result property="cnt" column="cnt" />
-      <result property="reg_date" column="reg_date" />
-      <result property="menu_nm" column="menu_nm" />
-      <result property="content" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />  
+      <result property="bno" column="BNO" />
+      <result property="replyCnt" column="REPLYCNT" />
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="cnt" column="CNT" />
+      <result property="reg_date" column="REG_DATE" />
+      <result property="menu_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="content" column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />  
 
     </resultMap>
 
     <select id="getBoardContent" parameterType="hashmap" resultMap="selectBoard">
 
-      SELECT bno
-           , title
-           , reg_date
-           , cnt
-           , id
-           , (SELECT COUNT(B.RNO) CNT
+      SELECT BNO
+           , TITLE
+           , REG_DATE
+           , CNT
+           , ID
+           , (SELECT COUNT(B.RNO) AS CNT
                 FROM BOARD A
                    , REPLY B
                WHERE 1=1
                  AND A.BNO = B.BNO
-                 AND A.BNO = ${bno} ) AS replyCnt
-           , menu_nm
-           , content
-        FROM BOARD A
-           , MENU B
+                 AND A.BNO = ${bno} ) AS REPLYCNT
+           , MENU_NM
+           , CONTENT
+        FROM BOARD AS A
+        JOIN MENU AS B
+          ON A.KIND = B.MENU_ID
        WHERE 1=1
-         AND A.KIND = B.MENU_ID
          AND bno = #{bno}
 
     </select>
     
-    <select id="getBoardList" parameterType="hashmap" resultType="hashmap">
+    <resultMap type="hashmap" id="getBoardListMap">
+      <result property="bno" column="BNO" />
+      <result property="replyCnt" column="REPLYCNT" />
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="cnt" column="CNT"/>
+      <result property="reg_date" column="REG_DATE" />
+      <result property="good" column="GOOD" /> 
+
+    </resultMap>
+    
+    <select id="getBoardList" parameterType="hashmap" resultMap="getBoardListMap">
         
-      SELECT A.BNO      AS bno
-           , A.TITLE    AS title
-           , A.ID       AS id
-           , A.REG_DATE AS reg_date
-           , A.CNT      AS cnt
-           , C.CNT      AS good
-           , B.CNT      AS replyCnt
-        FROM BOARD A
-           , (SELECT A.BNO BNO
-                   , COUNT(B.RNO) CNT
-                FROM BOARD A
-                   , REPLY B
+      SELECT A.BNO      AS BNO
+           , A.TITLE    AS TITLE
+           , A.ID       AS ID
+           , A.REG_DATE AS REG_DATE
+           , A.CNT      AS CNT
+           , C.CNT      AS GOOD
+           , B.CNT      AS REPLYCNT
+        FROM BOARD AS A
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.RNO) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN REPLY AS B
+                  ON A.BNO = B.BNO
                WHERE 1=1
-                 AND A.BNO = B.BNO (+)
-            GROUP BY A.BNO) B
-           , (SELECT B.BNO BNO
-                   , COUNT(A.ID) CNT
-                FROM GOOD A
-                   , BOARD B
+            GROUP BY A.BNO) AS B
+          ON A.BNO = B.BNO
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.ID) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN GOOD AS B
+                  ON A.BNO = B.BNO
                WHERE 1=1
-                 AND B.BNO = A.BNO (+)
-            GROUP BY B.BNO) C
+            GROUP BY A.BNO) AS C
+          ON A.BNO = C.BNO
        WHERE 1=1
-         AND A.BNO = B.BNO
-         AND A.BNO = C.BNO
     ORDER BY A.BNO DESC
     </select>
     
     <insert id="insertPost" parameterType="hashmap">
-<!--       INSERT INTO BOARD ( BNO -->
-<!--                         , UPD_SEQ -->
-<!--                         , ID -->
-<!--                         , TITLE -->
-<!--                         , REG_DATE -->
-<!--                         , CONTENT -->
-<!--                         , TYPE -->
-<!--                         , CNT -->
-<!--                         , GRP_KEY -->
-<!--                         , KIND ) -->
-<!--                  VALUES ( SEQ_BOARD.NEXTVAL -->
-<!--                         , 0 -->
-<!--                         , #{id} -->
-<!--                         , #{title} -->
-<!--                         , SYSDATE -->
-<!--                         , #{content} -->
-<!--                         , #{type} -->
-<!--                         , 0 -->
-<!--                         , SYS_GUID() -->
-<!--                         , #{kind} ) -->
+      INSERT INTO BOARD ( UPD_SEQ
+                        , ID
+                        , TITLE
+                        , REG_DATE
+                        , CONTENT
+                        , TYPE
+                        , CNT
+                        , GRP_KEY
+                        , KIND )
+                 VALUES ( 0
+                        , #{id}
+                        , #{title}
+                        , NOW()
+                        , #{content}
+                        , #{type}
+                        , 0
+                        , NULL
+                        , #{kind} )
                         
-      { CALL INSERT_BOARD ( #{id, mode=IN, jdbcType=VARCHAR}
-                          , #{title, mode=IN, jdbcType=VARCHAR}
-                          , #{content, mode=IN, jdbcType=VARCHAR}
-                          , #{type, mode=IN, jdbcType=VARCHAR}
-                          , #{kind, mode=IN, jdbcType=VARCHAR} )
-      }
-                            
-      
+<!--       { CALL INSERT_BOARD ( #{id, mode=IN, jdbcType=VARCHAR} -->
+<!--                           , #{title, mode=IN, jdbcType=VARCHAR} -->
+<!--                           , #{content, mode=IN, jdbcType=VARCHAR} -->
+<!--                           , #{type, mode=IN, jdbcType=VARCHAR} -->
+<!--                           , #{kind, mode=IN, jdbcType=VARCHAR} ) -->
+<!--       } -->
     </insert>
     
     <insert id="insertFileInfo">

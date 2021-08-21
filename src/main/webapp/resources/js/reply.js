@@ -99,21 +99,20 @@ var replyService = (function() {
     var gap = today.getTime() - timeValue;
 
     var dateObj = new Date(timeValue);
-    var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
-    var lastDay = lastDate.getDate();
-    // console.log(lastDay);
     var str = "";
+    var date = new Date(new Date().toLocaleDateString());
 
-    if (gap < (1000 * 60 * 60 * 24)) {
-      var hh = dateObj.getHours();
-      var mi = dateObj.getMinutes();
-      var ss = dateObj.getSeconds();
+    var hh = dateObj.getHours();
+    var mi = dateObj.getMinutes();
+    var ss = dateObj.getSeconds();
+    var yy = dateObj.getFullYear();
+    var mm = dateObj.getMonth() + 1;
+    var dd = dateObj.getDate();
+
+    if (date.getTime() - timeValue < 0) {
 
       return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi ].join('');
     } else {
-      var yy = dateObj.getFullYear();
-      var mm = dateObj.getMonth() + 1;
-      var dd = dateObj.getDate();
 
       return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd ].join('');
     }
@@ -143,22 +142,19 @@ var replyService = (function() {
     var dateObj = new Date(timeValue);
     var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
     var lastDay = lastDate.getDate();
-    console.log(lastDay);
+    // console.log(lastDay);
     var str = "";
 
-    if (gap < (1000 * 60 * 60 * 24)) {
-      var hh = dateObj.getHours();
-      var mi = dateObj.getMinutes();
-      var ss = dateObj.getSeconds();
+    var hh = dateObj.getHours();
+    var mi = dateObj.getMinutes();
+    var ss = dateObj.getSeconds();
+    var yy = dateObj.getFullYear();
+    var mm = dateObj.getMonth() + 1;
+    var dd = dateObj.getDate();
 
-      return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss > 9 ? '' : '0') + ss ].join('');
-    } else {
-      var yy = dateObj.getFullYear();
-      var mm = dateObj.getMonth() + 1;
-      var dd = dateObj.getDate();
+    return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':',
+        (mi > 9 ? '' : '0') + mi ].join('');
 
-      return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd ].join('');
-    }
   }
   return {
     add : add,
@@ -167,7 +163,7 @@ var replyService = (function() {
     remove : remove,
     update : update,
     displayTime : displayTime,
-  // displayTime1 : displayTime1
+    displayTime1 : displayTime1
   };
 
 })();

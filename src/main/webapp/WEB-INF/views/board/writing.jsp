@@ -96,7 +96,7 @@
           
 	        $.post({
 	          url: "/board/regPost",
-	          data: { id: "11"
+	          data: { id: "asdf"
 	                , title: title
 	                , content: content
 	                , type: "N"
