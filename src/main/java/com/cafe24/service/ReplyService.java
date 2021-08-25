@@ -30,4 +30,9 @@ public class ReplyService {
         dao.insert(statement, condition);
         return "ok";
     }
+    
+    public Map<String, Object> getRelpyCnt(String statement, Map<String, Object> condition) {
+        Map<String, Object> resultMap = dao.selectOne(statement, condition);
+        return resultMap;
+    }
 }

@@ -272,6 +272,7 @@
 	          
 	          $(".id_info").append("<span> ※ " + res.result + "</span>");
 	          $(".id_info").css("margin-bottom", "10px");
+	          $(".id_info").css("color", "red");
 	          idCheck = res.check;
 	          
 	          if(idCheck !== "false") {

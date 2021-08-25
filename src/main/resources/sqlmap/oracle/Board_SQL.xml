@@ -26,7 +26,7 @@
       <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="cnt" column="CNT" />
-      <result property="reg_date" column="REG_DATE" />
+      <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="menu_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="content" column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />  
 
@@ -44,7 +44,7 @@
                    , REPLY B
                WHERE 1=1
                  AND A.BNO = B.BNO
-                 AND A.BNO = ${bno} ) AS REPLYCNT
+                 AND A.BNO = #{bno} ) AS REPLYCNT
            , MENU_NM
            , CONTENT
         FROM BOARD AS A
@@ -60,10 +60,10 @@
       <result property="replyCnt" column="REPLYCNT" />
       <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
-      <result property="cnt" column="CNT"/>
-      <result property="reg_date" column="REG_DATE" />
+      <result property="cnt" column="CNT" />
+      <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="good" column="GOOD" /> 
-
+      <result property="gap" column="GAP"/>
     </resultMap>
     
     <select id="getBoardList" parameterType="hashmap" resultMap="getBoardListMap">
@@ -71,6 +71,11 @@
       SELECT A.BNO      AS BNO
            , A.TITLE    AS TITLE
            , A.ID       AS ID
+<!--            , CASE WHEN DATE_FORMAT(NOW(), '%Y.%m.%d.') = DATE_FORMAT(A.REG_DATE, '%Y.%m.%d.') THEN DATE_FORMAT(A.REG_DATE, '%H:%i') -->
+<!--                                                                                               ELSE DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i')  -->
+<!--              END AS REG_DATE -->
+           , UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
+<!--            , UNIX_TIMESTAMP(NOW(3)) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP -->
            , A.REG_DATE AS REG_DATE
            , A.CNT      AS CNT
            , C.CNT      AS GOOD
@@ -109,7 +114,7 @@
                  VALUES ( 0
                         , #{id}
                         , #{title}
-                        , NOW()
+                        , NOW(3)
                         , #{content}
                         , #{type}
                         , 0

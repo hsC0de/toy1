@@ -11,8 +11,8 @@
     <result property="upd_seq" column="UPD_SEQ" />
     <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
     <result property="comments" column="COMMENTS" jdbcType="VARCHAR" javaType="java.lang.String"/>
-    <result property="reg_date" column="REG_DATE" />
-
+    <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result property="gap" column="GAP" jdbcType="VARCHAR" javaType="java.lang.String"/>
   </resultMap>
   
   <select id="getReplyList" parameterType="hashmap" resultMap="getReplyListMap">
@@ -22,9 +22,22 @@
          , ID
          , comments
          , reg_date
+         , UNIX_TIMESTAMP(NOW(3)) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
       FROM REPLY A
      WHERE 1=1
-       AND bno = ${bno}
+       AND bno = #{bno}
+  <if test="rno != null and rno !=''">
+  ORDER BY RNO
+	  <choose>
+      <when test="rno eq 'desc'"> DESC</when>
+	  </choose>
+  </if>
+  </select>
+  
+  <select id="getRelpyCnt" parameterType="hashmap" resultType="hashmap">
+    SELECT COUNT(RNO) AS REPLYCNT
+      FROM REPLY
+     WHERE BNO = #{bno}
   </select>
   
   <insert id="insertReply" parameterType="hashmap">
@@ -45,6 +58,7 @@
                       , 0
                       , #{id}
                       , #{comments}
-                      , now() )
+                      , now(3) )
   </insert>
+  
 </mapper>

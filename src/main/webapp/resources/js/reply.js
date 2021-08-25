@@ -94,13 +94,12 @@ var replyService = (function() {
     });
   }
 
-  function displayTime(timeValue) {
-    var today = new Date();
-    var gap = today.getTime() - timeValue;
-
+  function displayTime(timeValue, gap) {
+    // var today = new Date();
+    // var gap = today.getTime() - timeValue;
+    var gap = gap;
     var dateObj = new Date(timeValue);
-    var str = "";
-    var date = new Date(new Date().toLocaleDateString());
+    // var date = new Date(new Date().toLocaleDateString());
 
     var hh = dateObj.getHours();
     var mi = dateObj.getMinutes();
@@ -109,7 +108,7 @@ var replyService = (function() {
     var mm = dateObj.getMonth() + 1;
     var dd = dateObj.getDate();
 
-    if (date.getTime() - timeValue < 0) {
+    if (gap < 0) {
 
       return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi ].join('');
     } else {
@@ -136,14 +135,11 @@ var replyService = (function() {
   }
 
   function displayTime1(timeValue) {
-    var today = new Date();
-    var gap = today.getTime() - timeValue;
 
     var dateObj = new Date(timeValue);
-    var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
-    var lastDay = lastDate.getDate();
+    // var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
+    // var lastDay = lastDate.getDate();
     // console.log(lastDay);
-    var str = "";
 
     var hh = dateObj.getHours();
     var mi = dateObj.getMinutes();
@@ -156,6 +152,26 @@ var replyService = (function() {
         (mi > 9 ? '' : '0') + mi ].join('');
 
   }
+  
+  function displayGap(gap) {
+    var gap = gap * 1000;
+    
+  if (gap < 1000 * 60) {
+     return Math.floor(gap / 1000) + "초 전";
+     } else if (gap < (1000 * 60 * 60)) {
+     return Math.floor(gap / 1000 / 60) + "분 전";
+     } else if (gap < 1000 * 60 * 60 * 24) {
+     return Math.floor(gap / 1000 / 60 / 60) + "시간 전";
+     } else if (gap < 1000 * 60 * 60 * 24 * 7) {
+     return Math.floor(gap / 1000 / 60 / 60 / 24) + "일 전";
+     } else if(gap < 1000 * 60 * 60 * 24 * lastDay) {
+     return Math.floor(gap / 1000/ 60 / 60/ 24 / 7) + "주 전";
+     } else if (gap < 1000 * 60 * 60 * 24 * lastDay * 12) {
+     return Math.floor(gap / 1000 / 60 / 60 / 24 / lastDay) + "개월 전";
+     } else {
+     return Math.floor(gap / 1000 / 60 / 60 / 24 / lastDay / 12) + "년 전";
+     }
+  }
   return {
     add : add,
     get : get,
@@ -163,7 +179,8 @@ var replyService = (function() {
     remove : remove,
     update : update,
     displayTime : displayTime,
-    displayTime1 : displayTime1
+    displayTime1 : displayTime1,
+    displayGap : displayGap
   };
 
 })();

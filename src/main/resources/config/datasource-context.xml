@@ -40,21 +40,21 @@
 <!--     <beans:property name="password" value="#{systemProperties.dbpw}" /> -->
 <!-- 	</beans:bean> -->
 	
-	<beans:bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource">
-    <beans:property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+    <beans:property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
     <beans:property name="url" value="#{systemProperties.dburl}" />
     <beans:property name="username" value="#{systemProperties.dbid}" />
     <beans:property name="password" value="#{systemProperties.dbpw}" />
   </beans:bean>
   
-  <beans:bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-    <beans:constructor-arg ref="dataSourceSpied" />
-    <beans:property name="logFormatter">
-      <beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-        <beans:property name="loggingType" value="MULTI_LINE" />
-        <beans:property name="sqlPrefix" value="SQL: &#xD;&#xA;        " />
-      </beans:bean>
-    </beans:property>
-  </beans:bean>
+<!--   <beans:bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource"> -->
+<!--     <beans:constructor-arg ref="dataSourceSpied" /> -->
+<!--     <beans:property name="logFormatter"> -->
+<!--       <beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter"> -->
+<!--         <beans:property name="loggingType" value="MULTI_LINE" /> -->
+<!--         <beans:property name="sqlPrefix" value="SQL: &#xD;&#xA;        " /> -->
+<!--       </beans:bean> -->
+<!--     </beans:property> -->
+<!--   </beans:bean> -->
 
 </beans:beans>

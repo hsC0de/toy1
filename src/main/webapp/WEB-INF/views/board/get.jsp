@@ -75,6 +75,7 @@
       display: flex;
       align-items: center;
       font-size: 13px;
+      position: relative;
     }
     
     .contents_tools a {
@@ -123,6 +124,7 @@
       width: 25px;
       height: 25px;
       border:none;
+      cursor: pointer;
     }
     
     .comments_refresh_button img {
@@ -224,6 +226,12 @@
     .commentsItem_id_box {
       font-size: 15px;
       font-weight: 500;
+      
+    }
+    
+    .comment_nickname {
+      display: inline-block;
+      margin-right: 5px;
     }
     
     .commentsItem_text_box {
@@ -242,6 +250,22 @@
     
     .get_user_contents {
       margin-top: 97px;
+    }
+    
+    .toast_url_copy_successful {
+      position: absolute;
+      top: 40px;
+      right: 6px;
+      width: 358px;
+      background-color: #6F6F6F;
+      border-radius: 7px;
+      padding: 10px 14px 9px;
+      font-size: 15px;
+      color: #ffffff;
+    }
+    
+    .comments_tab_item {
+      padding-top:2px;
     }
   </style>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
@@ -296,117 +320,119 @@
 	            <span>목록</span>
 	          </div>
 	        </div>
-	        <div class="get_contents_container">
-	          <div class="get_contents_header">
-	            <div class="contents_kind">
-	              <a href="#" class="contents_kind_button"> <span class="kind_button_val">〉</span></a>
-	            </div>
-	            <div class="contents_title">
-	              <span></span>
-	            </div>
-	            <div class="contents_info">
-	              <div class="profile_area">
-	                <div class="profile_info">
-	                  <div class="nick_box">
-	                    <span></span>
+	        <div class="get_contents_container_box">
+		        <div class="get_contents_container">
+		          <div class="get_contents_header">
+		            <div class="contents_kind">
+		              <a href="#" class="contents_kind_button"> <span class="kind_button_val">〉</span></a>
+		            </div>
+		            <div class="contents_title">
+		              <span></span>
+		            </div>
+		            <div class="contents_info">
+		              <div class="profile_area">
+		                <div class="profile_info">
+		                  <div class="nick_box">
+		                    <span></span>
+		                  </div>
+		                </div>
+		                <div class="article_info">
+		                  <span class="date"></span>
+		                  <span class="cnt">조회 </span>
+		                </div>
+		              </div>
+		              <div class="contents_tools">
+		                <a href="#" role="button" class="contents_comments_button">
+		                  <img src="/node_modules/bootstrap-icons/icons/chat-dots.svg"/><span id="refreshReplyCnt">댓글 </span>
+		                </a>
+				            <a href="#" class="contents_url_info">
+				              URL 복사
+				            </a>
+				            <input type="text" id="copyUrl" style="position: absolute; left: -9999px;"/>
+				            <div class="toast_url_copy_successful" style="display: none;">
+				              URL이 복사되었습니다. 원하는 곳에 붙여 넣으세요.
+				            </div>
+				            <div class="contents_print">
+				              <a id="articleTool" href="#" role="button" title="더보기" class="button_more">
+				              </a>
+				              <div id="articleTool" role="menu" class="layerMore">
+				                <ul class="layer_list">
+				                  <li class="layer_item">
+				                    <a href="#" role="button" class="layer_button">인쇄하기</a>
+				                  </li>
+				                </ul>
+				              </div>
+				            </div>
+		              </div>
+		            </div>
+		          </div>
+	            <hr />
+		          <div class="get_contents_article">
+		            <div class="contents_mainText">
+		              <p class="text_view">
+		                <span class="text_content"></span>
+		              </p>
+		            </div>
+		            <div class="get_user_contents">
+		              <a href="#" class="user_contents_list">id님의 게시글 더보기 〉</a>
+		            </div>
+		            <div class="contents_main_tools">
+			            <div class="contents_like">
+			            </div>
+			            <div class="contents_comments_info">
+			            </div>
+		            </div>
+		          </div>
+		          <hr />
+		          <div class="get_contents_comments">
+		            <div class="contents_comments_header">
+			            <div class="contents_comments_title">
+			              <span>댓글</span>
+			            </div>
+			            <ul class="contents_comments_tab_list">
+			              <li class="comments_tab_item">
+			                <a href="#" class="tab_item_button">등록순</a>
+			              </li>
+			              <li class="comments_tab_item">
+	                    <a href="#" class="tab_item_button">최신순</a>
+			              </li>
+			            </ul>
+			            <button type="button" class="comments_refresh_button"><img src="/node_modules/bootstrap-icons/icons/arrow-clockwise.svg"/></button>
+		            </div>
+		            <ul class="contents_comments_list">
+		              <li id="#" class="commentsItem">
+		                <div class="comments_area">
+		                  <div class="commentsItem_id_box">
+		                    <a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname"></a>
+		                  </div>
+		                  <div class="commentsItem_text_box">
+		                    <p class="comments_text_view">
+		                      <span class="text_comment"></span>
+		                    </p>
+		                  </div>
+		                  <div class="commentsItem_info_box">
+		                    <span class="commentsItem_info_date">
+		                    </span>
+		                    <a href="#" role="button" class="comment_info_button">답글쓰기</a>
+		                  </div>
 	                  </div>
-	                </div>
-	                <div class="article_info">
-	                  <span class="date"></span>
-	                  <span class="cnt">조회 </span>
-	                </div>
-	              </div>
-	              <div class="contents_tools">
-	                <a href="#" role="button" class="contents_comments_button">
-	                  <img src="/node_modules/bootstrap-icons/icons/chat-dots.svg"/><span id="refreshReplyCnt">댓글 </span>
-	                </a>
-			            <a href="#" class="contents_url_info">
-			              URL 복사
-			            </a>
-			            <div class="toast_url_copy_successful" style="display: none;">
-			              URL이 복사되었습니다. 원하는 곳에 붙여 넣으세요.
-			            </div>
-			            <div class="contents_print">
-			              <a id="articleTool" href="#" role="button" title="더보기" class="button_more">
-			              </a>
-			              <div id="articleTool" role="menu" class="layerMore">
-			                <ul class="layer_list">
-			                  <li class="layer_item">
-			                    <a href="#" role="button" class="layer_button">인쇄하기</a>
-			                  </li>
-			                </ul>
-			              </div>
-			            </div>
-	              </div>
-	            </div>
-	          </div>
-            <hr />
-	          <div class="get_contents_article">
-	            <div class="contents_mainText">
-	              <p class="text_view">
-	                <span class="text_content"></span>
-	              </p>
-	            </div>
-	            <div class="get_user_contents">
-	              <a href="#" class="user_contents_list">id님의 게시글 더보기 〉</a>
-	            </div>
-	            <div class="contents_main_tools">
-		            <div class="contents_like">
-		            </div>
-		            <div class="contents_comments_info">
-		            </div>
-	            </div>
-	          </div>
-	          <hr />
-	          <div class="get_contents_comments">
-	            <div class="contents_comments_header">
-		            <div class="contents_comments_title">
-		              <span>댓글</span>
-		            </div>
-		            <ul class="contents_comments_tab_list">
-		              <li class="comments_tab_item">
-		                <a href="#" class="tab_item_button">등록순</a>
 		              </li>
-		              <li class="comments_tab_item">
-                    <a href="#" class="tab_item_button">최신순</a>
-		              </li>
+		              <li id="#" class="commentsItem commentItem-repl"></li>
 		            </ul>
-		            <button type="button" class="comments_refresh_button"><img src="/node_modules/bootstrap-icons/icons/arrow-clockwise.svg"/></button>
-	            </div>
-	            <ul class="contents_comments_list">
-	              <li id="#" class="commentsItem">
-	                <div class="comments_area">
-	                  <div class="commentsItem_id_box">
-	                    <a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">삐리리</a>
-	                  </div>
-	                  <div class="commentsItem_text_box">
-	                    <p class="comments_text_view">
-	                      <span class="text_comment">댓글 입니다.</span>
-	                    </p>
-	                  </div>
-	                  <div class="commentsItem_info_box">
-	                    <span class="commentsItem_info_date">
-	                      2020.20.20. 19:19
-	                    </span>
-	                    <a href="#" role="button" class="comment_info_button">답글쓰기</a>
-	                  </div>
-                  </div>
-	              </li>
-	              <li id="#" class="commentsItem commentItem-repl"></li>
-	            </ul>
-	            <div class="contents_comments_writer">
-	              <div class="contents_comments_inbox">
-	                <span class="contents_comments_name">정해성</span>
-	                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
-	                cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
-	              </div>
-	              <div class="contents_comments_tools">
-	                <div class="register_box">
-	                  <a href="#" role="button" class="btn_register">등록</a>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
+		            <div class="contents_comments_writer">
+		              <div class="contents_comments_inbox">
+		                <span class="contents_comments_name">정해성</span>
+		                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
+		                cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
+		              </div>
+		              <div class="contents_comments_tools">
+		                <div class="register_box">
+		                  <a href="#" role="button" class="btn_register">등록</a>
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
 	        </div>
 	        <div class="get_tools_bottom">
 	          <div class="get_tool_write">
@@ -471,34 +497,45 @@
     
     var board = ${board};
     
-    function getReplyList() {
+    function getReplyList(rno) {
       
-      $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
-        var str = "";
-        console.log(data);
-        for(var i = 0; i < data.length; i++) {
-          str += '<li id="#" class="commentsItem">';
-          str += '<div class="comments_area">';
-          str += '<div class="commentsItem_id_box">';
-          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].id + '</a>';
-          str += '</div>';
-          str += '<div class="commentsItem_text_box">';
-          str += '<p class="comments_text_view">';
-          str += '<span class="text_comment">' + newlineReplacement(data[i].comments) + '</span>';
-          str += '</p>';
-          str += '</div>';
-          str += '<div class="commentsItem_info_box">';
-          str += '<span class="commentsItem_info_date">' + replyService.displayTime1(data[i].reg_date) + '</span>';
-          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
-          str += '</div>';
-          str += '</div>';
-          str += '</li>';
+//       $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
+      $.ajax({
+        url: "/reply/getReplyList",
+        method: "get",
+        data: {
+          bno : board.bno,
+          rno : rno
+        },
+        dataType: "json",
+        error: function(error) {
+          alert(error);
+        },
+        success: function(data) {
+          
+	        var str = "";
+	        console.log(data);
+	        for(var i = 0; i < data.length; i++) {
+	          str += '<li id="#" class="commentsItem">';
+	          str += '<div class="comments_area">';
+	          str += '<div class="commentsItem_id_box">';
+	          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].id + '</a>';
+	          str += '<span class="commentsItem_info_box">' + replyService.displayGap(data[i].gap) + '</span>'
+	          str += '</div>';
+	          str += '<div class="commentsItem_text_box">';
+	          str += '<p class="comments_text_view">';
+	          str += '<span class="text_comment">' + newlineReplacement(data[i].comments) + '</span>';
+	          str += '</p>';
+	          str += '</div>';
+	          str += '<div class="commentsItem_info_box">';
+	          str += '<span class="commentsItem_info_date">' + replyService.displayTime1(data[i].reg_date) + '</span>';
+	          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
+	          str += '</div>';
+	          str += '</div>';
+	          str += '</li>';
+	        }
+	        $(".contents_comments_list").html(str);
         }
-        
-        $(".contents_comments_list").html(str);
-        
-      }).fail(function(xhr, status, err) {
-        alert(err);
       });
     }
     
@@ -506,17 +543,25 @@
       return text.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, "&nbsp;");
     }
     
+    function printContent() {
+      $("body").append('<iframe name="print_iframe" id="print_iframe" width="0" height="0" style="display:none;"></iframe>');
+      var print_contents = $(".get_contents_container_box").html();
+      var print_head = $("head").html();
+      $("#print_iframe").contents().find("head").html(print_head);
+      $("#print_iframe").contents().find("body").html(print_contents);
+      $("#print_iframe").focus();
+      frames["print_iframe"].focus();
+      frames["print_iframe"].print();
+    }
+    
     $(function() {
      
-      console.log(${board});
-      
       $(".kind_button_val").html(board.menu_nm + " 〉");
       $(".contents_title span").html(board.title);
       $(".nick_box span").html(board.id);
       $(".cnt").html("조회 " + board.cnt);
       $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
       $(".text_content").html(newlineReplacement(board.content));
-      
       
       var date = board.reg_date;
       date = replyService.displayTime1(date);
@@ -530,7 +575,7 @@
         e.stopPropagation();
         var sp = $(".get_contents_comments").offset().top;
         console.log(sp);
-        $(window).scrollTop(Number(sp) - 10);
+        $(window).scrollTop(Number(sp) - 20);
       });
       
       $(".btn_register").on("click", function(e) {
@@ -552,26 +597,69 @@
             data: { id: "asdf"
                   , comments: comments
                   , bno: board.bno },
+            dataType: "json",
             success: function(res) {
-              alert(res);
+              alert("등록되었습니다.");
               $(".contents_comments_inbox_text").val("").height(17);
-              getReplyList();
-              $("#refreshReplyCnt").load(location.href + ' #refreshReplyCnt');
+              getReplyList(sortState);
+              $("#refreshReplyCnt").html("댓글 " + res.REPLYCNT);
             },
             error: function() {
               alert("등록에 실패했습니다.");
             }
           });
-          
         }
-        
       });
       
-      getReplyList();
+      
+      var sortState = '';
+      getReplyList(sortState);
+      
+      $(".contents_url_info").on("click", function(e) {
+        
+        e.preventDefault();
+        e.stopPropagation();
+        var copyText = $("#copyUrl");
+        copyText.attr("value", location.href);
+        copyText.select();
+        document.execCommand('copy');
+        $(".toast_url_copy_successful").fadeIn(400).delay(4000).fadeOut(500);
+      });
+      
+      $(".layer_button").on("click", function(e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        $("iframe").remove("#print_iframe");
+        printContent();
+      });
+      
+      $(".comments_refresh_button").on("click", function() {
+        
+        
+        getReplyList(sortState);
+      });
       
       
-      
+      $(".tab_item_button").on("click", function(e) {
+        
+        e.preventDefault();
+        e.stopPropagation();
+        var sort = $(this).text();
+        console.log(sort);
+        
+        if(sort === "등록순") {
+
+          sortState = '';
+	        getReplyList(sortState);
+        }
+        else if(sort === "최신순") {
+          sortState = 'desc';
+          getReplyList(sortState);
+        }
+      });
     });
+
   </script>
 </body>
 </html>

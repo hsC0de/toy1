@@ -27,10 +27,10 @@ public class ReplyController {
     
     @GetMapping("getReplyList")
     @ResponseBody
-    public List<Map<String, Object>> getReplyList(@RequestParam Long bno) {
+    public List<Map<String, Object>> getReplyList(@RequestParam Map<String, Object> map) {
         List<Map<String, Object>> resultList = new ArrayList<>();
-        Map<String, Object> map = new HashMap<>();
-        map.put("bno", bno);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("bno", bno);
         
         resultList = replyService.getReplyList("reply.getReplyList", map);
         
@@ -39,8 +39,10 @@ public class ReplyController {
     
     @PostMapping("regReply")
     @ResponseBody
-    public String regReply(@RequestParam Map<String, Object> map) {
+    public Map<String, Object> regReply(@RequestParam Map<String, Object> map) {
+        Map<String, Object> resultMap = new HashMap<>();
         replyService.regReply("reply.insertReply", map);
-        return "ok";
+        resultMap = replyService.getRelpyCnt("reply.getRelpyCnt", map);
+        return resultMap;
     }
 }

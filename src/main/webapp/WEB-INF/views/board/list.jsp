@@ -113,34 +113,44 @@
   
   
   <script>
-    
-    $(function() {
-      var str = "";
-      $.getJSON("/board/boardList", function(data) {
-        console.log(data);
-	      for(var i = 0; i < data.length; i++) {
-		      str += '<tr>';
-		      str += '<td>' + data[i].bno + '</td>';
-		      str += '<td>';
-		      str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].bno + '" />';
-		      str += data[i].title;
-		      str += '</a><span class="getBoardListReplyCnt">[' + data[i].replyCnt + ']</span>';
-		      str += '</td>';
-		      str += '<td>' + data[i].id + '</td>';
-		      str += '<td>' + replyService.displayTime(data[i].reg_date) + '</td>';
-		      str += '<td>' + data[i].cnt + '</td>';                             
-		      str += '<td>' + data[i].good + '</td>';
-		      str += '</tr>';
+  
+		function getBoardList() {
+		  
+		  var str = "";
 
-	      }
-				$("tbody").html(str);
+      $.ajaxSetup({cache: false});
+      
+      $.getJSON("/board/boardList", function(data) {
+        
+//         console.log(data);
+        for(var i = 0; i < data.length; i++) {
+          var date = data[i].reg_date;
+          var gap = data[i].gap;
+          str += '<tr>';
+          str += '<td>' + data[i].bno + '</td>';
+          str += '<td>';
+          str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].bno + '" />';
+          str += data[i].title;
+          str += '</a><span class="getBoardListReplyCnt">[' + data[i].replyCnt + ']</span>';
+          str += '</td>';
+          str += '<td>' + data[i].id + '</td>';
+          str += '<td>' + replyService.displayTime(date, gap) + '</td>'; 
+          str += '<td>' + data[i].cnt + '</td>';                             
+          str += '<td>' + data[i].good + '</td>';
+          str += '</tr>';
+
+        }
+        $("tbody").html(str);
+
+        $.ajaxSetup({cache: true});
+        
       }).fail(function(xhr, status, err) {
         alert(err);
       });
+		}
+    $(function() {
       
-      
-    
-
+      getBoardList();
     });
     
   </script>
