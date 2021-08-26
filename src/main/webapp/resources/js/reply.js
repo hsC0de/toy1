@@ -113,7 +113,7 @@ var replyService = (function() {
       return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi ].join('');
     } else {
 
-      return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd ].join('');
+      return [ yy, '.', (mm > 9 ? '' : '0') + mm, '.', (dd > 9 ? '' : '0') + dd, '.'].join('');
     }
 
     // if (gap < 1000 * 60) {
@@ -148,7 +148,7 @@ var replyService = (function() {
     var mm = dateObj.getMonth() + 1;
     var dd = dateObj.getDate();
 
-    return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd, ' ', (hh > 9 ? '' : '0') + hh, ':',
+    return [ yy, '.', (mm > 9 ? '' : '0') + mm, '.', (dd > 9 ? '' : '0') + dd, '. ', (hh > 9 ? '' : '0') + hh, ':',
         (mi > 9 ? '' : '0') + mi ].join('');
 
   }

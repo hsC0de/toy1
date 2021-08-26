@@ -22,6 +22,8 @@
     
     <resultMap type="hashmap" id="selectBoard">
       <result property="bno" column="BNO" />
+      <result property="preContent" column="PRECONTENT" />
+      <result property="nextContent" column="NEXTCONTENT" />
       <result property="replyCnt" column="REPLYCNT" />
       <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -35,6 +37,8 @@
     <select id="getBoardContent" parameterType="hashmap" resultMap="selectBoard">
 
       SELECT BNO
+           , (SELECT BNO FROM BOARD WHERE BNO &gt; #{bno} ORDER BY BNO LIMIT 1) AS PRECONTENT
+           , (SELECT BNO FROM BOARD WHERE BNO &lt; #{bno} ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
            , TITLE
            , REG_DATE
            , CNT
@@ -71,11 +75,7 @@
       SELECT A.BNO      AS BNO
            , A.TITLE    AS TITLE
            , A.ID       AS ID
-<!--            , CASE WHEN DATE_FORMAT(NOW(), '%Y.%m.%d.') = DATE_FORMAT(A.REG_DATE, '%Y.%m.%d.') THEN DATE_FORMAT(A.REG_DATE, '%H:%i') -->
-<!--                                                                                               ELSE DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i')  -->
-<!--              END AS REG_DATE -->
            , UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
-<!--            , UNIX_TIMESTAMP(NOW(3)) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP -->
            , A.REG_DATE AS REG_DATE
            , A.CNT      AS CNT
            , C.CNT      AS GOOD
@@ -98,7 +98,14 @@
             GROUP BY A.BNO) AS C
           ON A.BNO = C.BNO
        WHERE 1=1
-    ORDER BY A.BNO DESC
+    ORDER BY A.BNO DESC 
+       LIMIT #{offset}, #{userDisplay}
+    </select>
+    
+    <select id="getTotal" resultType="int">
+      SELECT COUNT(*) AS TOTAL
+        FROM BOARD
+       WHERE 1=1
     </select>
     
     <insert id="insertPost" parameterType="hashmap">

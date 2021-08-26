@@ -17,6 +17,10 @@
       margin-right: 10px;
     }
     
+    .btn_get_pre {
+      margin-right: 10px;
+    }
+    
     .get_tools span {
       display: inline-block;
       
@@ -43,6 +47,7 @@
       border-radius: 4px;
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
     
     .get_btn img {
@@ -267,6 +272,8 @@
     .comments_tab_item {
       padding-top:2px;
     }
+    
+    
   </style>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
@@ -312,6 +319,10 @@
 	    <main class="article">
 	      <div class="get">
 	        <div class="get_tools">
+            <div class="get_btn btn_get_pre">
+              <img src="/node_modules/bootstrap-icons/icons/chevron-compact-up.svg"/>
+              <span>이전글</span>
+            </div>
 	          <div class="get_btn btn_get_next">
 	            <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
               <span>다음글</span>
@@ -555,6 +566,8 @@
     }
     
     $(function() {
+      
+      console.log(board);
      
       $(".kind_button_val").html(board.menu_nm + " 〉");
       $(".contents_title span").html(board.title);
@@ -565,7 +578,7 @@
       
       var date = board.reg_date;
       date = replyService.displayTime1(date);
-      date = date.substring(0, 10).replaceAll("/", ".") + "." + date.substring(10, 16);
+//       date = date.substring(0, 10).replaceAll("/", ".") + "." + date.substring(10, 16);
 
       $(".date").text(date);
       
@@ -576,6 +589,15 @@
         var sp = $(".get_contents_comments").offset().top;
         console.log(sp);
         $(window).scrollTop(Number(sp) - 20);
+      });
+      
+      $(".btn_top").on("click", function(e) {
+        
+        e.preventDefault();
+        e.stopPropagation();
+        var sp = $(".get").offset().top;
+        console.log(sp);
+        $(window).scrollTop(Number(sp));
       });
       
       $(".btn_register").on("click", function(e) {
@@ -636,7 +658,6 @@
       
       $(".comments_refresh_button").on("click", function() {
         
-        
         getReplyList(sortState);
       });
       
@@ -658,6 +679,35 @@
           getReplyList(sortState);
         }
       });
+      
+      $(".btn_get_next").on("click", function() {
+        
+        if(board.nextContent) {
+          
+          location.href = "/board/get/?bno=" + board.nextContent;
+        }
+      });
+      
+      $(".btn_get_pre").on("click", function() {
+        
+        if(board.preContent) {
+          
+          location.href = "/board/get/?bno=" + board.preContent;
+        }
+      });
+
+      if(!board.nextContent) {
+        $(".btn_get_next").css("display", "none");
+      }
+      else if(!board.preContent) {
+        $(".btn_get_pre").css("display", "none");
+      }
+      
+      $(".btn_board_list").on("click", function() {
+        
+        location.href = "/board/list?page=";
+      });
+      
     });
 
   </script>

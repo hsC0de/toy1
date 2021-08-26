@@ -1,0 +1,36 @@
+package com.cafe24.domain;
+
+import org.springframework.web.util.UriComponentsBuilder;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PageDTO {
+
+    private int page;
+    private int userDisplay;
+    
+    private int offset;
+    
+    public PageDTO(int page, int userDisplay) {
+        
+        int offset = (page - 1) * userDisplay;
+        
+        this.offset = offset;
+        this.page = page;
+        this.userDisplay = userDisplay;
+    }
+    
+    
+    
+    public String getListLink() {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+                                                           .queryParam("page", this.page)
+                                                           .queryParam("userDisplay", this.userDisplay);
+        return builder.toUriString();
+    }
+}

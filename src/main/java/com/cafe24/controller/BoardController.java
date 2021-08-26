@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.domain.PageDTO;
 import com.cafe24.service.BoardService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,13 +34,17 @@ public class BoardController {
         return "board/list";
     }
     
-    @GetMapping(value="boardList", produces= MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("boardList")
     @ResponseBody
-    public List<Map<String, Object>> boardList() {
+    public Map<String, Object> boardList(PageDTO map) {
+        Map<String, Object> resultMap = new HashMap<>();
         List<Map<String, Object>> resultList = new ArrayList<>();
-        resultList = boardService.boardList("board.getBoardList", null);
-        log.info("" +resultList);
-        return resultList;
+        Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
+        resultList = boardService.boardList("board.getBoardList", toMap);
+        Map<String, Object> paging = boardService.getTotal("board.getTotal", toMap);
+        resultMap.put("list", resultList);
+        resultMap.put("paging", paging);
+        return resultMap;
     }
     
     @GetMapping("get")

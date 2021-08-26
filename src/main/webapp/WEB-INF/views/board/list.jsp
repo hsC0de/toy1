@@ -53,7 +53,7 @@
         <div class="board_option">
           <ul>
             <li>
-              <select>
+              <select onchange="if(this.value) javascript:getBoardList(this.value, 1);">
                 <option value="5">5개씩</option>
                 <option value="10">10개씩</option>
                 <option value="15" selected>15개씩</option>
@@ -99,6 +99,7 @@
 	        </div>
 	        <div class="board_footer">
 	          <div class="board_footer_paging">
+            
 	          </div>
 	          <div class="board_footer_searching">
 	          </div>
@@ -114,43 +115,95 @@
   
   <script>
   
-		function getBoardList() {
+		function getBoardList(userDisplay, page) {
 		  
 		  var str = "";
-
-      $.ajaxSetup({cache: false});
       
-      $.getJSON("/board/boardList", function(data) {
+		  
+//       $.getJSON("/board/boardList?userDisplay=" + userDisplay + "&page=" + page, function(data) {
+      $.ajax({
+        url: "/board/boardList",
+        method: "get",
+        data: {
+                page: page,
+                userDisplay: userDisplay
+              },
+        dataType: "json",
+        success: function(res) {
+          var data = res.list;
+          for(var i = 0; i < data.length; i++) {
+            var date = data[i].reg_date;
+            var gap = data[i].gap;
+            str += '<tr>';
+            str += '<td>' + data[i].bno + '</td>';
+            str += '<td>';
+            str += '<a class="getBoardList" href="/board/get?bno=' + data[i].bno + '" />';
+            str += data[i].title;
+            str += '</a><span class="getBoardListReplyCnt">[' + data[i].replyCnt + ']</span>';
+            str += '</td>';
+            str += '<td>' + data[i].id + '</td>';
+            str += '<td>' + replyService.displayTime(date, gap) + '</td>'; 
+            str += '<td>' + data[i].cnt + '</td>';                             
+            str += '<td>' + data[i].good + '</td>';
+            str += '</tr>';
+          }
+          $("tbody").html(str);
+          
+          var paging = res.paging;
+          console.log(paging);
+          console.log(paging.endPage);
+          var strPage = "";
+          if(paging.prev) {
+            strPage += '<ul class="pagination">';
+            strPage += '<li class="paginate_button previous">';
+            strPage += '<a href="' + paging.startPage - 10 + '">&lt; 이전</a>';
+            strPage += '</li>';
+          }
+          for(var i = 1; i <= paging.endPage; i++) {
+            strPage += '<li class="paginate_button">'; // ' + paging.page == page? "active" : "" + '
+            strPage += '<a href="/board/list?page="' + i + '>' + i + '</a>';
+            strPage += '</li>';
+          }
+          if(paging.next) {
+            strPage += '<ul class="pagination">';
+            strPage += '<li class="paginate_button previous">';
+            strPage += '<a href="' + paging.startPage + 10 + '">다음 &gt;</a>';
+            strPage += '</li>';
+          }
+          
+          $(".board_footer_paging").html(strPage);
+          
+//           <ul class="pagination">
+//           <c:if test="${pageMaker.prev}">
+//             <li class="paginate_button previous">
+//               <a href="${pageMaker.startPage - 1}">Previous</a>
+//             </li>
+//           </c:if>
+          
+//           <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+//             <li class="paginate_button ${pageMaker.cri.pageNum == num? 'active':''}">
+//               <a href="${num}">${num}</a>
+//             </li>
+//           </c:forEach>
+          
+//           <c:if test="${pageMaker.next}">
+//             <li class="paginate_button next">
+//               <a href="${pageMaker.endPage + 1}">Next</a>
+//             </li>
+//           </c:if>
+//         </ul>
         
-//         console.log(data);
-        for(var i = 0; i < data.length; i++) {
-          var date = data[i].reg_date;
-          var gap = data[i].gap;
-          str += '<tr>';
-          str += '<td>' + data[i].bno + '</td>';
-          str += '<td>';
-          str += '<a class="getBoardList" href="/board/get/?bno=' + data[i].bno + '" />';
-          str += data[i].title;
-          str += '</a><span class="getBoardListReplyCnt">[' + data[i].replyCnt + ']</span>';
-          str += '</td>';
-          str += '<td>' + data[i].id + '</td>';
-          str += '<td>' + replyService.displayTime(date, gap) + '</td>'; 
-          str += '<td>' + data[i].cnt + '</td>';                             
-          str += '<td>' + data[i].good + '</td>';
-          str += '</tr>';
-
+        
+        },
+        error: function(xhr, status, err) {
+          alert(err);
         }
-        $("tbody").html(str);
-
-        $.ajaxSetup({cache: true});
-        
-      }).fail(function(xhr, status, err) {
-        alert(err);
       });
 		}
+		
     $(function() {
       
-      getBoardList();
+      getBoardList(15, 1);
     });
     
   </script>
