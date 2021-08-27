@@ -22,7 +22,7 @@
 	        <div class="navbar_menu_element">
 	          <ul>
 	            <li>
-	    				  <a href="/board/list">게시판</a>
+	    				  <a href="/board/list?page=1&userDisplay=5">게시판</a>
 	    				  <ul>
 	    				    <li>공지글</li>
 	    				    <li>자유게시판</li>

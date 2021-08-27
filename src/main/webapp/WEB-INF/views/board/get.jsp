@@ -705,7 +705,7 @@
       
       $(".btn_board_list").on("click", function() {
         
-        location.href = "/board/list?page=";
+        location.href = "/board/list?page=1&userDisplay=10";
       });
       
     });

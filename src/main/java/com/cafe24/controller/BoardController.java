@@ -30,7 +30,15 @@ public class BoardController {
     private final BoardService boardService;
     
     @GetMapping("list")
-    public String list() {
+    public String list(PageDTO map, Model model) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
+        resultList = boardService.boardList("board.getBoardList", toMap);
+        Map<String, Object> paging = boardService.getTotal("board.getTotal", toMap);
+        
+        model.addAttribute("list", resultList);
+        model.addAttribute("paging", paging);
         return "board/list";
     }
     

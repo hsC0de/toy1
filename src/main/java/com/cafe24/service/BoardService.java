@@ -50,6 +50,7 @@ public class BoardService {
         resultMap.put("prev", prev);
         resultMap.put("next", next);
         resultMap.put("page", (int) condition.get("page"));
+        resultMap.put("userDisplay", (int) condition.get("userDisplay"));
         return resultMap;
     }
     
