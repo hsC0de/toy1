@@ -30,18 +30,25 @@ public class BoardService {
         
         Map<String, Object> resultMap = new HashMap<>();
         int total = dao.selectInt(statement, condition);
-        int startPage = (int) condition.get("offset") + 1;
+        int startPage = (int) condition.get("page") % 10 != 0? (int) condition.get("page") / 10 * 10 + 1 : ((int) condition.get("page") - 1) / 10 * 10 + 1;
         int realEnd = (int) (Math.ceil((total * 1.0) / (int) condition.get("userDisplay")));
-        int endPage = 0; 
+        int endPage = 0;
         
-        if(realEnd < 11) {
+        boolean ep = (int) condition.get("page") % 10 != 0? (int) condition.get("page") / 10 == realEnd / 10 : false;
+        boolean next = false;
+        
+        if(ep) {
             endPage = realEnd;
         }
-        else {
-            endPage = 10;
+        else if((int) condition.get("page") % 10 == 0){
+            endPage = (int) condition.get("page") / 10 * 10;
+            next = true;
         }
-        boolean prev = startPage > 10;
-        boolean next = realEnd > endPage;
+        else {
+            endPage = ((int) condition.get("page") / 10 + 1) * 10;
+            next = true;
+        }
+        boolean prev = startPage != 1;
         
         resultMap.put("total", total);
         resultMap.put("startPage", startPage);

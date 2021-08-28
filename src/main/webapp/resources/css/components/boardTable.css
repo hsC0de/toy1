@@ -149,3 +149,47 @@ td:last-child {
       outline: none;
 }
 
+.pagination {
+	background-color: #F9F9F9;
+	display: flex;
+	padding: 15px 0;
+	justify-content: center;
+  align-items: center;
+}
+.paginate_button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 10px;
+	width: 25px;
+	height: 25px;
+  background-color: #F9F9F9;
+	
+}
+
+.pagination li a {
+	display: block;
+}
+
+.next,
+.previous {
+	width: 55px;
+  background-color: #F9F9F9;
+  margin-right: 0;
+}
+
+
+.paginate_border {
+	border-right: 1px solid #dadada;
+  height: 12px;
+  width: 1px;
+}
+
+.previous_border {
+	margin-right: 10px;
+}
+
+.active {
+	background-color: #ffffff;
+	color: #0052F6;
+}

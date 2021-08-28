@@ -115,8 +115,9 @@
               <ul class="pagination">
               <c:if test="${paging.prev}">
                <li class="paginate_button previous">
-                 <a href="/board/list?page=${paging.endPage}&userDisplay=${paging.userDisplay}">&lt; 이전</a>
+                 <a href="/board/list?page=${paging.startPage - 1}&userDisplay=${paging.userDisplay}">&lt; 이전</a>
                </li>
+               <div class="paginate_border previous_border"></div>
               </c:if>
               
               <c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
@@ -126,29 +127,13 @@
               </c:forEach>
               
               <c:if test="${paging.next}">
+               <div class="paginate_border"></div>
                <li class="paginate_button next">
-                 <a href="/board/list?page=${paging.startPage}&userDisplay=${paging.userDisplay}">다음 &gt;</a>
+                 <a href="/board/list?page=${paging.startPage + 10}&userDisplay=${paging.userDisplay}">다음 &gt;</a>
                </li>
               </c:if>
               </ul>
 	          </div>
-<!--             if(paging.prev) { -->
-<!--             strPage += '<ul class="pagination">'; -->
-<!--             strPage += '<li class="paginate_button previous">'; -->
-<!--             strPage += '<a href="' + paging.startPage - 10 + '">&lt; 이전</a>'; -->
-<!--             strPage += '</li>'; -->
-<!--           } -->
-<!--           for(var i = 1; i <= paging.endPage; i++) { -->
-<!--             strPage += '<li class="paginate_button">'; // ' + paging.page == page? "active" : "" + ' -->
-<!--             strPage += '<a href="/board/list?page="' + i + '>' + i + '</a>'; -->
-<!--             strPage += '</li>'; -->
-<!--           } -->
-<!--           if(paging.next) { -->
-<!--             strPage += '<ul class="pagination">'; -->
-<!--             strPage += '<li class="paginate_button previous">'; -->
-<!--             strPage += '<a href="' + paging.startPage + 10 + '">다음 &gt;</a>'; -->
-<!--             strPage += '</li>'; -->
-<!--           } -->
             
             
 	          <div class="board_footer_searching">
@@ -172,6 +157,7 @@
 		
     $(function() {
       console.log(${paging.startPage});
+      console.log(${paging.page});
     });
     
   </script>
