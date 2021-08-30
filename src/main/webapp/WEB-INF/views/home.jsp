@@ -8,9 +8,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Main</title>
-	<script>
-	  
-	</script>
 </head>
 <body>
   <div id="wrap">
@@ -22,7 +19,7 @@
 	        <div class="navbar_menu_element">
 	          <ul>
 	            <li>
-	    				  <a href="/board/list?page=1&userDisplay=5">게시판</a>
+	    				  <a href="/board/list?page=1&userDisplay=10">게시판</a>
 	    				  <ul>
 	    				    <li>공지글</li>
 	    				    <li>자유게시판</li>

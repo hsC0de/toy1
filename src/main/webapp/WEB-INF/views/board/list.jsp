@@ -8,6 +8,7 @@
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Board</title>
@@ -23,7 +24,7 @@
           <div class="navbar_menu_element">
             <ul>
               <li>
-                <a href="/board/list?page=1&userDisplay=5">게시판</a>
+                <a href="/board/list?page=1&userDisplay=10">게시판</a>
                 <ul>
                   <li>공지글</li>
                   <li>자유게시판</li>
@@ -93,7 +94,8 @@
             <tr>
               <td><c:out value="${board.bno}" /></td>
               <td>
-                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}" />
+                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}"/>' >
+                  <c:out value="${board.title}" />
                   <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
                 </a>
               </td>
@@ -115,7 +117,7 @@
               <ul class="pagination">
               <c:if test="${paging.prev}">
                <li class="paginate_button previous">
-                 <a href="/board/list?page=${paging.startPage - 1}&userDisplay=${paging.userDisplay}">&lt; 이전</a>
+                 <a href="/board/list?page=${paging.startPage - 1}&userDisplay=${paging.userDisplay}">〈 이전</a>
                </li>
                <div class="paginate_border previous_border"></div>
               </c:if>
@@ -129,13 +131,11 @@
               <c:if test="${paging.next}">
                <div class="paginate_border"></div>
                <li class="paginate_button next">
-                 <a href="/board/list?page=${paging.startPage + 10}&userDisplay=${paging.userDisplay}">다음 &gt;</a>
+                 <a href="/board/list?page=${paging.startPage + 10}&userDisplay=${paging.userDisplay}">다음 〉</a>
                </li>
               </c:if>
               </ul>
 	          </div>
-            
-            
 	          <div class="board_footer_searching">
 	          </div>
 	        </div>
@@ -152,12 +152,13 @@
 
     function userDisplay(val) {
       console.log(val);
-      if(val) location.href = '/board/list?page=${paging.page}&userDisplay=' + val;
+      if(val) location.href = '/board/list?page=1&userDisplay=' + val;
     }
 		
     $(function() {
-      console.log(${paging.startPage});
-      console.log(${paging.page});
+      console.log(${paging.realEnd});
+//       console.log(${paging.startPage});
+//       console.log(${paging.page});
     });
     
   </script>

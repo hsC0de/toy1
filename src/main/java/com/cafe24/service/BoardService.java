@@ -40,9 +40,17 @@ public class BoardService {
         if(ep) {
             endPage = realEnd;
         }
-        else if((int) condition.get("page") % 10 == 0){
+        else if((int) condition.get("page") % 10 == 0 && (int) condition.get("page") == realEnd){
             endPage = (int) condition.get("page") / 10 * 10;
+            next = false;
+        }
+        else if((int) condition.get("page") % 10 == 0 && (int) condition.get("page") != realEnd){
+            endPage = ((int) condition.get("page") / 10) * 10;
             next = true;
+        }
+        else if((int) condition.get("page") % 10 != 0 && (int) condition.get("page") / 10 - Math.ceil((realEnd * 1.0) / 10) == -1) {
+            endPage = ((int) condition.get("page") / 10 + 1) * 10;
+            next = false;
         }
         else {
             endPage = ((int) condition.get("page") / 10 + 1) * 10;
@@ -66,6 +74,23 @@ public class BoardService {
         int result = dao.insert(statement, condition);
         
         return result;
+    }
+    
+    @Transactional
+    public int modifyPost(String statement, Map<String, Object> condition) {
+        
+        int result = dao.update(statement, condition);
+        if(result == 1) {
+            dao.insert("board.insertModifyHst", condition);
+        }
+        
+        return result;
+    }
+    
+    @Transactional
+    public int delete(String statement, Map<String, Object> condition) {
+        
+        return dao.update(statement, condition);
     }
     
     public Map<String, Object> get(String statement, Map<String, Object> condition) {

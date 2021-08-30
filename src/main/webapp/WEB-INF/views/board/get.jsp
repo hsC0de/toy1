@@ -8,9 +8,25 @@
   <style>
     .get_tools {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       margin: 10px 0;
       align-items: center;
+    }
+    
+    .modify_tools {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .list_tools {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    
+    .btn_board_modify {
+      margin-right: 10px;
     }
     
     .btn_get_next {
@@ -278,6 +294,7 @@
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
   <script type="text/javascript" src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Get</title>
@@ -294,7 +311,7 @@
 	          <div class="navbar_menu_element">
 	            <ul>
 	              <li>
-	                <a href="/board/list">게시판</a>
+	                <a href="/board/list?page=1&userDisplay=10">게시판</a>
 	                <ul>
 	                  <li>공지글</li>
 	                  <li>자유게시판</li>
@@ -319,17 +336,27 @@
 	    <main class="article">
 	      <div class="get">
 	        <div class="get_tools">
-            <div class="get_btn btn_get_pre">
-              <img src="/node_modules/bootstrap-icons/icons/chevron-compact-up.svg"/>
-              <span>이전글</span>
+            <div class="modify_tools">
+              <div class="get_btn btn_board_modify">
+                <span>수정</span>
+              </div>
+              <div class="get_btn btn_board_delete">
+                <span>삭제</span>
+              </div>
             </div>
-	          <div class="get_btn btn_get_next">
-	            <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-              <span>다음글</span>
-	          </div>
-	          <div class="get_btn btn_board_list">
-	            <span>목록</span>
-	          </div>
+            <div class="list_tools">
+              <div class="get_btn btn_get_pre">
+                <img src="/node_modules/bootstrap-icons/icons/chevron-compact-up.svg"/>
+                <span>이전글</span>
+              </div>
+  	          <div class="get_btn btn_get_next">
+  	            <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                <span>다음글</span>
+  	          </div>
+  	          <div class="get_btn btn_board_list">
+  	            <span>목록</span>
+  	          </div>
+            </div>
 	        </div>
 	        <div class="get_contents_container_box">
 		        <div class="get_contents_container">
@@ -684,7 +711,7 @@
         
         if(board.nextContent) {
           
-          location.href = "/board/get/?bno=" + board.nextContent;
+          location.href = "/board/get?bno=" + board.nextContent + "&" + board.paging.listLink.substring(1, board.paging.listLink.length);
         }
       });
       
@@ -692,7 +719,7 @@
         
         if(board.preContent) {
           
-          location.href = "/board/get/?bno=" + board.preContent;
+          location.href = "/board/get?bno=" + board.preContent + "&" + board.paging.listLink.substring(1, board.paging.listLink.length);
         }
       });
 
@@ -705,7 +732,20 @@
       
       $(".btn_board_list").on("click", function() {
         
-        location.href = "/board/list?page=1&userDisplay=10";
+        location.href = "/board/list" + board.paging.listLink;
+      });
+      
+      $(".btn_board_modify").on("click", function() {
+        
+        window.open("/board/modify/" + board.bno);
+      });
+      
+      $(".btn_board_delete").on("click", function() {
+        
+        if(confirm("정말 삭제하시겠습니까?")) {
+          
+          location.href = "/board/delete/" + board.bno + board.paging.listLink;
+        }
       });
       
     });

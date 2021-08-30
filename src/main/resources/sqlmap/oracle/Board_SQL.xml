@@ -31,14 +31,16 @@
       <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="menu_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="content" column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />  
-
+      <result property="upd_seq" column="UPD_SEQ" />  
+      <result property="kind" column="KIND" jdbcType="VARCHAR" javaType="java.lang.String" />  
+      <result property="type" column="TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
     </resultMap>
 
     <select id="getBoardContent" parameterType="hashmap" resultMap="selectBoard">
 
       SELECT BNO
-           , (SELECT BNO FROM BOARD WHERE BNO &gt; #{bno} ORDER BY BNO LIMIT 1) AS PRECONTENT
-           , (SELECT BNO FROM BOARD WHERE BNO &lt; #{bno} ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
+           , (SELECT BNO FROM BOARD WHERE BNO &gt; #{bno} AND DEL = 'N' ORDER BY BNO LIMIT 1) AS PRECONTENT
+           , (SELECT BNO FROM BOARD WHERE BNO &lt; #{bno} AND DEL = 'N' ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
            , TITLE
            , REG_DATE
            , CNT
@@ -51,11 +53,15 @@
                  AND A.BNO = #{bno} ) AS REPLYCNT
            , MENU_NM
            , CONTENT
+           , UPD_SEQ
+           , TYPE
+           , KIND
         FROM BOARD AS A
         JOIN MENU AS B
           ON A.KIND = B.MENU_ID
        WHERE 1=1
-         AND bno = #{bno}
+         AND BNO = #{bno}
+         AND DEL = 'N'
 
     </select>
     
@@ -98,6 +104,7 @@
      LEFT OUTER JOIN GOOD AS B
                   ON A.BNO = B.BNO
                WHERE 1=1
+                 AND A.DEL = 'N'
             GROUP BY A.BNO) AS C
           ON A.BNO = C.BNO
        WHERE 1=1
@@ -109,6 +116,14 @@
       SELECT COUNT(*) AS TOTAL
         FROM BOARD
        WHERE 1=1
+         AND DEL = 'N'
+    </select>
+    
+    <select id="getUpdSeq" resultType="int">
+      SELECT UPD_SEQ
+        FROM BOARD
+       WHERE 1=1
+         AND BNO = #{bno}
     </select>
     
     <insert id="insertPost" parameterType="hashmap">
@@ -120,7 +135,8 @@
                         , TYPE
                         , CNT
                         , GRP_KEY
-                        , KIND )
+                        , KIND
+                        , DEL )
                  VALUES ( 0
                         , #{id}
                         , #{title}
@@ -129,7 +145,8 @@
                         , #{type}
                         , 0
                         , NULL
-                        , #{kind} )
+                        , #{kind}
+                        , 'N' )
                         
 <!--       { CALL INSERT_BOARD ( #{id, mode=IN, jdbcType=VARCHAR} -->
 <!--                           , #{title, mode=IN, jdbcType=VARCHAR} -->
@@ -165,4 +182,43 @@
                             , #{USER_ID}
                             , SYSDATE)
     </insert>
+    
+    <insert id="insertModifyHst" parameterType="hashmap">
+      INSERT INTO BOARD_HST ( BNO
+                            , ID
+                            , TITLE
+                            , UPD_SEQ
+                            , CONTENT
+                            , TYPE
+                            , CNT
+                            , KIND
+                            , UPD_DATE )
+                     VALUES ( #{bno}
+                            , #{id}
+                            , #{title}
+                            , #{upd_seq}
+                            , #{content}
+                            , #{type}
+                            , #{cnt}
+                            , #{kind}
+                            , NOW(3) )
+    </insert>
+    
+    <update id="delete" parameterType="hashmap">
+      UPDATE BOARD
+         SET DEL = 'Y'
+       WHERE 1=1
+         AND BNO = #{bno}
+    </update>
+    
+    <update id="updatePost" parameterType="hashmap">
+      UPDATE BOARD
+         SET UPD_SEQ = #{upd_seq}
+           , TITLE   = #{title}
+           , CONTENT = #{content}
+           , TYPE    = #{type}
+           , KIND    = #{kind}
+       WHERE 1=1
+         AND BNO = #{bno}
+    </update>
 </mapper>

@@ -5,7 +5,18 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
-  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+<!--   <link rel="stylesheet" href="/node_modules/codemirror/lib/codemirror.css" /> -->
+  <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor.css" />
+  <style>
+    #editor {
+/*     border : 1px solid; */
+    width : 100%;
+/*     height: 500px; */
+    margin : 0 auto;
+    }
+  </style>
+  
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Writing</title>
@@ -65,16 +76,45 @@
               <textarea placeholder="제목을 입력해 주세요." class="textarea_input" style="height: 40px; width:100%;"></textarea>
             </div>
           </div>
-          <div class="writingContent_smartEditor">
-            <textarea placeholder="내용을 입력해 주세요." class="textarea_input" style="height: 520px; width:100%;"></textarea> 
+          <div id="smartEditor" class="writingContent_smartEditor">
+<!--             <textarea placeholder="내용을 입력해 주세요." class="textarea_input" style="height: 520px; width:100%;"></textarea>  -->
+             <div id="editor"></div>
           </div>
         </div>
       </div>
     </section>
-    
   </div>
+<!--   <script type="text/javascript" src="/node_modules/codemirror/lib/codemirror.js"></script> -->
+  <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor.js"></script>
   <script>
+    var board = ${board != null and board != ""? board : "0"};
+    var editor;
+    document.addEventListener("DOMContentLoaded", function(){
+      
+      editor = new toastui.Editor({
+        el: document.querySelector("#editor"),
+        height: "500px",
+        initialEditType: "markdown",
+        previewStyle: "vertical",
+      });
+      
+      if(${!empty board}) {
+        editor.setMarkdown(board.content);
+      }
+    });
+    
     $(function() {
+      
+      console.log(board);
+      if(board) {
+//         $(".kind_button_val").html(board.menu_nm + " 〉");
+//         $(".nick_box span").html(board.id);
+//         $(".cnt").html("조회 " + board.cnt);
+//         $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
+        $(".writingContent_smartEditor textarea").val(board.content); 
+        $(".row textarea").val(board.title);
+      }
+      
       
       $(".writing_toolArea a").on("click", function(e) {
         
@@ -82,8 +122,10 @@
         e.stopPropagation();
         
         var title = $(".row textarea").val();
-        console.log(title);
-        var content = $(".writingContent_smartEditor textarea").val();
+//         console.log(title);
+//         var content = $(".writingContent_smartEditor textarea").val();
+        var content = editor.getMarkdown();
+        console.log(content);
         if(!title) {
           alert("제목을 입력하세요.");
           return;
@@ -92,15 +134,36 @@
           return;
         }
         
+        var data = {};
+        if(board == 0) {
+          data["title"] = title;
+          data["content"] = content;
+          data["id"] = "asdf";
+          data["kind"] = "300";
+          data["type"] = "N";
+        }
+        else {
+          board.content = content;
+          board.title = title;
+          if(location.pathname != '/board/writing') {
+            board.upd_seq = board.upd_seq + 1;
+          }
+          data = board; 
+        }
+        
+        console.log(data);
+        
+        
         if(confirm("등록하시겠습니까?")) {
+          var url = "/board/regPost";
+          
+          if(board) {
+            url = "/board/modifyPost"; 
+          }
           
 	        $.post({
-	          url: "/board/regPost",
-	          data: { id: "asdf"
-	                , title: title
-	                , content: content
-	                , type: "N"
-	                , kind: 300 },
+	          url: url,
+	          data: data,
 	          success: function(res) {
 	            alert(res);
 	            opener.location.reload();

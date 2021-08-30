@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class PageDTO {
 
+    private long bno;
     private int page;
     private int userDisplay;
     

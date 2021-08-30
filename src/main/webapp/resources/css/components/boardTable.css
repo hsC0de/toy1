@@ -88,7 +88,6 @@ td:last-child {
 
 .board_new {
 	text-align: right;
-	
 }
 
 .board_new span {
@@ -149,10 +148,14 @@ td:last-child {
       outline: none;
 }
 
+.board_footer {
+	margin-top: 35px;
+}
+
 .pagination {
 	background-color: #F9F9F9;
 	display: flex;
-	padding: 15px 0;
+	padding: 20px 0;
 	justify-content: center;
   align-items: center;
 }
