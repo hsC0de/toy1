@@ -5,6 +5,7 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
+  <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css" />
   <style>
     .get_tools {
       display: flex;
@@ -71,7 +72,7 @@
       margin-right: 4px;
     }
     
-    .text_view {
+    #viewer {
       margin: 26px 0 0 0;
     }
     
@@ -304,35 +305,40 @@
   <div id="wrap">
     <div id="container">
 	    <header class="navbar">
-	      <div class="navbar_header">
-	        <div class="navbar_logo">
-	        </div>
-	        <div class="navbar_menu">
-	          <div class="navbar_menu_element">
-	            <ul>
-	              <li>
-	                <a href="/board/list?page=1&userDisplay=10">게시판</a>
-	                <ul>
-	                  <li>공지글</li>
-	                  <li>자유게시판</li>
-	                  <li>질문게시판</li>
-	                </ul>
-	              </li>
-	            </ul>
-	          </div>
-	        </div>
-	      </div>
-	      <div class="navbar_userInfo">
-	        <a href="#"><img/></a>
-	        <a href="#"><img/></a>
-	        <a href="/common/login" style="color: #fff;"><img/>Login</a>
-	      </div>
-	    </header>
-	    <div class="front-img">
-	      <a href="#">
-	        <img src="http://placehold.it/861x150" />
-	      </a>
-	    </div>
+      <div class="navbar_header">
+        <div class="navbar_logo">
+          <a href="/">home</a>
+        </div>
+        <div class="navbar_menu">
+          <div class="navbar_menu_element">
+            <ul>
+              <li>
+                <a href="/board/list?page=1&userDisplay=10">게시판</a>
+                <ul>
+                  <li>공지글</li>
+                  <li>자유게시판</li>
+                  <li>질문게시판</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="navbar_userInfo">
+        <a href="#"><img/></a>
+        <a href="#"><img/></a>
+        <a href="/common/login" style="color: #fff;"><img/>Login</a>
+      </div>
+    </header>
+    <div class="front-img">
+      <a href="/">
+        <img src="http://placehold.it/861x150" />
+      </a>
+    </div>
+    <div class="tab">
+      <div class="tab_zone">
+      </div>
+    </div>
 	    <main class="article">
 	      <div class="get">
 	        <div class="get_tools">
@@ -407,9 +413,11 @@
 	            <hr />
 		          <div class="get_contents_article">
 		            <div class="contents_mainText">
-		              <p class="text_view">
-		                <span class="text_content"></span>
-		              </p>
+                   <div id="viewer" style="word-break:break-all;">
+                   </div>
+<!-- 		              <p class="text_view"> -->
+<!-- 		                <span class="text_content" style="word-break:break-all;"></span> -->
+<!-- 		              </p> -->
 		            </div>
 		            <div class="get_user_contents">
 		              <a href="#" class="user_contents_list">id님의 게시글 더보기 〉</a>
@@ -527,10 +535,10 @@
     </div> 
   </div>
   
-  
-  
-  
+  <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js"></script>
   <script>
+   
+    
     autosize($(".contents_comments_inbox_text"));
     
     var board = ${board};
@@ -601,7 +609,11 @@
       $(".nick_box span").html(board.id);
       $(".cnt").html("조회 " + board.cnt);
       $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
-      $(".text_content").html(newlineReplacement(board.content));
+//       $(".text_content").html(newlineReplacement(board.content));
+      const viewer = new toastui.Editor({
+        el: document.querySelector('#viewer'),
+        initialValue: board.content
+      });
       
       var date = board.reg_date;
       date = replyService.displayTime1(date);

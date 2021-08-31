@@ -1,0 +1,106 @@
+
+.section {
+/* 	display: flex; */
+}
+
+.toDoList_header {
+	width: 360px;
+	height: 150px;
+	background-color: #71AABE;
+	padding: 20px;
+}
+
+.toDoList_title {
+	margin-bottom: 30px;
+	font-size: 45px;
+	font-weight: 700;
+	color: #ffffff;
+}
+
+.toDoList_title h1 {
+	text-align: center;
+}
+
+.toDoList_input{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inputList {
+	display: block;
+  margin-right: 20px;
+	width: 280px;
+	border-radius: 10px;
+	height: 30px;
+	border: none;
+	padding: 14px;
+}
+
+.registerButton_container {
+	position: relative;
+/* 	outline: 2px solid red; */
+	width: 27px;
+	height: 27px;
+/* 	margin-top: 1px; */
+}
+
+.registerButton_container a {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.getToDoList {
+  width: 360px;
+}
+
+/* .toDo_listItem_container { */
+/* 	margin-bottom: 1px; */
+/* } */
+
+.toDo_listItem {
+  position: relative;
+  width: 100%;
+	background-color: #eeeeee;
+	display: flex;
+	justify-content: space-between;
+	padding: 13px 20px 15px 40px;
+	align-items: center;
+	border-bottom: 1px solid #dadada;
+}
+
+.toDo_listItem:hover {
+	
+	text-decoration: underline;
+}
+
+.activeList {
+	text-decoration: line-through;
+}
+
+.listDeleteButton_container {
+  position: relative;
+/*  outline: 2px solid red; */
+  width: 16px;
+  height: 16px;
+/*  margin-top: 1px; */
+}
+ 
+.listDeleteButton_container a {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.listContent {
+	margin-right: 20px;
+}
+
+input[type="checkbox"] {
+  display: block;
+  position: absolute;
+  left: 10px;
+}

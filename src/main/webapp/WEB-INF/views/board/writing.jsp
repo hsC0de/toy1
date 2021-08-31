@@ -95,12 +95,9 @@
         el: document.querySelector("#editor"),
         height: "500px",
         initialEditType: "markdown",
+        initialValue: board.content,
         previewStyle: "vertical",
       });
-      
-      if(${!empty board}) {
-        editor.setMarkdown(board.content);
-      }
     });
     
     $(function() {

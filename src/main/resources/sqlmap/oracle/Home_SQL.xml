@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="home">
+    
+    <resultMap type="hashmap" id="getTodoListMap">
+      <result property="num" column="NUM" />
+      <result property="do_list" column="DO_LIST" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="done" column="DONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getTodoList" parameterType="hashmap" resultMap="getTodoListMap">
+        SELECT NUM
+             , DO_LIST
+             , DONE
+          FROM TD_LIST
+         WHERE DEL_YN = 'N'
+      ORDER BY NUM ASC
+    </select>
+    
+    
+    
+    <insert id="insertTodoList" parameterType="hashmap">
+      INSERT INTO TD_LIST ( DO_LIST
+                          , REG_DATE)
+                   VALUES ( #{do_list}
+                          , NOW(3))
+    </insert>
+    
+    <update id="deleteTodoList" parameterType="hashmap">
+      UPDATE TD_LIST
+         SET DEL_YN = 'Y'
+       WHERE NUM = #{num}
+    </update>
+    
+    <update id="doneTodoList" parameterType="hashmap">
+      UPDATE TD_LIST
+         SET DONE = #{done}
+       WHERE NUM = #{num}
+    </update>
+</mapper>

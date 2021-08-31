@@ -9,6 +9,7 @@
 @import "components/navbar.css";
 
 /* Screens */
+@import "screens/home.css";
 
 /* Common CSS */
 body {

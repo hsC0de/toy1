@@ -19,6 +19,7 @@
     <header class="navbar">
       <div class="navbar_header">
         <div class="navbar_logo">
+          <a href="/">home</a>
         </div>
         <div class="navbar_menu">
           <div class="navbar_menu_element">
@@ -42,9 +43,13 @@
       </div>
     </header>
     <div class="front-img">
-      <a href="#">
+      <a href="/">
         <img src="http://placehold.it/861x150" />
       </a>
+    </div>
+    <div class="tab">
+      <div class="tab_zone">
+      </div>
     </div>
     <main class="article">
       <div class="board">
