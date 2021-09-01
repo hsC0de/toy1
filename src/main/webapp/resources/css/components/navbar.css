@@ -1,7 +1,32 @@
 @charset "UTF-8";
 
+.logoImg {
+  width: 50px;
+}
+
+.mainImg {
+  width: 861px;
+  margin-bottom: 5px;
+}
+
 .navbar_logo {
 	cursor: pointer;
+}
+
+.navbar_menu_container {
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+
+.menu_list {
+	position: relative;
+	margin-left: 15px;
+}
+
+.menu_sublist {
+  border: 1px solid #000;
+  position: absolute;
 }
 
 .navbar {
@@ -10,6 +35,8 @@
   align-items: center;
   width: 861px;
   margin: 10px 0;
+  background-color: green;
+  
 }
 
 .navbar_header {
@@ -19,7 +46,6 @@
 .navbar_logo {
 	width: 50px;
   height: 50px;
-	background-color: red;
 }
 
 .navbar_menu {
@@ -27,13 +53,11 @@
 }
 
 .navbar_menu_element {
-	background-color: green;
 }
 
 .navbar_userInfo {
 	display: flex;
 	width: 100px;
 	height: 50px;
-  background-color: blue;
 	
 }

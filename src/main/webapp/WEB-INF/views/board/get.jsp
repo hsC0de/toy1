@@ -307,32 +307,59 @@
 	    <header class="navbar">
       <div class="navbar_header">
         <div class="navbar_logo">
-          <a href="/">home</a>
+          <a href="/"><img class="logoImg" src="/resources/img/logoMain1.jpg"></a>
         </div>
         <div class="navbar_menu">
           <div class="navbar_menu_element">
-            <ul>
+            <ul class="navbar_menu_container">
+              <li class="menu_list">
+                <div class="menu_list_name">
+                  <a href="/board/list?page=1&userDisplay=10">게시판</a>
+                </div>
+                <div class="menu_sublist">
+                  <ul>
+                    <li>공지글</li>
+                    <li>자유게시판</li>
+                    <li>질문게시판</li>
+                  </ul>
+                </div>
+              </li>
               <li>
-                <a href="/board/list?page=1&userDisplay=10">게시판</a>
-                <ul>
-                  <li>공지글</li>
-                  <li>자유게시판</li>
-                  <li>질문게시판</li>
-                </ul>
+                <div class="menu_list">
+                  <a href="/board/list?page=1&userDisplay=10">자료실</a>
+                </div>
+                <div class="menu_sublist">
+                  <ul>
+                    <li>공지글</li>
+                    <li>자유게시판</li>
+                    <li>질문게시판</li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="menu_list">
+                  <a href="/board/list?page=1&userDisplay=10">다른서비스</a>
+                </div>
+                <div class="menu_sublist">
+                  <ul>
+                    <li>공지글</li>
+                    <li>자유게시판</li>
+                    <li>질문게시판</li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <div class="navbar_userInfo">
-        <a href="#"><img/></a>
-        <a href="#"><img/></a>
         <a href="/common/login" style="color: #fff;"><img/>Login</a>
+        <a href="/common/signUp" style="color: #fff;">Sign up</a>
       </div>
     </header>
     <div class="front-img">
       <a href="/">
-        <img src="http://placehold.it/861x150" />
+        <img src="/resources/img/building1.jpg" class="mainImg" />
       </a>
     </div>
     <div class="tab">
