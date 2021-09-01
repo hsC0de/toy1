@@ -15,54 +15,47 @@
     <header class="navbar">
       <div class="navbar_header">
 	      <div class="navbar_logo">
-          <a href="/"><img class="logoImg" src="/resources/img/logoMain1.jpg"></a>
+          <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
 	      </div>
 	      <div class="navbar_menu">
-	        <div class="navbar_menu_element">
-	          <ul class="navbar_menu_container">
-	            <li class="menu_list">
-                <div class="menu_list_name">
-	    				    <a href="/board/list?page=1&userDisplay=10">게시판</a>
-                </div>
-                <div class="menu_sublist">
-  	    				  <ul>
-  	    				    <li>공지글</li>
-  	    				    <li>자유게시판</li>
-  	    				    <li>질문게시판</li>
-  	    				  </ul>
-                </div>
-	            </li>
-              <li>
-                <div class="menu_list">
-                  <a href="/board/list?page=1&userDisplay=10">자료실</a>
-                </div>
-                <div class="menu_sublist">
-                  <ul>
-                    <li>공지글</li>
-                    <li>자유게시판</li>
-                    <li>질문게시판</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <div class="menu_list">
-                  <a href="/board/list?page=1&userDisplay=10">다른서비스</a>
-                </div>
-                <div class="menu_sublist">
-                  <ul>
-                    <li>공지글</li>
-                    <li>자유게시판</li>
-                    <li>질문게시판</li>
-                  </ul>
-                </div>
-              </li>
-	          </ul>
+	        <div class="menu_list">
+            <div class="menu_list_name">
+	   	        <a href="#" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
+  	   	      <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
+  	 		      <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+  	 	      </div>
 	        </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
 	      </div>
       </div>
       <div class="navbar_userInfo">
-        <a href="/common/login" style="color: #fff;"><img/>Login</a>
-        <a href="/common/signUp" style="color: #fff;">Sign up</a>
+        <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+        <a href="/common/login" style="color: #000;">Login</a>
+        <div class="divider"></div>
+        <a href="/common/signUp" style="color: #000;">Sign up</a>
       </div>
     </header>
     <div class="front-img">
@@ -72,6 +65,7 @@
     </div>
     <div class="tab">
       <div class="tab_zone">
+        <a href="https://github.com/hsC0de/toy1.git" target="_black">github: https://github.com/hsC0de/toy1.git</a>
       </div>
     </div>
     <div>
@@ -153,6 +147,8 @@
       
     </div>
   </div>
+  
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript">
   
     function getTodoList() {

@@ -99,4 +99,8 @@ public class BoardService {
         resultMap = dao.selectOne(statement, condition);
         return resultMap;
     }
+    
+    public Map<String, Object> getMenuNm(String statement, Map<String, Object> condition) {
+        return dao.selectOne(statement, condition);
+    }
 }

@@ -13,7 +13,7 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handlerException(Exception ex) {
-        log.error("ArithmeticException :: " + ex.getMessage());
+        log.error("Exception :: " + ex.getMessage());
         log.error("toString :: " + ex.toString());
 
         return "error/commonException";

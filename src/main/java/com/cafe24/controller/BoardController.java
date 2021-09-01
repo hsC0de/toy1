@@ -37,22 +37,28 @@ public class BoardController {
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
         resultList = boardService.boardList("board.getBoardList", toMap);
         Map<String, Object> paging = boardService.getTotal("board.getTotal", toMap);
+        Map<String, Object> kind_nm = boardService.getMenuNm("board.getMenuNm", toMap);
         
         model.addAttribute("list", resultList);
         model.addAttribute("paging", paging);
+        model.addAttribute("kind", map.getKind());
+        model.addAttribute("kind_nm", kind_nm);
         return "board/list";
     }
     
     @GetMapping("get")
     public String get(PageDTO map, Model model) throws JsonProcessingException {
+        String result = "board/get";
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
         resultMap = boardService.get("board.getBoardContent", toMap);
+        if(resultMap == null) {
+            result = "redirect:/error/commonException";
+        }
         resultMap.put("paging", toMap);
         String json = new ObjectMapper().writeValueAsString(resultMap);
-        
         model.addAttribute("board", json);
-        return "board/get";
+        return result;
     }
     
     @GetMapping("writing")
@@ -68,9 +74,10 @@ public class BoardController {
     }
     
     @GetMapping("modify/{bno}")
-    public String modify(@PathVariable("bno") long bno, Model model) throws JsonProcessingException {
+    public String modify(@PathVariable("bno") long bno, @RequestParam String kind, Model model) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
         map.put("bno", bno);
+        map.put("kind", kind);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = boardService.get("board.getBoardContent", map);
         String json = new ObjectMapper().writeValueAsString(resultMap);

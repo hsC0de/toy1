@@ -88,6 +88,7 @@ td:last-child {
 
 .board_new {
 	text-align: right;
+	margin-right: 10px;
 }
 
 .board_new span {

@@ -6,9 +6,6 @@
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="/resources/js/board.js"></script>
-  <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/navbar.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Board</title>
@@ -19,54 +16,47 @@
     <header class="navbar">
       <div class="navbar_header">
         <div class="navbar_logo">
-          <a href="/"><img class="logoImg" src="/resources/img/logoMain1.jpg"></a>
+          <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
         </div>
         <div class="navbar_menu">
-          <div class="navbar_menu_element">
-            <ul class="navbar_menu_container">
-              <li class="menu_list">
-                <div class="menu_list_name">
-                  <a href="/board/list?page=1&userDisplay=10">게시판</a>
-                </div>
-                <div class="menu_sublist">
-                  <ul>
-                    <li>공지글</li>
-                    <li>자유게시판</li>
-                    <li>질문게시판</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <div class="menu_list">
-                  <a href="/board/list?page=1&userDisplay=10">자료실</a>
-                </div>
-                <div class="menu_sublist">
-                  <ul>
-                    <li>공지글</li>
-                    <li>자유게시판</li>
-                    <li>질문게시판</li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <div class="menu_list">
-                  <a href="/board/list?page=1&userDisplay=10">다른서비스</a>
-                </div>
-                <div class="menu_sublist">
-                  <ul>
-                    <li>공지글</li>
-                    <li>자유게시판</li>
-                    <li>질문게시판</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="#" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
           </div>
         </div>
       </div>
       <div class="navbar_userInfo">
-        <a href="/common/login" style="color: #fff;"><img/>Login</a>
-        <a href="/common/signUp" style="color: #fff;">Sign up</a>
+        <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+        <a href="/common/login" style="color: #000;">Login</a>
+        <div class="divider"></div>
+        <a href="/common/signUp" style="color: #000;">Sign up</a>
       </div>
     </header>
     <div class="front-img">
@@ -76,12 +66,13 @@
     </div>
     <div class="tab">
       <div class="tab_zone">
+        <a href="https://github.com/hsC0de/toy1.git" target="_black">github: https://github.com/hsC0de/toy1.git</a>
       </div>
     </div>
     <main class="article">
       <div class="board">
         <div class="board_title">
-          <span>00게시판</span>
+          <span>${kind_nm.kind_nm}</span>
         </div>
         <div class="board_option">
           <ul>
@@ -126,7 +117,7 @@
             <tr>
               <td><c:out value="${board.bno}" /></td>
               <td>
-                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}"/>' >
+                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}&kind=${kind}"/>' >
                   <c:out value="${board.title}" />
                   <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
                 </a>
@@ -149,21 +140,21 @@
               <ul class="pagination">
               <c:if test="${paging.prev}">
                <li class="paginate_button previous">
-                 <a href="/board/list?page=${paging.startPage - 1}&userDisplay=${paging.userDisplay}">〈 이전</a>
+                 <a href="/board/list?page=${paging.startPage - 1}&userDisplay=${paging.userDisplay}&kind=${kind}">〈 이전</a>
                </li>
                <div class="paginate_border previous_border"></div>
               </c:if>
               
               <c:forEach var="num" begin="${paging.startPage}" end="${paging.endPage}">
                <li class="paginate_button ${paging.page == num? 'active':''}">
-                 <a href="/board/list?page=${num}&userDisplay=${paging.userDisplay}">${num}</a>
+                 <a href="/board/list?page=${num}&userDisplay=${paging.userDisplay}&kind=${kind}">${num}</a>
                </li>
               </c:forEach>
               
               <c:if test="${paging.next}">
                <div class="paginate_border"></div>
                <li class="paginate_button next">
-                 <a href="/board/list?page=${paging.startPage + 10}&userDisplay=${paging.userDisplay}">다음 〉</a>
+                 <a href="/board/list?page=${paging.startPage + 10}&userDisplay=${paging.userDisplay}&kind=${kind}">다음 〉</a>
                </li>
               </c:if>
               </ul>
@@ -180,18 +171,33 @@
   
   
   
+  <script src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script>
 
+    $(function() {
+      
+      var sp = $(".article").offset().top;
+      $(window).scrollTop(Number(sp) - 20); 
+    });
+    
+    window.addEventListener('beforeunload', () => {
+      var sp = $(".article").offset().top;
+      $(window).scrollTop(Number(sp) - 20); 
+    });
+  
     function userDisplay(val) {
       console.log(val);
-      if(val) location.href = '/board/list?page=1&userDisplay=' + val;
+      if(val) location.href = '/board/list?page=1&userDisplay=' + val + '&kind=${kind}';
     }
 		
-    $(function() {
-      console.log(${paging.realEnd});
-//       console.log(${paging.startPage});
-//       console.log(${paging.page});
-    });
+    window.onpageshow = function(event) {
+      if(event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+        location.reload();
+        
+      }
+    }
     
   </script>
 </body>

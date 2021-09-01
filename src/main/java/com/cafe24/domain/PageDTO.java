@@ -14,6 +14,7 @@ public class PageDTO {
     private long bno;
     private int page;
     private int userDisplay;
+    private String kind;
     
     private int offset;
     
@@ -31,7 +32,8 @@ public class PageDTO {
     public String getListLink() {
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
                                                            .queryParam("page", this.page)
-                                                           .queryParam("userDisplay", this.userDisplay);
+                                                           .queryParam("userDisplay", this.userDisplay)
+                                                           .queryParam("kind", this.kind);
         return builder.toUriString();
     }
 }

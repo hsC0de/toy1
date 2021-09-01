@@ -39,10 +39,24 @@
     <select id="getBoardContent" parameterType="hashmap" resultMap="selectBoard">
 
       SELECT BNO
-           , (SELECT BNO FROM BOARD WHERE BNO &gt; #{bno} AND DEL = 'N' ORDER BY BNO LIMIT 1) AS PRECONTENT
-           , (SELECT BNO FROM BOARD WHERE BNO &lt; #{bno} AND DEL = 'N' ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
+           , (SELECT BNO 
+                FROM BOARD 
+               WHERE BNO &gt; #{bno} 
+                 AND DEL = 'N'
+                 <if test="kind != 'BA'">
+                 AND KIND = #{kind}
+                 </if>
+            ORDER BY BNO LIMIT 1) AS PRECONTENT
+           , (SELECT BNO 
+                FROM BOARD 
+               WHERE BNO &lt; #{bno} 
+                 AND DEL = 'N'
+                 <if test="kind != 'BA'">
+                 AND KIND = #{kind}
+                 </if>
+            ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
            , TITLE
-           , REG_DATE
+           , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i') AS REG_DATE
            , CNT
            , ID
            , (SELECT COUNT(B.RNO) AS CNT
@@ -62,6 +76,9 @@
        WHERE 1=1
          AND BNO = #{bno}
          AND DEL = 'N'
+         <if test="kind != 'BA'">
+         AND KIND = #{kind}
+         </if>
 
     </select>
     
@@ -89,6 +106,7 @@
            , A.CNT      AS CNT
            , C.CNT      AS GOOD
            , B.CNT      AS REPLYCNT
+           , A.KIND
         FROM BOARD AS A
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.RNO) AS CNT
@@ -104,12 +122,26 @@
      LEFT OUTER JOIN GOOD AS B
                   ON A.BNO = B.BNO
                WHERE 1=1
-                 AND A.DEL = 'N'
             GROUP BY A.BNO) AS C
           ON A.BNO = C.BNO
        WHERE 1=1
+         AND DEL = 'N'
+         <if test="kind != 'BA'">
+         AND KIND = #{kind}
+         </if>
     ORDER BY A.BNO DESC 
        LIMIT #{offset}, #{userDisplay}
+    </select>
+    
+    <resultMap type="hashmap" id="getMenuNmMap">
+      <result property="kind_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getMenuNm" resultMap="getMenuNmMap">
+      SELECT MENU_NM
+        FROM MENU
+       WHERE 1=1
+         AND MENU_ID = #{kind}
     </select>
     
     <select id="getTotal" resultType="int">
@@ -117,6 +149,9 @@
         FROM BOARD
        WHERE 1=1
          AND DEL = 'N'
+         <if test="kind != 'BA'">
+         AND KIND = #{kind}
+         </if>
     </select>
     
     <select id="getUpdSeq" resultType="int">

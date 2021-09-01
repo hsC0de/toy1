@@ -116,29 +116,13 @@ var replyService = (function() {
       return [ yy, '.', (mm > 9 ? '' : '0') + mm, '.', (dd > 9 ? '' : '0') + dd, '.'].join('');
     }
 
-    // if (gap < 1000 * 60) {
-    // return Math.floor(gap / 1000) + "초 전";
-    // } else if (gap < (1000 * 60 * 60)) {
-    // return Math.floor(gap / 1000 / 60) + "분 전";
-    // } else if (gap < 1000 * 60 * 60 * 24) {
-    // return Math.floor(gap / 1000 / 60 / 60) + "시간 전";
-    // } else if (gap < 1000 * 60 * 60 * 24 * 7) {
-    // return Math.floor(gap / 1000 / 60 / 60 / 24) + "일 전";
-    // } else if(gap < 1000 * 60 * 60 * 24 * lastDay) {
-    // return Math.floor(gap / 1000/ 60 / 60/ 24 / 7) + "주 전";
-    // } else if (gap < 1000 * 60 * 60 * 24 * lastDay * 12) {
-    // return Math.floor(gap / 1000 / 60 / 60 / 24 / lastDay) + "개월 전";
-    // } else {
-    // return Math.floor(gap / 1000 / 60 / 60 / 24 / lastDay / 12) + "년 전";
-    // }
-
   }
 
   function displayTime1(timeValue) {
 
     var dateObj = new Date(timeValue);
-    // var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
-    // var lastDay = lastDate.getDate();
+    var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
+    var lastDay = lastDate.getDate();
     // console.log(lastDay);
 
     var hh = dateObj.getHours();
@@ -153,8 +137,11 @@ var replyService = (function() {
 
   }
   
-  function displayGap(gap) {
+  function displayGap(gap, timeValue) {
     var gap = gap * 1000;
+    var dateObj = new Date(timeValue);
+    var lastDate = new Date(dateObj.getYear(), dateObj.getMonth() + 1, 0);
+    var lastDay = lastDate.getDate();
     
   if (gap < 1000 * 60) {
      return Math.floor(gap / 1000) + "초 전";
@@ -164,7 +151,7 @@ var replyService = (function() {
      return Math.floor(gap / 1000 / 60 / 60) + "시간 전";
      } else if (gap < 1000 * 60 * 60 * 24 * 7) {
      return Math.floor(gap / 1000 / 60 / 60 / 24) + "일 전";
-     } else if(gap < 1000 * 60 * 60 * 24 * lastDay) {
+     } else if(gap < 1000 * 60 * 60 * 24 * lastDay) {           // 에러가 있는 것 같다. 등록한 달의 일수로만 곱하게 된다.. 크게 차이는 안날듯
      return Math.floor(gap / 1000/ 60 / 60/ 24 / 7) + "주 전";
      } else if (gap < 1000 * 60 * 60 * 24 * lastDay * 12) {
      return Math.floor(gap / 1000 / 60 / 60 / 24 / lastDay) + "개월 전";
