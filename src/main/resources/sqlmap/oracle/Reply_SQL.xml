@@ -20,8 +20,8 @@
          , RNO
          , UPD_SEQ
          , ID
-         , comments
-         , reg_date
+         , COMMENTS
+         , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i') AS REG_DATE
          , UNIX_TIMESTAMP(NOW(3)) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
       FROM REPLY A
      WHERE 1=1

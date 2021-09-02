@@ -77,14 +77,51 @@
 .navbar_userInfo {
 	display: flex;
 	align-items: center;
+	font-size: 14px;
+	color: #2E363E;
 }
 
 .profileImg {
-	width: 40px;
-	height: 37px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	display: block;
-	margin-right: 10px;
+}
+
+.circle-color {
+  --b:5px;  /* border width*/
+
+  color: #313149;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  position:relative;
+  z-index:0;
+}
+.circle-color:after {
+  content:"";
+  display:inline-block;
+  padding-top:100%;
+}
+.circle-color:before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background: var(--c,linear-gradient(to right, #9c20aa, #fb3570));
+  padding: var(--b);
+  border-radius:50%;
+  -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
 }
 
 .navbar_userInfo a {

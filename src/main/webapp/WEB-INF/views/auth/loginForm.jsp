@@ -103,10 +103,10 @@
     </div>
     <div id="login_container">
       <div class="content">
-        <form id="loginForm" name="loginform" method="post" action="/common/login">
+        <form id="loginForm" name="loginform" method="post" action="/login">
           <fieldset class="login_form">
             <div class="id_area">
-              <input type="text" name="id" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
+              <input type="text" name="username" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
             </div>
             <div class="pw_area">
               <input type="password" name="password" id="password" placeholder="비밀번호" minlength="2" maxlength="16"/>
@@ -115,12 +115,14 @@
             <input type="submit" id="loginButton" value="로그인"/>
             <div class="login_tools">
 	            <div class="checkbox">
-			          <label>
-			            <input name="remember-me" type="checkbox" value="Remember Me">로그인 상태 유지
-			          </label>
+			          <input name="remember-me" type="checkbox" value="Remember Me">
+			          <label>로그인 상태 유지</label>
 	            </div>
-	            <div><a href="/common/signUp">회원가입</a></div>
+	            <div>
+                <a href="/common/signUp">회원가입</a>
+              </div>
             </div>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           </fieldset>
         </form>
       </div>

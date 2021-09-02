@@ -3,7 +3,9 @@ package com.cafe24.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +25,23 @@ public class CommonController {
 
     private final CommonService commonService;
     
+    @GetMapping("accessError")
+    public String accessError(Authentication auth, Model model) {
+        log.info("access Denied: " + auth);
+        model.addAttribute("msg", "Access Denied");
+        return "auth/accessError";
+    }
+    
     @GetMapping("login")
-    public String login() {
+    public String login(String error, String logout, Model model) {
+        log.info("error: " + error);
+        log.info("logout: " + logout);
         return "auth/loginForm";
     }
     
     @GetMapping("signUp")
     public String signUp() {
-        return "home/registForm";
+        return "auth/registForm";
     }
     
     @PostMapping(value="idCheck", produces="application/json; charset=utf8")
@@ -48,6 +59,8 @@ public class CommonController {
         message = commonService.joinMember("common.insertMemberInfo", map);
         return message;
     }
+    
+    
     
     
 }

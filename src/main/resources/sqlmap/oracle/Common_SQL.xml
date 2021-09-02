@@ -4,32 +4,33 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="common">
-    <select id="selectItems" parameterType="hashmap" resultType="hashmap">
-        SELECT CD   AS CODE
-             , CDNM AS VALUE
-          FROM CODE A
-         WHERE UPCD = #{upcd}
+
+    <resultMap type="com.cafe24.domain.MemberVO" id="memberMap">
+      <id property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="password" column="PASSWORD" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="joinDate" column="JOINDATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="authGrpNm" column="AUTH_GRP_NM" jdbcType="VARCHAR" javaType="java.lang.String" />
+<!--       <collection property="authList" resultMap="authMap"></collection> -->
+    </resultMap>
+    
+<!--     <resultMap type="com.cafe24.domain.AuthVO" id="authMap"> -->
+<!--       <result property="authGrpCd" column="AUTH_GRP_CD" jdbcType="VARCHAR" javaType="java.lang.String" /> -->
+<!--       <result property="authGrpNm" column="AUTH_GRP_NM" jdbcType="VARCHAR" javaType="java.lang.String" /> -->
+<!--     </resultMap> -->
+    
+    <select id="getUserInfo" parameterType="hashmap" resultMap="memberMap">
+         SELECT A.ID
+              , A.PASSWORD
+              , DATE_FORMAT(A.JOIN_DATE, '%Y.%m.%d. %H:%i') AS JOINDATE
+              , B.AUTH_GRP_NM
+           FROM MEMBERS A
+LEFT OUTER JOIN AUTH_GRP B
+             ON A.AUTH_GRP_CD = B.AUTH_GRP_CD
+          WHERE A.ID = #{id}
     </select>
     
-    <select id="selectMembers" parameterType="hashmap" resultType="hashmap">
-      SELECT NAME AS CODE
-           , NAME AS VALUE
-        FROM MEMBERS
-       WHERE 1=1
-         <if test='upcd != null and upcd != "" '>
-         AND GENDER = #{upcd}    
-         </if>
-    </select>
-    
-    <select id="getUserInfo" parameterType="hashmap" resultType="hashmap">
-      SELECT NAME
-           , EMAIL
-           , PASSWORD
-        FROM MEMBERS A
-       WHERE A.NAME = #{NAME}
-    </select>
-    
-    <select id="existMembers" parameterType="hashmap" resultType="int">
+  <select id="existMembers" parameterType="hashmap" resultType="int">
     SELECT COUNT(*) AS CNT
       FROM MEMBERS
      WHERE ID = #{id}

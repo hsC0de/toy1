@@ -31,7 +31,7 @@
 	        </div>
           <div class="menu_list">
             <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
             </div>
             <div class="menu_sublist">
               <a href="#" class="menu_sublistItem">공지글</a>
@@ -41,7 +41,7 @@
           </div>
           <div class="menu_list">
             <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">게시판</a>
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
             </div>
             <div class="menu_sublist">
               <a href="#" class="menu_sublistItem">공지글</a>
@@ -52,7 +52,9 @@
 	      </div>
       </div>
       <div class="navbar_userInfo">
+        <div class="circle-color" style="--b:10px;">
         <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+        </div>
         <a href="/common/login" style="color: #000;">Login</a>
         <div class="divider"></div>
         <a href="/common/signUp" style="color: #000;">Sign up</a>
