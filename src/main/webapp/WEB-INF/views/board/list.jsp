@@ -115,7 +115,16 @@
           <tbody>
             <c:forEach items="${list}" var="board">
             <tr>
-              <td><c:out value="${board.bno}" /></td>
+              <td>
+                <c:choose>
+                <c:when test="${kind ne 'BA'}">
+                  <c:out value="${board.bno}" />
+                </c:when>
+                <c:otherwise>
+                  <a class="moveBoardKind" href="/board/list?page=1&userDisplay=10&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
+                </c:otherwise>
+                </c:choose>
+              </td>
               <td>
                 <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}&kind=${kind}"/>' >
                   <c:out value="${board.title}" />
@@ -133,7 +142,9 @@
         </table>
         <div class="get_tools_bottom">
 	        <div class="board_new">
-	          <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
+            <c:if test="${kind ne 'BA'}">
+              <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
+            </c:if>
 	        </div>
 	        <div class="board_footer">
 	          <div class="board_footer_paging">
@@ -177,7 +188,6 @@
   <script>
 
     $(function() {
-      
       var sp = $(".article").offset().top;
       $(window).scrollTop(Number(sp) - 20); 
     });

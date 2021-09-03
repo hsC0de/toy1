@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-.board_notice_box_all {
-	
-}
-
-.board_notice_box {
-	
-}
-
 .board {
   font-size: 14px;
   width: 861px;
@@ -32,6 +24,7 @@ th {
 	font-weight: 700;
 	
 }
+
 
 thead tr th:first-child {
 	width: 80px;
@@ -63,8 +56,11 @@ thead tr th:last-child img {
 	width: 12px;
 }
 
-td {
+tbody tr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+td {
   padding: 10px;
   text-align: center;
   font-weight: 400;
@@ -196,4 +192,8 @@ td:last-child {
 .active {
 	background-color: #ffffff;
 	color: #0052F6;
+}
+
+.moveBoardKind:hover {
+  text-decoration: underline; 
 }

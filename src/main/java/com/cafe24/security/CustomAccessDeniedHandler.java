@@ -22,7 +22,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         
         log.error("Redirect....");
         
-        response.sendRedirect("/auth/accessError");
+        response.sendRedirect("/common/accessError");
           
     }
 }

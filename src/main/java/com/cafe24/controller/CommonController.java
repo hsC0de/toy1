@@ -44,6 +44,7 @@ public class CommonController {
         return "auth/registForm";
     }
     
+
     @PostMapping(value="idCheck", produces="application/json; charset=utf8")
     @ResponseBody
     public Map idCheck(@RequestParam Map<String, Object> map) {

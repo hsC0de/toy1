@@ -150,6 +150,8 @@
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
 	  $(function() {
+	    var csrfHeaderName = "${_csrf.headerName}";
+	    var csrfTokenValue="${_csrf.token}";
 	    var idCheck;
 	    $("#submitButton").on("click", function(e) {
 	      e.preventDefault();
@@ -265,6 +267,9 @@
 	      
 	      $.ajax({
 	        url: "/common/idCheck",
+	        beforeSend: function(xhr) {
+	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	        },
 	        data: {id: id},
 	        dataType: "json",
 	        method: "post",
@@ -345,6 +350,7 @@
 	              <div class="password_info"></div>
 								  <input type="submit" id="submitButton" value="제출"/>
 					    </div>
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					  </fieldset>
 					</form>
 		    </div>

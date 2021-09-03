@@ -152,6 +152,8 @@
   
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript">
+    var csrfHeaderName = "${_csrf.headerName}";
+    var csrfTokenValue="${_csrf.token}";
   
     function getTodoList() {
       
@@ -163,7 +165,6 @@
           
           console.log(res);
           var str = "";
-          //<input type="checkbox" id="hobby1" name="hobby1" value="1"><label for="hobby1">독서</label>
           for(var i = 0; i < res.length; i++) {
             str += '<div class="toDo_listItem_container">';
             if(res[i].done === 'Y') {
@@ -197,6 +198,9 @@
     function doneTodoList(done, num) {
       $.ajax({
         url: "/doneTodoList",
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        },
         method: "post",
         data: {
           done: done,
@@ -222,6 +226,9 @@
       $.ajax({
         url: "/regTodoList",
         method: "post",
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        },
         data: data,
         success: function(res) {
           $(".inputList").val("");
@@ -257,6 +264,9 @@
       var num = $(this).attr("href");
       $.ajax({
         url: "/deleteTodoList",
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        },
         method: "post",
         data: {
           num: num
