@@ -71,6 +71,7 @@ public class BoardController {
     @PostMapping("regPost")
     @ResponseBody
     public String regPost(@RequestParam Map<String, Object> map) {
+        log.info("" + map);
         boardService.regPost("board.insertPost", map);
         return "ok";
     }

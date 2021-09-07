@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+.writing_Header {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0;
+}
+
+.button_txt {
+	display: block;
+	padding: 10px;
+	border-radius: 6px;
+	background-color: rgb(165, 200, 228, 0.7);
+	color: #0F4A7E;
+	font-size: 14px;
+}
+
+.writing_Header_title{
+	display: block;
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.writing_option_select {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.optionButton {
+	height: 40px;
+	border-radius: 0;
+	border: 1px solid #dadada;
+	background-color: #ffffff;
+	padding: 10px;
+	display: flex;
+  justify-content: space-between;
+	font-size: 16px;
+}
+
+.kindSelect .optionButton{
+	width: 605px;
+}
+
+.typeSelect .optionButton {
+	width: 238px;
+}
+
+.writingContent {
+	border-top: 1px solid #000000;
+	padding: 15px 0 50px 0;
+}
+
+.textarea_input_container {
+  margin-bottom: 15px;
+  border: 1px solid #dadada;
+  width: 861px;
+  height: 40px;
+}
+
+.textarea_input {
+  border: none;
+  height: 100%;
+	width: 100%;
+	padding: 10px 12px 10px 12px;
+	resize: none;
+	overflow-wrap: break-word;
+	font-size: 16px;
+	overflow: hidden;
+}
+
+.textarea_input:focus {
+	outline: none;
+}
+
+.textarea_input::placeholder {
+	font-size: 16px;
+	color: #aaaaaa;
+	font-weight: 500;
+}
+
+.textarea_input:focus::placeholder {
+  color: #eeeeee;
+  font-weight: 500;
+}
+
+.optionButton img {
+/*   transform: scaleY(-1); */
+}

@@ -10,6 +10,7 @@
 
 /* Screens */
 @import "screens/home.css";
+@import "screens/writing.css";
 
 /* Common CSS */
 body {

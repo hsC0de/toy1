@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page session="false" %>
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
 <!--   <link rel="stylesheet" href="/node_modules/codemirror/lib/codemirror.css" /> -->
   <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor.css" />
-  <style>
+  <style type="text/css">
+    body {
+      height: auto;
+    }
+    
     #editor {
 /*     border : 1px solid; */
     width : 100%;
@@ -15,7 +20,6 @@
     margin : 0 auto;
     }
   </style>
-  
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,43 +27,96 @@
 </head>
 <body>
   <div id="wrap">
-    <header class="container">
-	    <div class="navbar">
-	      <div class="navbar_header">
-	        <div class="navbar_logo">
-	        </div>
-	        <div class="navbar_menu">
-	          <div class="navbar_menu_element">
-	            <ul>
-	              <li>
-	                <a href="/board/list">게시판</a>
-	                <ul>
-	                  <li>공지글</li>
-	                  <li>전체게시판</li>
-	                  <li>자유게시판</li>
-	                  <li>질문게시판</li>
-	                </ul>
-	              </li>
-	            </ul>
-	          </div>
-	        </div>
-	      </div>
-	      <div class="navbar_userInfo">
-	        <a href="#"><img/></a>
-	        <a href="#"><img/></a>
-	        <a href="#"><img/></a>
-	      </div>
-	    </div>
-	    <div class="front-img">
-	      <a href="#">
-	        <img src="http://placehold.it/861x150" />
-	      </a>
-	    </div>
-	  </header>
+	  <header class="navbar">
+      <div class="navbar_header">
+        <div class="navbar_logo">
+          <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
+        </div>
+        <div class="navbar_menu">
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="#" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar_userInfo">
+      <sec:authorize access="isAnonymous()">
+        <a href="/common/login" class="loginButton">로그인</a>
+<!--         <div class="divider"></div> -->
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
+        <a href="" class="userInfoButton"><sec:authentication property="principal.username"/></a>
+        <img src="/resources/img/down-fill.png" class="userInfoButtonImg"/>
+        <div class="userInfo_popup">
+          <div class="userInfo_container">
+            <div class="userInfo_profileImg">
+              <div class="circle-color" style="--b:10px;">
+                <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+              </div>
+            </div>
+            <div class="userInfo_id_container">
+              <div class="userInfo_id">
+                <span class="userInfo_name"><b><sec:authentication property="principal.username"/></b>님</span>
+                <form role="form" method="post" action="/logout">
+                  <a href="#" class="loginButton logout">로그아웃</a>
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+              </div>
+              <div class="userInfo_autu">
+                <sec:authentication property="principal.member.authGrpNm"/>
+              </div>
+              <div class="userInfo_Activities">
+                <a href="">내가 쓴 글</a>
+                <div class="divider"></div>
+                <a href="">내가 올린 파일</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sec:authorize>
+      </div>
+    </header>
+    <div class="front-img">
+      <a href="/">
+        <img src="/resources/img/building1.jpg" class="mainImg" />
+      </a>
+    </div>
+    <div class="tab">
+      <div class="tab_zone">
+        <a href="https://github.com/hsC0de/toy1.git" target="_black">github: https://github.com/hsC0de/toy1.git</a>
+      </div>
+    </div>
     <section class="container">
       <div class="writingWrap">
         <div class="writing_Header">
-          <span>00게시판</span>
+          <span class="writing_Header_title">게시판 글쓰기</span>
 	        <div class="writing_toolArea">
 	          <a href="#" role="button" class="">
 	            <span class="button_txt">등록</span>
@@ -68,18 +125,29 @@
         </div>
         <div class="writingContent">
           <div class="writingContent_Title" style="width:861px;">
-            <div class="row" style="display: flex;">
-              <div class="kindSelect" style="width: 70%; height: 40px; background: yellow; display:inline-block;"></div>
-              <div class="typeSelect" style="width: 30%; height: 40px; background: tomato; display:inline-block;"></div>
+            <div class="writing_option_select">
+              <div class="kindSelect">
+                <button type="button" aria-haspopup="true" aria-expanded="" aria-pressed="" class="optionButton">
+                  게시판
+                  <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                </button>
+              </div>
+              <div class="typeSelect">
+                <button type="button" aria-haspopup="true" aria-expanded="" aria-pressed="" disabled="disabled" class="optionButton">
+                  일반
+                  <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                </button>
+              </div>
             </div>
-            <div class="row" >
-              <textarea placeholder="제목을 입력해 주세요." class="textarea_input" style="height: 40px; width:100%;"></textarea>
+            <div class="textarea_input_container" >
+              <textarea placeholder="제목을 입력해 주세요." class="textarea_input"></textarea>
             </div>
           </div>
           <div id="smartEditor" class="writingContent_smartEditor">
 <!--             <textarea placeholder="내용을 입력해 주세요." class="textarea_input" style="height: 520px; width:100%;"></textarea>  -->
              <div id="editor"></div>
           </div>
+          <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
         </div>
       </div>
     </section>
@@ -87,6 +155,8 @@
 <!--   <script type="text/javascript" src="/node_modules/codemirror/lib/codemirror.js"></script> -->
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor.js"></script>
   <script>
+    var csrfHeaderName = "${_csrf.headerName}";
+    var csrfTokenValue="${_csrf.token}";
     var board = ${board != null and board != ""? board : "0"};
     var editor;
     document.addEventListener("DOMContentLoaded", function(){
@@ -109,16 +179,17 @@
 //         $(".cnt").html("조회 " + board.cnt);
 //         $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
         $(".writingContent_smartEditor textarea").val(board.content); 
-        $(".row textarea").val(board.title);
+        $(".textarea_input").val(board.title);
       }
       
+      var id = $("#tempUsername").text();
       
       $(".writing_toolArea a").on("click", function(e) {
         
         e.preventDefault();
         e.stopPropagation();
         
-        var title = $(".row textarea").val();
+        var title = $(".textarea_input").val();
 //         console.log(title);
 //         var content = $(".writingContent_smartEditor textarea").val();
         var content = editor.getMarkdown();
@@ -135,8 +206,8 @@
         if(board == 0) {
           data["title"] = title;
           data["content"] = content;
-          data["id"] = "asdf";
-          data["kind"] = "300";
+          data["id"] = id;
+          data["kind"] = "BF";
           data["type"] = "N";
         }
         else {
@@ -161,6 +232,9 @@
 	        $.post({
 	          url: url,
 	          data: data,
+	          beforeSend: function(xhr) {
+	            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+	          },
 	          success: function(res) {
 	            alert(res);
 	            opener.location.reload();

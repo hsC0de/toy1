@@ -115,8 +115,7 @@
             <input type="submit" id="loginButton" value="로그인"/>
             <div class="login_tools">
 	            <div class="checkbox">
-			          <input name="remember-me" type="checkbox" value="Remember Me">
-			          <label>로그인 상태 유지</label>
+			          <label><input name="remember-me" type="checkbox">로그인 상태 유지</label>
 	            </div>
 	            <div>
                 <a href="/common/signUp">회원가입</a>

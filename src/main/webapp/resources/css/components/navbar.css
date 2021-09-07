@@ -76,14 +76,88 @@
 
 .navbar_userInfo {
 	display: flex;
+	position: relative;
 	align-items: center;
 	font-size: 14px;
 	color: #2E363E;
 }
 
+.loginButton {
+	display: block;
+	padding: 5px;
+	font-size: 12px;
+	height: 24px;
+	color: #777777;
+	border: 1px solid #dadada;
+}
+
+.userInfoButton:hover {
+  text-decoration: underline;
+}
+
+.userInfoButtonImg {
+	width: 8px;
+	height: 4px;
+	margin: 2px 2px 0 3px;
+}
+
+.userInfo_popup {
+  white-space: nowrap;
+	position: absolute;
+	display: none;
+	border: 1px solid #dadada;
+	top: 32px;
+	right: -3px;
+  background-color: white;
+  flex-direction: column;
+}
+
+.userInfo_container {
+	display: flex;
+	margin: 15px;
+}
+
+.userInfo_id_container {
+	display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+  top: -5px;
+}
+
+.userInfo_id {
+  display: flex;
+  align-items: center;
+}
+
+.userInfo_name {
+	display: block;
+	margin-right: 7px;
+	font-size: 15px;
+}
+
+.userInfo_autu {
+	font-size: 13px;
+	color: #888888;
+}
+
+.userInfo_Activities {
+	display: flex;
+	font-size: 14px;
+	color: #666666;
+}
+
+.userInfo_Activities a:hover {
+  text-decoration: underline;
+}
+
+.userInfo_profileImg {
+	margin-right: 10px;
+}
+
 .profileImg {
-	width: 36px;
-	height: 36px;
+	width: 66px;
+	height: 66px;
 	border-radius: 50%;
 	display: block;
 }
@@ -96,8 +170,8 @@
   justify-content: center;
   align-items: center;
   margin-right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   position:relative;
   z-index:0;
 }

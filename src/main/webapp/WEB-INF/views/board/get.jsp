@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page session="false" %>
 <html lang="ko">
 <head>
@@ -126,10 +127,6 @@
       
     }
     
-    .contents_comments_inbox_text {
-      display: block;
-    }
-    
     .register_box {
       text-align: right;
     }
@@ -169,6 +166,7 @@
     }
     
     .contents_comments_inbox_text {
+      display: block;
       width: 100%;
       border: none;
       resize: none;
@@ -309,51 +307,81 @@
   <div id="wrap">
     <div id="container">
 	    <header class="navbar">
-        <div class="navbar_header">
-          <div class="navbar_logo">
-            <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
+      <div class="navbar_header">
+        <div class="navbar_logo">
+          <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
+        </div>
+        <div class="navbar_menu">
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="#" class="menu_list_btn">게시판</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+            </div>
           </div>
-          <div class="navbar_menu">
-            <div class="menu_list">
-              <div class="menu_list_name">
-                <a href="#" class="menu_list_btn">게시판</a>
-              </div>
-              <div class="menu_sublist">
-                <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
-                <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
-                <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
-                <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">공지글</a>
+              <a href="#" class="menu_sublistItem">자유게시판</a>
+              <a href="#" class="menu_sublistItem">질문게시판</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar_userInfo">
+      <sec:authorize access="isAnonymous()">
+        <a href="/common/login" class="loginButton">로그인</a>
+<!--         <div class="divider"></div> -->
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
+        <a href="" class="userInfoButton"><sec:authentication property="principal.username"/></a>
+        <img src="/resources/img/down-fill.png" class="userInfoButtonImg"/>
+        <div class="userInfo_popup">
+          <div class="userInfo_container">
+            <div class="userInfo_profileImg">
+              <div class="circle-color" style="--b:10px;">
+                <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
               </div>
             </div>
-            <div class="menu_list">
-              <div class="menu_list_name">
-                <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
+            <div class="userInfo_id_container">
+              <div class="userInfo_id">
+                <span class="userInfo_name"><b><sec:authentication property="principal.username"/></b>님</span>
+                <form role="form" method="post" action="/logout">
+                  <a href="#" class="loginButton logout">로그아웃</a>
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
               </div>
-              <div class="menu_sublist">
-                <a href="#" class="menu_sublistItem">공지글</a>
-                <a href="#" class="menu_sublistItem">자유게시판</a>
-                <a href="#" class="menu_sublistItem">질문게시판</a>
+              <div class="userInfo_autu">
+                <sec:authentication property="principal.member.authGrpNm"/>
               </div>
-            </div>
-            <div class="menu_list">
-              <div class="menu_list_name">
-                <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
-              </div>
-              <div class="menu_sublist">
-                <a href="#" class="menu_sublistItem">공지글</a>
-                <a href="#" class="menu_sublistItem">자유게시판</a>
-                <a href="#" class="menu_sublistItem">질문게시판</a>
+              <div class="userInfo_Activities">
+                <a href="">내가 쓴 글</a>
+                <div class="divider"></div>
+                <a href="">내가 올린 파일</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="navbar_userInfo">
-          <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
-          <a href="/common/login" style="color: #000;">Login</a>
-          <div class="divider"></div>
-          <a href="/common/signUp" style="color: #000;">Sign up</a>
-        </div>
-      </header>
+      </sec:authorize>
+      </div>
+    </header>
       <div class="front-img">
         <a href="/">
           <img src="/resources/img/building1.jpg" class="mainImg" />
@@ -445,7 +473,7 @@
 <!-- 		              </p> -->
 		            </div>
 		            <div class="get_user_contents">
-		              <a href="#" class="user_contents_list">id님의 게시글 더보기 〉</a>
+		              <a href="#" class="user_contents_list"><span></span>님의 게시글 더보기 〉</a>
 		            </div>
 		            <div class="contents_main_tools">
 			            <div class="contents_like">
@@ -492,7 +520,7 @@
 		            </ul>
 		            <div class="contents_comments_writer">
 		              <div class="contents_comments_inbox">
-		                <span class="contents_comments_name">정해성</span>
+		                <span class="contents_comments_name"><sec:authentication property='principal.username'/></span>
 		                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
 		                cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
 		              </div>
@@ -567,12 +595,13 @@
 	    </main>
     </div> 
   </div>
-  
+  <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js"></script>
   <script>
-   
-    
+    var csrfHeaderName = "${_csrf.headerName}";
+    var csrfTokenValue="${_csrf.token}";
+    var id = $("#tempUsername").text();
     autosize($(".contents_comments_inbox_text"));
     
     var board = ${board};
@@ -638,7 +667,7 @@
     
     window.addEventListener('beforeunload', () => {
       var sp = $(".tab").offset().top;
-      $(window).scrollTop(sp); 
+      $(window).scrollTop(sp);  
     });
     
     $(function() {
@@ -653,6 +682,7 @@
       $(".nick_box span").html(board.id);
       $(".cnt").html("조회 " + board.cnt);
       $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
+      $(".user_contents_list span").text(board.id);
 //       $(".text_content").html(newlineReplacement(board.content));
       const viewer = new toastui.Editor({
         el: document.querySelector('#viewer'),
@@ -705,10 +735,13 @@
           
           $.post({
             url: "/reply/regReply",
-            data: { id: "asdf"
+            data: { id: id
                   , comments: comments
                   , bno: board.bno },
             dataType: "json",
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+            },
             success: function(res) {
               alert("등록되었습니다.");
               $(".contents_comments_inbox_text").val("").height(17);

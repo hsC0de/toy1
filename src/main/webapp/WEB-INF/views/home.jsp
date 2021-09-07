@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page session="false" %>
 <html lang="ko">
 <head>
@@ -52,12 +53,40 @@
 	      </div>
       </div>
       <div class="navbar_userInfo">
-        <div class="circle-color" style="--b:10px;">
-        <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+      <sec:authorize access="isAnonymous()">
+        <a href="/common/login" class="loginButton">로그인</a>
+<!--         <div class="divider"></div> -->
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
+        <a href="" class="userInfoButton"><sec:authentication property="principal.username"/></a>
+        <img src="/resources/img/down-fill.png" class="userInfoButtonImg"/>
+        <div class="userInfo_popup">
+          <div class="userInfo_container">
+            <div class="userInfo_profileImg">
+              <div class="circle-color" style="--b:10px;">
+                <img src="/resources/img/logoMain1.jpg" class="profileImg"/>
+              </div>
+            </div>
+            <div class="userInfo_id_container">
+              <div class="userInfo_id">
+                <span class="userInfo_name"><b><sec:authentication property="principal.username"/></b>님</span>
+                <form role="form" method="post" action="/logout">
+                  <a href="#" class="loginButton logout">로그아웃</a>
+                  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                </form>
+              </div>
+              <div class="userInfo_autu">
+                <sec:authentication property="principal.member.authGrpNm"/>
+              </div>
+              <div class="userInfo_Activities">
+                <a href="">내가 쓴 글</a>
+                <div class="divider"></div>
+                <a href="">내가 올린 파일</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="/common/login" style="color: #000;">Login</a>
-        <div class="divider"></div>
-        <a href="/common/signUp" style="color: #000;">Sign up</a>
+      </sec:authorize>
       </div>
     </header>
     <div class="front-img">

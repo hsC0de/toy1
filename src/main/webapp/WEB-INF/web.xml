@@ -8,8 +8,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		  classpath:config/root-context.xml,
-		  classpath:config/security-context.xml,
       classpath:config/datasource-context.xml
+		  classpath:config/security-context.xml,
 		  </param-value>
 	</context-param>
 	
