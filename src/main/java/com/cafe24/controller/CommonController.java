@@ -54,11 +54,11 @@ public class CommonController {
     }
     
     @PostMapping("joinMember")
-    @ResponseBody
-    public String joinMember(@RequestParam Map<String, Object> map) {
+    public String joinMember(@RequestParam Map<String, Object> map, Model model) {
         String message = "";
         message = commonService.joinMember("common.insertMemberInfo", map);
-        return message;
+        model.addAttribute("result", message);
+        return "home";
     }
     
     

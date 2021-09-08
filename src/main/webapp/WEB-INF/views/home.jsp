@@ -9,7 +9,12 @@
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Main</title>
+  <meta property="og:url" content="http://cxooxc.com">
+  <meta property="og:title" content="first spring portfolio">
+  <meta property="og:description" content="레거시 스프링, jsp, mysql을 활용한 게시판">
+  <meta property="og:image" content="http://cxooxc.com/resources/img/cxooxc-logo-black.png">
+  
+	<title>cxooxc : portfolio</title>
 </head>
 <body>
   <div id="wrap">
@@ -24,10 +29,10 @@
 	   	        <a href="#" class="menu_list_btn">게시판</a>
             </div>
             <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
-  	   	      <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
-  	 		      <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
+  	   	      <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
+  	 		      <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
   	 	      </div>
 	        </div>
           <div class="menu_list">
@@ -35,9 +40,7 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">웹하드</a>
             </div>
           </div>
           <div class="menu_list">
@@ -45,9 +48,17 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">코로나</a>
+              <a href="#" class="menu_sublistItem">도서정보</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">매뉴생성</a>
+              <a href="#" class="menu_sublistItem">회원관리</a>
             </div>
           </div>
 	      </div>

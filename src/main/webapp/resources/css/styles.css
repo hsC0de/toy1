@@ -34,3 +34,9 @@ body {
 	background-color: rgba(0, 0, 0, 0.2);
 	margin: 0 10px;
 }
+
+hr {
+  background-color: #ebecef;
+  border: 0px;
+  height: 1px;
+}

@@ -25,10 +25,10 @@
               <a href="#" class="menu_list_btn">게시판</a>
             </div>
             <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
             </div>
           </div>
           <div class="menu_list">
@@ -36,9 +36,7 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">웹하드</a>
             </div>
           </div>
           <div class="menu_list">
@@ -46,9 +44,17 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">코로나</a>
+              <a href="#" class="menu_sublistItem">도서정보</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">매뉴생성</a>
+              <a href="#" class="menu_sublistItem">회원관리</a>
             </div>
           </div>
         </div>
@@ -152,7 +158,7 @@
                   <c:out value="${board.bno}" />
                 </c:when>
                 <c:otherwise>
-                  <a class="moveBoardKind" href="/board/list?page=1&userDisplay=10&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
+                  <a class="moveBoardKind" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
                 </c:otherwise>
                 </c:choose>
               </td>

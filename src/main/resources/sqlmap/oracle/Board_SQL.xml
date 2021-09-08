@@ -165,6 +165,19 @@
        WHERE 1=1
          AND BNO = #{bno}
     </select>
+   
+    <resultMap type="hashmap" id="getPostBnoMap">
+      <result property="bno" column="BNO" />
+      <result property="kind" column="KIND" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getPostBno" parameterType="hashmap" resultMap="getPostBnoMap">
+      SELECT MAX(BNO) AS BNO
+           , KIND
+        FROM BOARD
+       WHERE TITLE = #{title}
+    GROUP BY KIND
+    </select>
     
     <insert id="insertPost" parameterType="hashmap">
       INSERT INTO BOARD ( UPD_SEQ

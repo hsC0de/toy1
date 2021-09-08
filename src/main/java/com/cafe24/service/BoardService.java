@@ -76,6 +76,12 @@ public class BoardService {
         return result;
     }
     
+    public Map<String, Object> getPostBno(String statement, Map<String, Object> condition) {
+        
+        Map<String, Object> result = dao.selectOne(statement, condition);
+        return result;
+    }
+    
     @Transactional
     public int modifyPost(String statement, Map<String, Object> condition) {
         

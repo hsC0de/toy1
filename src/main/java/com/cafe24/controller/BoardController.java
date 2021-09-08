@@ -58,6 +58,7 @@ public class BoardController {
         }
         resultMap.put("paging", toMap);
         String json = new ObjectMapper().writeValueAsString(resultMap);
+        model.addAttribute("boardHtml", resultMap);
         model.addAttribute("board", json);
         return result;
     }
@@ -73,32 +74,37 @@ public class BoardController {
     public String regPost(@RequestParam Map<String, Object> map) {
         log.info("" + map);
         boardService.regPost("board.insertPost", map);
-        return "ok";
+        Map<String, Object> resultMap = boardService.getPostBno("board.getPostBno", map);
+        return "/board/get?bno=" + resultMap.get("bno") + "&page=1&userDisplay=10&kind=" + resultMap.get("kind");
     }
     
+    @PreAuthorize("principal.username == #id")
     @GetMapping("modify/{bno}")
-    public String modify(@PathVariable("bno") long bno, @RequestParam String kind, Model model) throws JsonProcessingException {
+    public String modify(@PathVariable("bno") long bno, @RequestParam String kind, String id, Model model) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
         map.put("bno", bno);
         map.put("kind", kind);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = boardService.get("board.getBoardContent", map);
         String json = new ObjectMapper().writeValueAsString(resultMap);
-        
+        model.addAttribute("boardHtml", resultMap);
         model.addAttribute("board", json);
         
         return "board/writing";
     }
     
+    @PreAuthorize("principal.username == #id")
     @PostMapping("modifyPost")
     @ResponseBody
-    public String modifyPost(@RequestParam Map<String, Object> map) {
+    public String modifyPost(@RequestParam Map<String, Object> map, @RequestParam("id") String id) {
+        log.info(id);
         boardService.modifyPost("board.updatePost", map);
         return "ok";
     }
     
+    @PreAuthorize("principal.username == #id")
     @GetMapping("delete/{bno}")
-    public String delete(@PathVariable("bno") long bno, PageDTO pageMap, Model model) {
+    public String delete(@PathVariable("bno") long bno, String id, PageDTO pageMap, Model model) {
         Map<String, Object> map = new HashMap<>();
         map.put("bno", bno);
         boardService.delete("board.delete", map);

@@ -5,14 +5,17 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 @ControllerAdvice("com.cafe24")
+@RequestMapping("exception")
 public class CommonExceptionHandler {
-
+    
+    @RequestMapping("error")
     @ExceptionHandler(Exception.class)
     public String handlerException(Exception ex) throws Exception{
         log.error("Exception :: " + ex.getMessage());

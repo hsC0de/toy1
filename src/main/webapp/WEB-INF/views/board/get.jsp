@@ -79,14 +79,8 @@
     
     .get_contents_container {
       padding: 30px;
-      border: 1px solid #dadada;
+      border: 1px solid #ebecef;
       border-radius: 6px;
-    }
-    
-    hr {
-      background-color: #dadada;
-      border: 0px;
-      height: 1px;
     }
     
     .contents_info {
@@ -124,7 +118,7 @@
       border: 2px solid #dadada;
       border-radius: 6px;
       padding: 10px;
-      
+      margin-top: 14px;
     }
     
     .register_box {
@@ -151,7 +145,7 @@
     }
     
     .contents_comments_header {
-      margin: 18px 0;
+      margin-top: 18px;
       display: flex;
     }
     
@@ -236,17 +230,38 @@
     }
     
     .contents_comments_list {
-      margin-bottom: 20px;
+      margin-top: 8px;
     }
     
-    .comments_area div {
-      margin-bottom: 10px;
+    .commentsItem {
+      padding: 10px 0;
+      border-top: 1px solid #eeeeee;
+      position: relative;
+    }
+    
+    .commentsItemMineBg {
+      background: #f9f9fa;
+    }
+    
+    .commentsItemMineBg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -29px;
+      bottom: -1px;
+      width: 858px;
+      background: #f9f9fa;
+      z-index: -1;
+    }
+    
+    .commentsItem:first-child {
+      border: none;
     }
     
     .commentsItem_id_box {
       font-size: 15px;
       font-weight: 500;
-      
+      margin-bottom: 10px;
     }
     
     .comment_nickname {
@@ -256,6 +271,7 @@
     
     .commentsItem_text_box {
       font-size: 14px;
+      margin-bottom: 10px;
     }
     
     .commentsItem_info_box {
@@ -317,10 +333,10 @@
               <a href="#" class="menu_list_btn">게시판</a>
             </div>
             <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
             </div>
           </div>
           <div class="menu_list">
@@ -328,9 +344,7 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">웹하드</a>
             </div>
           </div>
           <div class="menu_list">
@@ -338,9 +352,17 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">코로나</a>
+              <a href="#" class="menu_sublistItem">도서정보</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">매뉴생성</a>
+              <a href="#" class="menu_sublistItem">회원관리</a>
             </div>
           </div>
         </div>
@@ -396,12 +418,17 @@
 	      <div class="get">
 	        <div class="get_tools">
             <div class="modify_tools">
+              <sec:authentication property="principal" var="pinfo"/>
+              <sec:authorize access="isAuthenticated()">
+              <c:if test="${pinfo.username eq boardHtml.id}">
               <div class="get_btn btn_board_modify">
                 <span>수정</span>
               </div>
               <div class="get_btn btn_board_delete">
                 <span>삭제</span>
               </div>
+              </c:if>
+              </sec:authorize>
             </div>
             <div class="list_tools">
               <div class="get_btn btn_get_pre">
@@ -482,8 +509,8 @@
 			            </div>
 		            </div>
 		          </div>
-		          <hr />
 		          <div class="get_contents_comments">
+  		          <hr />
 		            <div class="contents_comments_header">
 			            <div class="contents_comments_title">
 			              <span>댓글</span>
@@ -518,19 +545,21 @@
 		              </li>
 		              <li id="#" class="commentsItem commentItem-repl"></li>
 		            </ul>
-		            <div class="contents_comments_writer">
-		              <div class="contents_comments_inbox">
-		                <span class="contents_comments_name"><sec:authentication property='principal.username'/></span>
-		                <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
-		                cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
-		              </div>
-		              <div class="contents_comments_tools">
-		                <div class="register_box">
-		                  <a href="#" role="button" class="btn_register">등록</a>
-		                </div>
+		          </div>
+              <sec:authorize access="isAuthenticated()">
+		          <div class="contents_comments_writer">
+		            <div class="contents_comments_inbox">
+		              <span class="contents_comments_name"><sec:authentication property='principal.username'/></span>
+		              <textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text" 
+		              cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;"></textarea>
+		            </div>
+		            <div class="contents_comments_tools">
+		              <div class="register_box">
+		                <a href="#" role="button" class="btn_register">등록</a>
 		              </div>
 		            </div>
 		          </div>
+              </sec:authorize>
 		        </div>
 	        </div>
 	        <div class="get_tools_bottom">
@@ -539,12 +568,16 @@
 			          <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
 			        </div>
               <div class="modify_tools">
+                <sec:authorize access="isAuthenticated()">
+                <c:if test="${pinfo.username eq boardHtml.id}">
                 <div class="get_btn btn_board_modify">
                   <span>수정</span>
                 </div>
                 <div class="get_btn btn_board_delete">
                   <span>삭제</span>
                 </div>
+                </c:if>
+                </sec:authorize>
               </div>
 	          </div>
             <div class="get_tool_list">
@@ -595,7 +628,10 @@
 	    </main>
     </div> 
   </div>
+  <sec:authorize access="isAuthenticated()">
   <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
+  </sec:authorize>
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js"></script>
   <script>
@@ -606,47 +642,6 @@
     
     var board = ${board};
     
-    function getReplyList(rno) {
-      
-//       $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
-      $.ajax({
-        url: "/reply/getReplyList",
-        method: "get",
-        data: {
-          bno : board.bno,
-          rno : rno
-        },
-        dataType: "json",
-        error: function(error) {
-          alert(error);
-        },
-        success: function(data) {
-          
-	        var str = "";
-	        console.log(data);
-	        for(var i = 0; i < data.length; i++) {
-	          str += '<li id="#" class="commentsItem">';
-	          str += '<div class="comments_area">';
-	          str += '<div class="commentsItem_id_box">';
-	          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].id + '</a>';
-	          str += '<span class="commentsItem_info_box">' + replyService.displayGap(data[i].gap, data[i].reg_date) + '</span>'
-	          str += '</div>';
-	          str += '<div class="commentsItem_text_box">';
-	          str += '<p class="comments_text_view">';
-	          str += '<span class="text_comment">' + newlineReplacement(data[i].comments) + '</span>';
-	          str += '</p>';
-	          str += '</div>';
-	          str += '<div class="commentsItem_info_box">';
-	          str += '<span class="commentsItem_info_date">' + replyService.displayTime1(data[i].reg_date) + '</span>';
-	          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
-	          str += '</div>';
-	          str += '</div>';
-	          str += '</li>';
-	        }
-	        $(".contents_comments_list").html(str);
-        }
-      });
-    }
     
     function newlineReplacement(text){
       return text.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, "&nbsp;");
@@ -671,6 +666,86 @@
     });
     
     $(function() {
+      function getReplyList(rno) {
+        
+  //       $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
+        $.ajax({
+          url: "/reply/getReplyList",
+          method: "get",
+          data: {
+            bno : board.bno,
+            rno : rno
+          },
+          dataType: "json",
+          error: function(error) {
+            alert(error);
+          },
+          success: function(data) {
+            
+  	        var str = "";
+  	        console.log(data);
+  	        if(data.length > 0) {
+  	          str += '<hr />';
+              str += '<div class="contents_comments_header">';
+              str += '<div class="contents_comments_title">';
+              str += '<span>댓글</span>';
+              str += '</div>';
+              str += '<ul class="contents_comments_tab_list">';
+              str += '<li class="comments_tab_item">';
+              str += '<a href="#" class="tab_item_button">등록순</a>';
+              str += '</li>';
+              str += '<li class="comments_tab_item">';
+              str += '<a href="#" class="tab_item_button">최신순</a>';
+              str += '</li>';
+              str += '</ul>';
+              str += '<button type="button" class="comments_refresh_button"><img src="/node_modules/bootstrap-icons/icons/arrow-clockwise.svg"/></button>';
+              str += '</div>';
+              str += '<ul class="contents_comments_list">';
+             
+    	        for(var i = 0; i < data.length; i++) {
+    	          str += '<li id="#" class="commentsItem">';
+    	          str += '<div class="comments_area">';
+    	          str += '<div class="commentsItem_id_box">';
+    	          str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">' + data[i].id + '</a>';
+    	          str += '<span class="commentsItem_info_box">' + replyService.displayGap(data[i].gap, data[i].reg_date) + '</span>'
+    	          str += '</div>';
+    	          str += '<div class="commentsItem_text_box">';
+    	          str += '<p class="comments_text_view">';
+    	          str += '<span class="text_comment">' + newlineReplacement(data[i].comments) + '</span>';
+    	          str += '</p>';
+    	          str += '</div>';
+    	          str += '<div class="commentsItem_info_box">';
+    	          str += '<span class="commentsItem_info_date">' + data[i].reg_date + '</span>';
+    	          str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
+    	          str += '</div>';
+    	          str += '</div>';
+    	          str += '</li>';
+    	          
+    	        }
+    	        str += '</ul>';
+  	        }
+  	        else {
+  	          str += '<sec:authorize access="isAuthenticated()">';
+  	          str += '<hr />';
+              str += '<div class="contents_comments_header">';
+              str += '<div class="contents_comments_title">';
+              str += '<span>댓글</span>';
+              str += '</div>';
+              str += '</div>';
+              str += '</sec:authorize>';
+  	        }
+  	        $(".get_contents_comments").html(str);
+  	        
+  	        for(var i = 0; i < $(".comment_nickname").length; i++) {
+  	          var listItem = $(".comment_nickname")[i];
+  	          var name = listItem.innerText;
+    	        if(id === name) {
+    	          listItem.closest(".commentsItem").classList.add('commentsItemMineBg');
+    	        }
+  	        }
+          }
+        });
+      }
       
       var sp = $(".tab").offset().top;
       $(window).scrollTop(sp); 
@@ -698,7 +773,7 @@
       $(".contents_kind_button").on("click", function(e) {
         e.preventDefault();
         e.stopPropagation();
-        location.href = "/board/list?page=1&userDisplay=10&kind=" + board.kind;
+        location.href = "/board/list?page=1&userDisplay=15&kind=" + board.kind;
       });
       
 //       $(document).on("click", ".contents_comments_button", function(e) {
@@ -707,7 +782,7 @@
         e.stopPropagation();
         var sp = $(".get_contents_comments").offset().top;
         console.log(sp);
-        $(window).scrollTop(Number(sp) - 20);
+        $(window).scrollTop(Number(sp));
       });
       
       $(".btn_top").on("click", function(e) {
@@ -759,6 +834,7 @@
       var sortState = '';
       getReplyList(sortState);
       
+      
       $(".contents_url_info").on("click", function(e) {
         
         e.preventDefault();
@@ -778,13 +854,13 @@
         printContent();
       });
       
-      $(".comments_refresh_button").on("click", function() {
+      $(document).on("click", ".comments_refresh_button", function() {
         
         getReplyList(sortState);
       });
       
       
-      $(".tab_item_button").on("click", function(e) {
+      $(document).on("click", ".tab_item_button", function(e) {
         
         e.preventDefault();
         e.stopPropagation();
@@ -832,14 +908,14 @@
       
       $(".btn_board_modify").on("click", function() {
         
-        window.open("/board/modify/" + board.bno + board.paging.listLink);
+        window.open("/board/modify/" + board.bno + board.paging.listLink + "&id=" + board.id);
       });
       
       $(".btn_board_delete").on("click", function() {
         
         if(confirm("정말 삭제하시겠습니까?")) {
           
-          location.href = "/board/delete/" + board.bno + board.paging.listLink;
+          location.href = "/board/delete/" + board.bno + board.paging.listLink + "&id=" + board.id;
         }
       });
       

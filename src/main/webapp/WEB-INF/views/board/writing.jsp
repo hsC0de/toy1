@@ -38,10 +38,10 @@
               <a href="#" class="menu_list_btn">게시판</a>
             </div>
             <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=10&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BA" class="menu_sublistItem">전체게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BF" class="menu_sublistItem">자유게시판</a>
-              <a href="/board/list?page=1&userDisplay=10&kind=BQ" class="menu_sublistItem">질문게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
+              <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
             </div>
           </div>
           <div class="menu_list">
@@ -49,9 +49,7 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">웹하드</a>
             </div>
           </div>
           <div class="menu_list">
@@ -59,9 +57,17 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">공지글</a>
-              <a href="#" class="menu_sublistItem">자유게시판</a>
-              <a href="#" class="menu_sublistItem">질문게시판</a>
+              <a href="#" class="menu_sublistItem">코로나</a>
+              <a href="#" class="menu_sublistItem">도서정보</a>
+            </div>
+          </div>
+          <div class="menu_list">
+            <div class="menu_list_name">
+              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
+            </div>
+            <div class="menu_sublist">
+              <a href="#" class="menu_sublistItem">매뉴생성</a>
+              <a href="#" class="menu_sublistItem">회원관리</a>
             </div>
           </div>
         </div>
@@ -118,9 +124,14 @@
         <div class="writing_Header">
           <span class="writing_Header_title">게시판 글쓰기</span>
 	        <div class="writing_toolArea">
+            <sec:authentication property="principal" var="pinfo"/>
+            <sec:authorize access="isAuthenticated()">
+            <c:if test="${pinfo.username eq boardHtml.id or empty boardHtml}">
 	          <a href="#" role="button" class="">
 	            <span class="button_txt">등록</span>
 	          </a>
+            </c:if>
+            </sec:authorize>
 	        </div>
         </div>
         <div class="writingContent">
@@ -147,7 +158,9 @@
 <!--             <textarea placeholder="내용을 입력해 주세요." class="textarea_input" style="height: 520px; width:100%;"></textarea>  -->
              <div id="editor"></div>
           </div>
+          <sec:authorize access="isAuthenticated()">
           <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
+          </sec:authorize>
         </div>
       </div>
     </section>
@@ -236,9 +249,18 @@
 	            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	          },
 	          success: function(res) {
-	            alert(res);
-	            opener.location.reload();
-	            self.close();
+	            if(res.substring(0, 6) === '/board') {
+  	            opener.location.href = res;
+  	            self.close();
+	            }
+	            else if(res === 'ok'){
+                opener.location.reload();
+                self.close();
+	            }
+	            else {
+	              alert('fail');
+	              location.href = '/exception/error';	              
+	            }
 	          },
 	          error: function() {
 	            alert("등록에 실패했습니다.");
