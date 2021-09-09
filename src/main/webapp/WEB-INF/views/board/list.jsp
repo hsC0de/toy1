@@ -53,7 +53,7 @@
               <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
             </div>
             <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">매뉴생성</a>
+              <a href="#" class="menu_sublistItem">매뉴관리</a>
               <a href="#" class="menu_sublistItem">회원관리</a>
             </div>
           </div>

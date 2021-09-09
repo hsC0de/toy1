@@ -175,7 +175,8 @@
       SELECT MAX(BNO) AS BNO
            , KIND
         FROM BOARD
-       WHERE TITLE = #{title}
+       WHERE 1=1
+         AND ID = #{id}
     GROUP BY KIND
     </select>
     

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="menu">
+
+    <resultMap type="hashmap" id="getMenuListMap">
+      <result property="upid" column="A_UPID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="id" column="A_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="name" column="A_NM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="auth" column="A_AUTH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="sort" column="A_SORT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="path" column="A_PATH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <collection property="submenuList" resultMap="submenuMap" javaType="arraylist"></collection>
+    </resultMap>
+    
+    <resultMap type="hashmap" id="submenuMap">
+      <result property="upid" column="B_UPID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="id"   column="B_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="name" column="B_NM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="auth" column="B_AUTH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="sort" column="B_SORT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="path" column="B_PATH" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </resultMap>
+    
+    <select id="getMenuList" parameterType="hashmap" resultMap="getMenuListMap">
+          SELECT A.MENU_UPID A_UPID
+               , A.MENU_ID   A_ID
+               , A.MENU_NM   A_NM
+               , A.MENU_AUTH A_AUTH
+               , A.MENU_SORT A_SORT
+               , A.MENU_PATH A_PATH
+               , B.MENU_UPID B_UPID
+               , B.MENU_ID   B_ID
+               , B.MENU_NM   B_NM
+               , B.MENU_AUTH B_AUTH
+               , B.MENU_SORT B_SORT
+               , B.MENU_PATH B_PATH
+            FROM MENU A
+ LEFT OUTER JOIN MENU B
+              ON A.MENU_ID = B.MENU_UPID
+           WHERE 1=1
+             AND B.USE_YN = 'Y'
+        ORDER BY A.MENU_SORT, B.MENU_SORT
+    </select>
+    
+<!--     <select id="getMenuList" parameterType="hashmap" resultMap="getMenuListMap"> -->
+<!--           SELECT MENU_UPID -->
+<!--                , MENU_ID -->
+<!--                , MENU_NM -->
+<!--                , MENU_AUTH -->
+<!--                , MENU_SORT -->
+<!--                , MENU_PATH -->
+<!--             FROM MENU -->
+<!--            WHERE 1=1 -->
+<!--              AND USE_YN = 'Y' -->
+<!--              <choose> -->
+<!--              <when test="upid != null and upid != ''"> -->
+<!--              AND MENU_UPID = #{upid} -->
+<!--              </when> -->
+<!--              <otherwise> -->
+<!--              AND MENU_UPID IS NULL -->
+<!--              </otherwise> -->
+<!--              </choose> -->
+<!--         ORDER BY MENU_SORT -->
+<!--     </select> -->
+    
+  <select id="existMembers" parameterType="hashmap" resultType="int">
+    SELECT COUNT(*) AS CNT
+      FROM MEMBERS
+     WHERE ID = #{id}
+  </select>
+    
+    <insert id="insertMemberInfo">
+      INSERT INTO MEMBERS ( ID
+                          , PASSWORD
+                          , JOIN_DATE
+                          , AUTH_GRP_CD )
+                   VALUES ( #{id}
+                          , #{password}
+                          , NOW()
+                          , '30')
+    </insert>
+</mapper>
