@@ -3,6 +3,9 @@ package com.cafe24.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +29,20 @@ public class CommonController {
     private final CommonService commonService;
     
     @GetMapping("accessError")
-    public String accessError(Authentication auth, Model model) {
+    public String accessError(Authentication auth, Model model, HttpServletResponse res, HttpServletRequest req) {
         log.info("access Denied: " + auth);
         model.addAttribute("msg", "Access Denied");
+        res.setHeader("redirectLogin", "true");
+        res.setHeader("redirectUrl", req.getRequestURI());
         return "auth/accessError";
     }
     
     @GetMapping("login")
-    public String login(String error, String logout, Model model) {
+    public String login(String error, String logout, Model model, HttpServletResponse res, HttpServletRequest req) {
         log.info("error: " + error);
         log.info("logout: " + logout);
+        res.setHeader("redirectLogin", "true");
+        res.setHeader("redirectUrl", req.getRequestURI());
         return "auth/loginForm";
     }
     

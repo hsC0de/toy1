@@ -10,6 +10,16 @@
   <beans:bean id="customAccessDenied" class="com.cafe24.security.CustomAccessDeniedHandler" />
 	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
   <beans:bean id="customUserDetailsService" class="com.cafe24.security.CustomUserDetailsService"/>
+<!--   <beans:bean id="grantedAuthorityDefaults" class="org.springframework.security.config.core.GrantedAuthorityDefaults"> -->
+<!--     <beans:constructor-arg value="" /> -->
+<!--   </beans:bean> -->
+<!--   <beans:bean id="defaultWebSecurityExpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"> -->
+<!--     <beans:property name="defaultRolePrefix" value=""></beans:property> -->
+<!--   </beans:bean> -->
+
+<!--   <beans:bean id="defaultMethodSecurityExpressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"> -->
+<!--     <beans:property name="defaultRolePrefix" value=""></beans:property> -->
+<!--   </beans:bean> -->
   
   <sec:http pattern="/resources/**" security="none"></sec:http>
   <sec:http pattern="/node_modules/**" security="none"></sec:http>

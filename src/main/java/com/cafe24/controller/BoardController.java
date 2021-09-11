@@ -65,7 +65,10 @@ public class BoardController {
     
     @PreAuthorize("isAuthenticated()")
     @GetMapping("writing")
-    public String writing() {
+    public String writing(@RequestParam Map<String, Object> map, Model model) {
+        model.addAttribute("kindNm", boardService.getMenuNm("board.getMenuNm", map));
+        model.addAttribute("kind", map.get("kind"));
+        
         return "board/writing";
     }
     
@@ -73,8 +76,7 @@ public class BoardController {
     @ResponseBody
     public String regPost(@RequestParam Map<String, Object> map) {
         log.info("" + map);
-        boardService.regPost("board.insertPost", map);
-        Map<String, Object> resultMap = boardService.getPostBno("board.getPostBno", map);
+        Map<String, Object> resultMap = boardService.regPost("board.insertPost", map);
         return "/board/get?bno=" + resultMap.get("bno") + "&page=1&userDisplay=10&kind=" + resultMap.get("kind");
     }
     

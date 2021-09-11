@@ -136,22 +136,63 @@
         </div>
         <div class="writingContent">
           <div class="writingContent_Title" style="width:861px;">
-            <div class="writing_option_select">
-              <div class="kindSelect">
-                <button type="button" aria-haspopup="true" aria-expanded="" aria-pressed="" class="optionButton">
-                  게시판
-                  <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                </button>
+            <div class="row">
+              <div class="writing_option_select">
+                <div class="kindSelect">
+                  <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
+                  <button type="button" class="optionButton" value="${kind}">
+                    ${kindNm.kind_nm}
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>                  
+                  </sec:authorize>
+                  <sec:authorize access="hasRole('MEMBER')">
+                  <c:choose>
+                  <c:when test="${kind eq 'BN'}">
+                  <button type="button" class="optionButton" value="">
+                    게시판을 선택해 주세요.
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                  </c:when>
+                  <c:otherwise>
+                  <button type="button" class="optionButton" value="${kind}">
+                    ${kindNm.kind_nm}
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                  </c:otherwise>
+                  </c:choose>
+                  </sec:authorize>
+                </div>
+                <div class="select_option">
+                  <ul class="option_list">
+                    <li class="item">
+                      <button type="button" class="option" value="${kind}">자유게시판1</button>
+                    </li>
+                    <li class="item">
+                      <button type="button" class="option">자유게시판2</button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div class="typeSelect">
-                <button type="button" aria-haspopup="true" aria-expanded="" aria-pressed="" disabled="disabled" class="optionButton">
-                  일반
-                  <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                </button>
+              <div class="writing_option_select_type">
+                <div class="typeSelect">
+                  <button type="button" disabled="disabled" class="optionButton">
+                    일반
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                </div>
+                <div class="select_option" style>
+                  <ul class="option_list">
+                    <li class="item">
+                      <button type="button" class="option">공지</button>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="textarea_input_container" >
-              <textarea placeholder="제목을 입력해 주세요." class="textarea_input"></textarea>
+            <div class="row">
+              <div class="textarea_input_container" >
+                <textarea placeholder="제목을 입력해 주세요." class="textarea_input"></textarea>
+              </div>
             </div>
           </div>
           <div id="smartEditor" class="writingContent_smartEditor">
@@ -160,6 +201,7 @@
           </div>
           <sec:authorize access="isAuthenticated()">
           <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
+          <div id="tempAuthorities" style="display:none"><sec:authentication property="principal.authorities"/></div>
           </sec:authorize>
         </div>
       </div>
@@ -172,6 +214,8 @@
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
     var board = ${board != null and board != ""? board : "0"};
+    var id = $("#tempUsername").text();
+    var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
     var editor;
     document.addEventListener("DOMContentLoaded", function(){
       
@@ -186,6 +230,47 @@
     
     $(function() {
       
+      $.ajax({
+        url : '/menu/menuList',
+        method : 'get',
+        data : {
+          upid : 'B'
+        },
+        dataType : 'json',
+        success : function(menuData) {
+          var str = '';
+          console.log(menuData);
+          for (var i = 0; i < menuData[0].submenuList.length; i++) {
+            if(auth !== "MANAGER" && auth !== "ADMIN") {
+              if(menuData[0].submenuList[i].id !== 'BA' && menuData[0].submenuList[i].id !== 'BN') {
+                
+                str += '<li class="item">';
+                str += '<button type="button" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
+                str += '</li>';
+              }
+              
+            }
+            else {
+              if(menuData[0].submenuList[i].id !== 'BA') {
+                
+                str += '<li class="item">';
+                str += '<button type="button" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
+                str += '</li>';
+              }
+            }
+          }
+          $(".select_option .option_list").html(str);
+        },
+        error : function(error) {
+          alert("menu error");
+        }
+      });
+      
+//       <ul class="option_list">
+//       <li class="item">
+//         <button type="button" class="option" value="${kind}">자유게시판1</button>
+//       </li>
+      
       console.log(board);
       if(board) {
 //         $(".kind_button_val").html(board.menu_nm + " 〉");
@@ -196,7 +281,6 @@
         $(".textarea_input").val(board.title);
       }
       
-      var id = $("#tempUsername").text();
       
       $(".writing_toolArea a").on("click", function(e) {
         
@@ -221,7 +305,7 @@
           data["title"] = title;
           data["content"] = content;
           data["id"] = id;
-          data["kind"] = "BF";
+          data["kind"] = $(".kindSelect .optionButton").attr("value");
           data["type"] = "N";
         }
         else {
@@ -271,7 +355,22 @@
         
         
       });
+      
+      $(".optionButton").on("click", function() {
+        $(this).parent().next().toggleClass("btn_toggle");
+      });
+      
+      $(document).on("click", ".option_list .item .option", function() {
+        $(".select_option .option_list .item").removeClass("selectedItem");
+        $(this).parent().addClass("selectedItem");
+        $(this).closest(".select_option").removeClass("btn_toggle");
+        $(this).closest("div").prev().children(".optionButton").contents()[0].textContent = $(this).contents()[0].textContent;
+        $(this).closest("div").prev().children(".optionButton").attr("value", $(this).attr("value"));
+      });
+      
     });
+    
+    
   </script>
 </body>
 </html>

@@ -20,10 +20,25 @@
       ORDER BY NUM ASC
     </select>
     
+    <select id="getTodoListManager" parameterType="hashmap" resultMap="getTodoListMap">
+        SELECT NUM
+             , DO_LIST
+             , DONE
+          FROM TD_LIST_MANAGER
+         WHERE DEL_YN = 'N'
+      ORDER BY NUM ASC
+    </select>
     
     
     <insert id="insertTodoList" parameterType="hashmap">
       INSERT INTO TD_LIST ( DO_LIST
+                          , REG_DATE)
+                   VALUES ( #{do_list}
+                          , NOW(3))
+    </insert>
+    
+    <insert id="insertTodoListManager" parameterType="hashmap">
+      INSERT INTO TD_LIST_MANAGER ( DO_LIST
                           , REG_DATE)
                    VALUES ( #{do_list}
                           , NOW(3))
@@ -35,8 +50,20 @@
        WHERE NUM = #{num}
     </update>
     
+    <update id="deleteTodoListManager" parameterType="hashmap">
+      UPDATE TD_LIST_MANAGER
+         SET DEL_YN = 'Y'
+       WHERE NUM = #{num}
+    </update>
+    
     <update id="doneTodoList" parameterType="hashmap">
       UPDATE TD_LIST
+         SET DONE = #{done}
+       WHERE NUM = #{num}
+    </update>
+    
+    <update id="doneTodoListManager" parameterType="hashmap">
+      UPDATE TD_LIST_MANAGER
          SET DONE = #{done}
        WHERE NUM = #{num}
     </update>

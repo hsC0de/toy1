@@ -179,9 +179,18 @@
         </table>
         <div class="get_tools_bottom">
 	        <div class="board_new">
+            <c:choose>
+            <c:when test="${kind ne 'BN' and kind ne 'BA'}">
+            <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
+            </c:when>
+            <c:otherwise>
+            <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
             <c:if test="${kind ne 'BA'}">
               <span><img src="/node_modules/bootstrap-icons/icons/pencil-square.svg"/>글쓰기</span>
-            </c:if>
+            </c:if>              
+            </sec:authorize>
+            </c:otherwise>
+            </c:choose>
 	        </div>
 	        <div class="board_footer">
 	          <div class="board_footer_paging">
@@ -215,15 +224,11 @@
     </main>
     
   </div>
-  
-  
-  
-  
   <script src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script>
-
+    var boardKind = "${kind}";
     $(function() {
       var sp = $(".article").offset().top;
       $(window).scrollTop(Number(sp) - 20); 
@@ -244,8 +249,8 @@
         location.reload();
         
       }
+    openWritingPage(boardKind);
     }
-    
   </script>
 </body>
 </html>

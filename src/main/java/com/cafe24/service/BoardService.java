@@ -70,16 +70,13 @@ public class BoardService {
     }
     
     @Transactional
-    public int regPost(String statement, Map<String, Object> condition) {
+    public Map<String, Object> regPost(String statement, Map<String, Object> condition) {
+        Map<String, Object> resultMap = new HashMap<>();
         int result = dao.insert(statement, condition);
-        
-        return result;
-    }
-    
-    public Map<String, Object> getPostBno(String statement, Map<String, Object> condition) {
-        
-        Map<String, Object> result = dao.selectOne(statement, condition);
-        return result;
+        if(result == 1) {
+            resultMap = dao.selectOne("board.getPostBno", condition);
+        }
+        return resultMap;
     }
     
     @Transactional

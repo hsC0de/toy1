@@ -176,7 +176,8 @@
            , KIND
         FROM BOARD
        WHERE 1=1
-         AND ID = #{id}
+         AND ID   = #{id}
+         AND KIND = #{kind}
     GROUP BY KIND
     </select>
     

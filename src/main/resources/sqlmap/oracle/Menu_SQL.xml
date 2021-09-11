@@ -42,6 +42,9 @@
               ON A.MENU_ID = B.MENU_UPID
            WHERE 1=1
              AND B.USE_YN = 'Y'
+             <if test="upid != null and upid != ''">
+             AND B.MENU_UPID = #{upid}
+             </if>
         ORDER BY A.MENU_SORT, B.MENU_SORT
     </select>
     

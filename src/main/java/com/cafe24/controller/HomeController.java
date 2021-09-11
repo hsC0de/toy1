@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,13 @@ public class HomeController {
 	    homeService.regTodoList("home.insertTodoList", map);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+	@PostMapping("regTodoListManager")
+    @ResponseBody
+    public void regTodoListManager(@RequestParam Map<String, Object> map) {
+        homeService.regTodoList("home.insertTodoListManager", map);
+    }
+	
 	@GetMapping("getTodoList")
 	@ResponseBody
 	public List<Map<String, Object>> getTodoList() {
@@ -43,15 +51,38 @@ public class HomeController {
 	    return resultList;
 	}
 	
+	@GetMapping("getTodoListManager")
+    @ResponseBody
+    public List<Map<String, Object>> getTodoListManager() {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        resultList = homeService.getTodoList("home.getTodoListManager", null);
+        
+        return resultList;
+    }
+	
 	@PostMapping("deleteTodoList")
 	@ResponseBody
 	public void deleteTodoList(@RequestParam Map<String, Object> map) {
 	    homeService.deleteTodoList("home.deleteTodoList", map);
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+	@PostMapping("deleteTodoListManager")
+    @ResponseBody
+    public void deleteTodoListManager(@RequestParam Map<String, Object> map) {
+        homeService.deleteTodoList("home.deleteTodoListManager", map);
+    }
+	
 	@PostMapping("doneTodoList")
     @ResponseBody
     public void doneTodoList(@RequestParam Map<String, Object> map) {
         homeService.doneTodoList("home.doneTodoList", map);
+    }
+	
+	@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
+	@PostMapping("doneTodoListManager")
+    @ResponseBody
+    public void doneTodoListManager(@RequestParam Map<String, Object> map) {
+        homeService.doneTodoList("home.doneTodoListManager", map);
     }
 }

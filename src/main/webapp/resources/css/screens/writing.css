@@ -21,10 +21,85 @@
 	font-weight: 700;
 }
 
+.writingContent_Title .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
 .writing_option_select {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 15px;
+  position: relative;
+  width: 605px;
+}
+
+.writing_option_select_type {
+  position: relative;
+  width: 238px;
+}
+
+.writingContent_Title .select_option {
+	overflow-y: auto;
+	overflow-x: hidden;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  max-height: 324px;
+  margin-top: 2px;
+  padding: 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  box-shadow: 0 1px 12px 0 rgb(0 0 0 /6%);
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #000;
+  width: 100%;
+  display: none;
+}
+
+.option_list {
+  width: 100%;
+}
+
+.item {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
+.item:hover {
+	background-color: #F5F6F8;
+}
+
+.writingContent_Title .select_option .option {
+	display: block;
+	width: 100%;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: elipsis;
+	min-width: 100px;
+	height: 36px;
+	padding: 0 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 37px;
+	white-space: nowrap;
+	cursor: pointer;
+	border: 0;
+	background: none;
+	appearance: auto;
+	-webkit-writing-mode: horizontal-tb !important;
+	text-rendering: auto;
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	align_items: flex-start;
+}
+
+.selectedItem .option{
+  color: orange;
 }
 
 .optionButton {
@@ -36,14 +111,15 @@
 	display: flex;
   justify-content: space-between;
 	font-size: 16px;
+	cursor: pointer;
 }
 
 .kindSelect .optionButton{
-	width: 605px;
+	width: 100%;
 }
 
 .typeSelect .optionButton {
-	width: 238px;
+	width: 100%;
 }
 
 .writingContent {
@@ -52,7 +128,6 @@
 }
 
 .textarea_input_container {
-  margin-bottom: 15px;
   border: 1px solid #dadada;
   width: 861px;
   height: 40px;

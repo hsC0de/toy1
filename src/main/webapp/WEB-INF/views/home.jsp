@@ -86,9 +86,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_autu">
-                <sec:authentication property="principal.member.authGrpNm"/>
-              </div>
+              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -112,27 +110,50 @@
     </div>
     <div>
       <section class="section">
-        
-        <div class="toDoList">
-          <div class="container">
-            <div class="toDoList_header">
-              <div class="toDoList_title">
-                <span>To do List</span>
-              </div>
-              <div class="toDoList_input">
-                <input class="inputList" type="text">
-                <div class="registerButton_container">
-                  <a href="#" class="listRegisterBtn"></a>
-                  <object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/plus-circle.svg"></object>
+        <div class="toDoList_Container">
+          <div class="toDoList">
+            <div class="container">
+              <div class="toDoList_header">
+                <div class="toDoList_title">
+                  <span>To do List</span>
+                </div>
+                <div class="toDoList_input">
+                  <input class="inputList" type="text">
+                  <div class="registerButton_container">
+                    <a href="#" class="listRegisterBtn"></a>
+                    <object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/plus-circle.svg"></object>
+                  </div>
                 </div>
               </div>
+              <div class="getToDoList">
+                <ul class="toDo_listItems">
+                </ul>
+              </div>
             </div>
-            <div class="getToDoList">
-              <ul class="toDo_listItems">
-              </ul>
+          </div>
+          
+          <div class="toDoList">
+            <div class="container">
+              <div class="toDoList_header1">
+                <div class="toDoList_title1">
+                  <span>To do List&#xD;&#xA;(manager)</span>
+                </div>
+                <div class="toDoList_input">
+                  <input class="inputList1" type="text">
+                  <div class="registerButton_container">
+                    <a href="manager" class="listRegisterBtn1"></a>
+                    <object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/plus-circle.svg"></object>
+                  </div>
+                </div>
+              </div>
+              <div class="getToDoList1">
+                <ul class="toDo_listItems">
+                </ul>
+              </div>
             </div>
           </div>
         </div>
+        
         <hr />
         <div>
           <form action="/">
@@ -189,13 +210,18 @@
       
     </div>
   </div>
-  
-  
+  <sec:authorize access="isAuthenticated()">
+  <div id="tempAuthorities" style="display:none"><sec:authentication property="principal.authorities"/></div>
+  </sec:authorize>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
-  
+    var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
+    console.log(auth);
+    var role = $(".userInfo_auth").text();
+    role = role.substring(5, role.length);
+    $(".userInfo_auth").text(role);
     
     
     function getTodoList() {
@@ -238,9 +264,47 @@
       });
     }
     
-    function doneTodoList(done, num) {
+    function getTodoListManager() {
       $.ajax({
-        url: "/doneTodoList",
+        url: "/getTodoListManager",
+        method: "get",
+        dataType: "json",
+        success: function(res) {
+          
+          console.log(res);
+          var str = "";
+          for(var i = 0; i < res.length; i++) {
+            str += '<div class="toDo_listItem_container">';
+            if(res[i].done === 'Y') {
+              str += '<li class="toDo_listItem1 activeList">';
+              str += '<input type="checkbox" value="' + res[i].num + '" checked id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+            }
+            else {
+              str += '<li class="toDo_listItem1">';
+              str += '<input type="checkbox" value="' + res[i].num + '" id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+            }
+            str += '<div class="listContent">';
+            str += '<span style="word-break:break-all;" class="toDo_listContent">' + res[i].do_list + '</span>';
+            str += '</div>';
+            str += '</label>';
+            str += '<div class="listDeleteButton_container">';
+            str += '<a href="' + res[i].num + '" class="listDeleteBtn1"></a>';
+            str += '<object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/trash.svg"></object>';
+            str += '</div>';
+            str += '</li>';
+            str += '</div>';
+          }
+          $(".getToDoList1").html(str);
+          
+        },
+        error: function(error) {
+          alert("fail get TodoList"); 
+        }
+      });
+    }
+    function doneTodoList(done, num, url) {
+      $.ajax({
+        url: url,
         beforeSend: function(xhr) {
           xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
         },
@@ -249,64 +313,113 @@
           done: done,
           num: num
         },
-        success: function() {
+        success: function(res, textStatus, xhr) {
+          if(xhr.getResponseHeader('redirectUrl')) {
+            if(xhr.getResponseHeader('redirectUrl').indexOf("login") != -1) {
+              location.href = xhr.getResponseHeader('redirectUrl');
+            }
+            else {
+              alert("권한이 없습니다.");
+            }            
+          }
         },
-        error: function() {
-          alert("error");
+        error: function(error) {
+          alert(error.status);
         }
       });
     }
     
-    function regTodoList() {
-      var content = $(".inputList").val();
-      var data = {"do_list" : content}
+    function regTodoList(url, content) {
+//       var content = $(".inputList").val();
       
       if(!content) {
         alert("값을 입력하세요");
         return;
       }
+      var data = {"do_list" : content}
       
       $.ajax({
-        url: "/regTodoList",
+        url: url,
         method: "post",
         beforeSend: function(xhr) {
           xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
         },
         data: data,
-        success: function(res) {
-          $(".inputList").val("");
-          $(".inputList").focus();
-          getTodoList();
-          
+        success: function(res, textStatus, xhr) {
+          if(url === "/regTodoList" && xhr.getResponseHeader('redirectLogin') !== 'true'){
+            $(".inputList").val("");
+            $(".inputList").focus();
+            getTodoList();
+          }
+          else if(url === "/regTodoListManager" && xhr.getResponseHeader('redirectLogin') !== 'true') {
+            $(".inputList1").val("");
+            $(".inputList1").focus();
+            getTodoListManager();
+          }
+          else {
+            if(xhr.getResponseHeader('redirectUrl').indexOf("login") != -1) {
+              location.href = xhr.getResponseHeader('redirectUrl');
+            }
+            else {
+              alert("권한이 없습니다.");
+            }
+          }
         },
         error: function(error) {
-          alert("fail");
+          alert(error.status);
         }
       });
     }
 
-    $(".inputList").on("keydown", function(e) {
+    $(".toDoList_input input").on("keydown", function(e) {
       
       if(e.keyCode === 13) {
-        regTodoList();
+        var url = "/regTodoList";
+        var content = $(".inputList").val();
+        
+        if($(this).attr("class") === "inputList1") {
+          url = "/regTodoListManager";
+          content = $(".inputList1").val();
+        }
+        
+        regTodoList(url, content);
       }
     });
     
     
-    $(".listRegisterBtn").on("click", function(e) {
+    $(".registerButton_container a").on("click", function(e) {
       e.preventDefault();
       e.stopPropagation();
+      var url = "/regTodoList";
+      var content = $(".inputList").val();
       
-      regTodoList();
+      if($(this).attr("class") === "listRegisterBtn1") {
+        url = "/regTodoListManager";
+        content = $(".inputList1").val();
+      }
+      
+      regTodoList(url, content);
     });
     
-    $(document).on("click", ".listDeleteBtn", function(e) {
+    $(document).on("click", ".listDeleteButton_container a", function(e) {
       e.preventDefault();
       e.stopPropagation();
+      var url = "/deleteTodoList";
       
+      if($(this).attr("class").indexOf("listDeleteBtn1") != -1) {
+        if(!auth) {
+          location.href = "/common/login";
+          return;
+        }
+        else if(auth !== "MANAGER" && auth !== "ADMIN") {
+          alert("권한이 없습니다.");
+          return;
+        }
+        url = "/deleteTodoListManager";
+      }
       var num = $(this).attr("href");
       $.ajax({
-        url: "/deleteTodoList",
+        url: url,
         beforeSend: function(xhr) {
           xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
         },
@@ -314,34 +427,58 @@
         data: {
           num: num
         },
-        success: function(res) {
-          getTodoList();
+        success: function(res, textStatus, xhr) {
+          if(url === "/deleteTodoList" && xhr.getResponseHeader('redirectLogin') !== 'true'){
+            getTodoList();
+          }
+          else if(url === "/deleteTodoListManager" && xhr.getResponseHeader('redirectLogin') !== 'true') {
+            getTodoListManager();
+          }
+          else {
+            if(xhr.getResponseHeader('redirectUrl').indexOf("login") != -1) {
+              location.href = xhr.getResponseHeader('redirectUrl');
+            }
+            else {
+              alert("권한이 없습니다.");
+            }
+          }
         },
         error: function(error) {
-          alert("fail");
+          alert(error.status);
         }
       });
     });
-    
-    $(document).on("click", ".toDo_listItem", function(e) {
+    $(document).on("click", ".toDo_listItem_container li", function(e) {
       e.preventDefault();
       e.stopPropagation();
-      
       var num = $(this).children("input").val();
+      var url = "/doneTodoList";
+      if($(this).attr("class").indexOf("toDo_listItem1") != -1) {
+        if(!auth) {
+          location.href = "/common/login";
+          return;
+        }
+        else if(auth !== "MANAGER" && auth !== "ADMIN") {
+          alert("권한이 없습니다.");
+          return;
+        }
+        url = "/doneTodoListManager";
+      }
       
       if($(this).children("input").prop("checked") === false) {
         $(this).children("input").prop("checked", true);
         $(this).addClass("activeList");
-        doneTodoList('Y', num);
+        doneTodoList('Y', num, url);
       }
       else if($(this).children("input").prop("checked") === true){
         $(this).children("input").prop("checked", false);
         $(this).removeClass("activeList");
-        doneTodoList('N', num);
+        doneTodoList('N', num, url);
       }
     });
     
     getTodoList();
+    getTodoListManager();
   </script>
 </body>
 </html>
