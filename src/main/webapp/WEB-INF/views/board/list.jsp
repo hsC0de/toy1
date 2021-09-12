@@ -82,9 +82,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_autu">
-                <sec:authentication property="principal.member.authGrpNm"/>
-              </div>
+              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -164,7 +162,7 @@
               </td>
               <td>
                 <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}&kind=${kind}"/>' >
-                  <c:out value="${board.title}" />
+                  <span>${board.title}</span>
                   <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
                 </a>
               </td>
@@ -224,10 +222,10 @@
     </main>
     
   </div>
-  <script src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
-  <script>
+  <script type="text/javascript">
     var boardKind = "${kind}";
     $(function() {
       var sp = $(".article").offset().top;

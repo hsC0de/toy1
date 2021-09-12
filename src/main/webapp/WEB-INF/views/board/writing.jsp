@@ -95,9 +95,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_autu">
-                <sec:authentication property="principal.member.authGrpNm"/>
-              </div>
+              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -140,10 +138,20 @@
               <div class="writing_option_select">
                 <div class="kindSelect">
                   <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
+                  <c:choose>
+                  <c:when test="${empty kind}">
+                  <button type="button" class="optionButton" value="">
+                    게시판을 선택해 주세요.
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                  </c:when>
+                  <c:otherwise>
                   <button type="button" class="optionButton" value="${kind}">
                     ${kindNm.kind_nm}
                     <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>                  
+                  </button>
+                  </c:otherwise>
+                  </c:choose>                             
                   </sec:authorize>
                   <sec:authorize access="hasRole('MEMBER')">
                   <c:choose>
@@ -200,15 +208,16 @@
              <div id="editor"></div>
           </div>
           <sec:authorize access="isAuthenticated()">
-          <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
-          <div id="tempAuthorities" style="display:none"><sec:authentication property="principal.authorities"/></div>
+          <div id="tempUsername" style="display:none;"><sec:authentication property='principal.username'/></div>
+          <div id="tempAuthorities" style="display:none;"><sec:authentication property="principal.authorities"/></div>
           </sec:authorize>
         </div>
       </div>
     </section>
   </div>
-<!--   <script type="text/javascript" src="/node_modules/codemirror/lib/codemirror.js"></script> -->
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor.js"></script>
+  <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script>
     var csrfHeaderName = "${_csrf.headerName}";

@@ -67,9 +67,34 @@ td {
   color: rgba(0, 0, 0, 0.7);
 }
 
+td:nth-child(2) a {
+	display: flex;
+  width: 436px;
+}
+
+td:nth-child(2) span {
+  display: block;
+}
+
+td:nth-child(2) span:first-child {
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+	white-space: nowrap;
+}
+
 td:nth-child(2),
 td:nth-child(3) {
 	text-align: left;
+}
+
+td:nth-child(2) {
+	width: 446px;
+}
+
+td:nth-child(3) {
+	overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
 }
 
 td:first-child {

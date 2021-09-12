@@ -219,9 +219,6 @@
     var csrfTokenValue="${_csrf.token}";
     var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
     console.log(auth);
-    var role = $(".userInfo_auth").text();
-    role = role.substring(5, role.length);
-    $(".userInfo_auth").text(role);
     
     
     function getTodoList() {

@@ -2,6 +2,10 @@
  * navigationBar
  */
 
+var role = $(".userInfo_auth").text();
+role = role.substring(5, role.length);
+$(".userInfo_auth").text(role);
+
 function getMenuList(upid) {
 
   $.ajax({

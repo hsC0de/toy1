@@ -311,9 +311,6 @@
     
   </style>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/board.js"></script>
-  <script type="text/javascript" src="/resources/js/navbar.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Get</title>
@@ -390,9 +387,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_autu">
-                <sec:authentication property="principal.member.authGrpNm"/>
-              </div>
+              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -632,17 +627,19 @@
   <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
   </sec:authorize>
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/board.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js"></script>
-  <script>
+  <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
     var id = $("#tempUsername").text();
     autosize($(".contents_comments_inbox_text"));
-    
     var board = ${board};
+    var boardKind = board.kind; 
     
-    
+    openWritingPage(boardKind);
     function newlineReplacement(text){
       return text.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, "&nbsp;");
     }
