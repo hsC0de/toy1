@@ -89,6 +89,7 @@ public class BoardController {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = boardService.get("board.getBoardContent", map);
         String json = new ObjectMapper().writeValueAsString(resultMap);
+        model.addAttribute("kindNm", boardService.getMenuNm("board.getMenuNm", map));
         model.addAttribute("boardHtml", resultMap);
         model.addAttribute("board", json);
         

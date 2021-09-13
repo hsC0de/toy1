@@ -159,6 +159,6 @@
   font-weight: 500;
 }
 
-.optionButton img {
-/*   transform: scaleY(-1); */
+.btn_img {
+  transform: scaleY(-1);
 }

@@ -93,6 +93,7 @@
       <result property="gap" column="GAP"/>
       <result property="menu_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="kind" column="KIND" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="type" column="TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </resultMap>
     
     <select id="getBoardList" parameterType="hashmap" resultMap="getBoardListMap">
@@ -110,6 +111,7 @@
            , B.CNT      AS REPLYCNT
            , A.KIND
            , D.MENU_NM
+           , A.TYPE
         FROM BOARD AS A
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.RNO) AS CNT

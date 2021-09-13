@@ -171,7 +171,7 @@
                   </sec:authorize>
                 </div>
                 <div class="select_option">
-                  <ul class="option_list">
+                  <ul class="option_list kindList">
                     <li class="item">
                       <button type="button" class="option" value="${kind}">자유게시판1</button>
                     </li>
@@ -183,15 +183,43 @@
               </div>
               <div class="writing_option_select_type">
                 <div class="typeSelect">
-                  <button type="button" disabled="disabled" class="optionButton">
+                  <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
+                  <c:choose>
+                  <c:when test="${empty boardHtml}">
+                  <button type="button" class="optionButton" value="N">
                     일반
                     <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
                   </button>
+                  </c:when>
+                  <c:otherwise>
+                  <button type="button" class="optionButton" value="${boardHtml.type}">
+                    <c:choose>
+                    <c:when test="${boardHtml.type eq 'Y'}">
+                    공지
+                    </c:when>
+                    <c:otherwise>
+                    일반
+                    </c:otherwise>
+                    </c:choose>
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                  </c:otherwise>
+                  </c:choose>                             
+                  </sec:authorize>
+                  <sec:authorize access="hasAnyRole('MEMBER')">
+                  <button type="button" disabled="disabled" class="optionButton" value="N">
+                    일반
+                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                  </button>
+                  </sec:authorize>
                 </div>
-                <div class="select_option" style>
+                <div class="select_option">
                   <ul class="option_list">
                     <li class="item">
-                      <button type="button" class="option">공지</button>
+                      <button type="button" class="option" value="N">일반</button>
+                    </li>
+                    <li class="item">
+                      <button type="button" class="option" value="Y">공지</button>
                     </li>
                   </ul>
                 </div>
@@ -268,7 +296,7 @@
               }
             }
           }
-          $(".select_option .option_list").html(str);
+          $(".select_option .kindList").html(str);
         },
         error : function(error) {
           alert("menu error");
@@ -315,7 +343,7 @@
           data["content"] = content;
           data["id"] = id;
           data["kind"] = $(".kindSelect .optionButton").attr("value");
-          data["type"] = "N";
+          data["type"] = $(".typeSelect .optionButton").attr("value");
         }
         else {
           board.content = content;
@@ -367,6 +395,7 @@
       
       $(".optionButton").on("click", function() {
         $(this).parent().next().toggleClass("btn_toggle");
+        $(this).children("img").toggleClass("btn_img");
       });
       
       $(document).on("click", ".option_list .item .option", function() {

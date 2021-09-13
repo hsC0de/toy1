@@ -155,6 +155,9 @@
                 <c:when test="${kind ne 'BA'}">
                   <c:out value="${board.bno}" />
                 </c:when>
+<%--                 <c:when test="${board.type eq 'Y'}"> --%>
+<%--                   <a class="moveBoardKind noticeList" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a> --%>
+<%--                 </c:when> --%>
                 <c:otherwise>
                   <a class="moveBoardKind" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
                 </c:otherwise>
