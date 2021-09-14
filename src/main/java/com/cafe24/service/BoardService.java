@@ -1,10 +1,15 @@
 package com.cafe24.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +32,6 @@ public class BoardService {
     }
     
     public Map<String, Object> getTotal(String statement, Map<String, Object> condition) {
-        
         Map<String, Object> resultMap = new HashMap<>();
         int total = dao.selectInt(statement, condition);
         int startPage = (int) condition.get("page") % 10 != 0? (int) condition.get("page") / 10 * 10 + 1 : ((int) condition.get("page") - 1) / 10 * 10 + 1;
@@ -90,16 +94,37 @@ public class BoardService {
         return result;
     }
     
+    public Map<String, Object> writing (Map<String, Object> condition, Authentication authentication) {
+        
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = dao.selectOne("board.getMenuNm", condition);
+        UserDetails userVo = (UserDetails) authentication.getPrincipal();
+        boolean auth = false;
+        Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+        List<String> list = auths.stream().filter(x -> x.toString().equals("ROLE_MANAGER") || x.toString().equals("ROLE_ADMIN")).map(x -> x.toString()).collect(Collectors.toList());
+        if(list.size() >= 1) {
+            auth = true;
+        }
+        resultMap.put("auth", auth);
+        return resultMap;
+    }
+    
     @Transactional
     public int delete(String statement, Map<String, Object> condition) {
-        
         return dao.update(statement, condition);
     }
     
-    public Map<String, Object> get(String statement, Map<String, Object> condition) {
-        
+    public Map<String, Object> get(String statement, Map<String, Object> condition, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = dao.selectOne(statement, condition);
+        UserDetails userVo = (UserDetails) authentication.getPrincipal();
+        boolean auth = false;
+        Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+        List<String> list = auths.stream().filter(x -> x.toString().equals("ROLE_MANAGER") || x.toString().equals("ROLE_ADMIN")).map(x -> x.toString()).collect(Collectors.toList());
+        if(list.size() >= 1) {
+            auth = true;
+        }
+        resultMap.put("auth", auth);
         return resultMap;
     }
     

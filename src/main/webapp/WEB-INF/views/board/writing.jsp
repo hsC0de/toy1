@@ -137,90 +137,27 @@
             <div class="row">
               <div class="writing_option_select">
                 <div class="kindSelect">
-                  <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
-                  <c:choose>
-                  <c:when test="${empty kind}">
-                  <button type="button" class="optionButton" value="">
-                    게시판을 선택해 주세요.
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:when>
-                  <c:otherwise>
-                  <button type="button" class="optionButton" value="${kind}">
-                    ${kindNm.kind_nm}
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:otherwise>
-                  </c:choose>                             
-                  </sec:authorize>
-                  <sec:authorize access="hasRole('MEMBER')">
-                  <c:choose>
-                  <c:when test="${kind eq 'BN'}">
-                  <button type="button" class="optionButton" value="">
-                    게시판을 선택해 주세요.
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:when>
-                  <c:otherwise>
-                  <button type="button" class="optionButton" value="${kind}">
-                    ${kindNm.kind_nm}
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:otherwise>
-                  </c:choose>
-                  </sec:authorize>
+
                 </div>
                 <div class="select_option">
                   <ul class="option_list kindList">
-                    <li class="item">
-                      <button type="button" class="option" value="${kind}">자유게시판1</button>
-                    </li>
-                    <li class="item">
-                      <button type="button" class="option">자유게시판2</button>
-                    </li>
+<!--                     <li class="item"> -->
+<%--                       <button type="button" class="option" value="${boardInfo.kind}">자유게시판1</button> --%>
+<!--                     </li> -->
+<!--                     <li class="item"> -->
+<!--                       <button type="button" class="option">자유게시판2</button> -->
+<!--                     </li> -->
                   </ul>
                 </div>
               </div>
               <div class="writing_option_select_type">
                 <div class="typeSelect">
-                  <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
-                  <c:choose>
-                  <c:when test="${empty boardHtml}">
-                  <button type="button" class="optionButton" value="N">
-                    일반
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:when>
-                  <c:otherwise>
-                  <button type="button" class="optionButton" value="${boardHtml.type}">
-                    <c:choose>
-                    <c:when test="${boardHtml.type eq 'Y'}">
-                    공지
-                    </c:when>
-                    <c:otherwise>
-                    일반
-                    </c:otherwise>
-                    </c:choose>
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </c:otherwise>
-                  </c:choose>                             
-                  </sec:authorize>
-                  <sec:authorize access="hasAnyRole('MEMBER')">
-                  <button type="button" disabled="disabled" class="optionButton" value="N">
-                    일반
-                    <img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
-                  </button>
-                  </sec:authorize>
+                  
                 </div>
                 <div class="select_option">
                   <ul class="option_list">
-                    <li class="item">
-                      <button type="button" class="option" value="N">일반</button>
-                    </li>
-                    <li class="item">
-                      <button type="button" class="option" value="Y">공지</button>
-                    </li>
+                    
+                    
                   </ul>
                 </div>
               </div>
@@ -250,9 +187,12 @@
   <script>
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
-    var board = ${board != null and board != ""? board : "0"};
+    var board = ${board != null and !empty board? board : "0"};
     var id = $("#tempUsername").text();
     var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
+    var boardInfo = ${boardInfo != null and boardInfo != ""? boardInfo : "0"};
+    console.log(boardInfo);
+    console.log(board);
     var editor;
     document.addEventListener("DOMContentLoaded", function(){
       
@@ -276,33 +216,227 @@
         dataType : 'json',
         success : function(menuData) {
           var str = '';
+          var str1 = '';
           console.log(menuData);
-          for (var i = 0; i < menuData[0].submenuList.length; i++) {
-            if(auth !== "MANAGER" && auth !== "ADMIN") {
-              if(menuData[0].submenuList[i].id !== 'BA' && menuData[0].submenuList[i].id !== 'BN') {
-                
-                str += '<li class="item">';
-                str += '<button type="button" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
-                str += '</li>';
+          if(board == "0") {
+            console.log("s");
+            if(boardInfo.auth === false) {
+              if(boardInfo.kind !== 'BA' && boardInfo.kind !== 'BN') {
+                str1 += '<button type="button" class="optionButton" value="' + boardInfo.kind + '">';
+                str1 += boardInfo.kind_nm;
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+              else {
+                str1 += '<button type="button" class="optionButton" value="">';
+                str1 += '게시판을 선택해 주세요.';
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
               }
               
             }
             else {
-              if(menuData[0].submenuList[i].id !== 'BA') {
+              if(boardInfo.kind !== 'BA') {
+                str1 += '<button type="button" class="optionButton" value="' + boardInfo.kind + '">';
+                str1 += boardInfo.kind_nm;
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+              else {
+                str1 += '<button type="button" class="optionButton" value="">';
+                str1 += '게시판을 선택해 주세요.';
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+            }
+          }
+          else {
+            if(board.auth === false) {
+              console.log(board.kind);
+              if(board.kind !== 'BA' && board.kind !== 'BN') {
+                str1 += '<button type="button" class="optionButton" value="' + board.kind + '">';
+                str1 += board.menu_nm;
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+              else {
+                str1 += '<button type="button" class="optionButton" value="">';
+                str1 += '게시판을 선택해 주세요.';
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+              
+            }
+            else {
+              if(board.kind !== 'BA') {
+                str1 += '<button type="button" class="optionButton" value="' + board.kind + '">';
+                str1 += board.menu_nm;
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+              else {
+                str1 += '<button type="button" class="optionButton" value="">';
+                str1 += '게시판을 선택해 주세요.';
+                str1 += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+                str1 += '</button>';
+              }
+            }
+          }
+          for (var i = 0; i < menuData[0].submenuList.length; i++) {
+            if(boardInfo.auth === false || board.auth === false) {
+              if(menuData[0].submenuList[i].id !== 'BA' && menuData[0].submenuList[i].id !== 'BN') {
                 
-                str += '<li class="item">';
-                str += '<button type="button" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
+                if(menuData[0].submenuList[i].id == boardInfo.kind || menuData[0].submenuList[i].id == board.kind) {
+                  str += '<li class="item selectedItem">';
+                }
+                else {
+                  str += '<li class="item">';
+                }
+                str += '<button type="button" name="kind" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
+                str += '</li>';
+              }
+            }
+            else {
+              if(menuData[0].submenuList[i].id !== 'BA') {
+                if(menuData[0].submenuList[i].id == boardInfo.kind || menuData[0].submenuList[i].id == board.kind) {
+                  str += '<li class="item selectedItem">';
+                }
+                else {
+                  str += '<li class="item">';
+                }
+                str += '<button type="button" name="kind" class="option" value="' + menuData[0].submenuList[i].id + '">' + menuData[0].submenuList[i].name + '</button>';
                 str += '</li>';
               }
             }
           }
+          $(".kindSelect").html(str1);
           $(".select_option .kindList").html(str);
+          initTypeBox($(".kindSelect .optionButton").attr("value"), board.type);
         },
         error : function(error) {
           alert("menu error");
         }
       });
       
+      function initTypeBox(boardKind, boardType) {
+        var str = '';
+        var str1 = '';
+        if(board == "0") {
+          console.log("s");
+          if(boardInfo.auth === true) {
+            console.log(boardType);
+            if(!boardType) {
+            str += '<button type="button" class="optionButton" value="N">';
+            }
+            else {
+              str += '<button type="button" class="optionButton" value="' + boardType + '">';
+            }
+            if(boardType === 'Y') {
+              str += '공지';
+            }
+            else if(boardType === 'M' && boardKind === 'BN') {
+              str += '필독';
+            }
+            else {
+              str += '일반';
+            }
+            str += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+            str += '</button>';
+            if(boardType === 'N' || !boardType) {
+              str1 += '<li class="item selectedItem">';
+            }
+            else {
+              str1 += '<li class="item">';
+            }
+            str1 += '<button type="button" class="option" value="N">일반</button>';
+            str1 += '</li>';
+            if(boardType === 'Y') {
+              str1 += '<li class="item selectedItem">';
+            }
+            else {
+              str1 += '<li class="item">';
+            }
+            str1 += '<button type="button" class="option" value="Y">공지</button>';
+            str1 += '</li>';
+            if(boardKind === 'BN') {
+              if(boardType === 'M') {
+                str1 += '<li class="item selectedItem">';
+              }
+              else {
+                str1 += '<li class="item">';
+              }
+              str1 += '<button type="button" class="option" value="M">필독</button>';
+              str1 += '</li>';
+            }
+          }
+          else {
+            str += '<button type="button" disabled="disabled" class="optionButton" value="N">';
+            str += '일반';
+            str += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+            str += '</button>';
+          }
+        }
+        else {
+          if(board.auth === true) {
+            str += '<button type="button" class="optionButton" value="' + boardType + '">';
+            if(boardType === 'Y') {
+              str += '공지';
+            }
+            else if(boardType === 'M' && boardKind === 'BN') {
+              str += '필독';
+            }
+            else {
+              str += '일반';
+            }
+            str += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+            str += '</button>';
+            if(board.auth === true) {
+              if(boardType === 'N') {
+                str1 += '<li class="item selectedItem">';
+              }
+              else {
+                str1 += '<li class="item">';
+              }
+              str1 += '<button type="button" class="option" value="N">일반</button>';
+              str1 += '</li>';
+              if(boardType === 'Y') {
+                str1 += '<li class="item selectedItem">';
+              }
+              else {
+                str1 += '<li class="item">';
+              }
+              str1 += '<button type="button" class="option" value="Y">공지</button>';
+              str1 += '</li>';
+              if(boardKind === 'BN') {
+                if(boardType === 'M') {
+                  str1 += '<li class="item selectedItem">';
+                }
+                else {
+                  str1 += '<li class="item">';
+                }
+                str1 += '<button type="button" class="option" value="M">필독</button>';
+                str1 += '</li>';
+              }
+            }
+          }
+          else {
+            str += '<button type="button" disabled="disabled" class="optionButton" value="N">';
+            str += '일반';
+            str += '<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>';
+            str += '</button>';
+          }
+        }
+        $(".typeSelect").html(str);
+        $(".writing_option_select_type .option_list").html(str1);
+      }
+      
+//$(".kindSelect .optionButton").attr("value")
+
+
+      
+//       $(document).on("click", ".option_list .item .option", function() {
+//       var value$(".optionButton").
+        
 //       <ul class="option_list">
 //       <li class="item">
 //         <button type="button" class="option" value="${kind}">자유게시판1</button>
@@ -393,17 +527,24 @@
         
       });
       
-      $(".optionButton").on("click", function() {
+      $(document).on("click", ".optionButton", function() {
         $(this).parent().next().toggleClass("btn_toggle");
         $(this).children("img").toggleClass("btn_img");
       });
       
       $(document).on("click", ".option_list .item .option", function() {
-        $(".select_option .option_list .item").removeClass("selectedItem");
+        $(this).closest("ul").children(".item").removeClass("selectedItem");
         $(this).parent().addClass("selectedItem");
         $(this).closest(".select_option").removeClass("btn_toggle");
         $(this).closest("div").prev().children(".optionButton").contents()[0].textContent = $(this).contents()[0].textContent;
         $(this).closest("div").prev().children(".optionButton").attr("value", $(this).attr("value"));
+        
+        if($(".kindSelect .optionButton").attr("value") == $(this).attr("value")) {
+          initTypeBox($(".kindSelect .optionButton").attr("value"), "N");
+        }
+        else {
+          initTypeBox($(".kindSelect .optionButton").attr("value"), $(this).attr("value"));
+        }
       });
       
     });

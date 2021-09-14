@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,11 +49,11 @@ public class BoardController {
     }
     
     @GetMapping("get")
-    public String get(PageDTO map, Model model) throws JsonProcessingException {
+    public String get(PageDTO map, Model model, Authentication authentication) throws JsonProcessingException {
         String result = "board/get";
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
-        resultMap = boardService.get("board.getBoardContent", toMap);
+        resultMap = boardService.get("board.getBoardContent", toMap, authentication);
         if(resultMap == null) {
             result = "redirect:/error/commonException";
         }
@@ -65,10 +66,10 @@ public class BoardController {
     
     @PreAuthorize("isAuthenticated()")
     @GetMapping("writing")
-    public String writing(@RequestParam Map<String, Object> map, Model model) {
-        model.addAttribute("kindNm", boardService.getMenuNm("board.getMenuNm", map));
-        model.addAttribute("kind", map.get("kind"));
-        
+    public String writing(@RequestParam Map<String, Object> map, Model model, Authentication authentication) throws JsonProcessingException {
+        String json = new ObjectMapper().writeValueAsString(boardService.writing(map, authentication));
+        log.info(json);
+        model.addAttribute("boardInfo", json);
         return "board/writing";
     }
     
@@ -82,15 +83,13 @@ public class BoardController {
     
     @PreAuthorize("principal.username == #id")
     @GetMapping("modify/{bno}")
-    public String modify(@PathVariable("bno") long bno, @RequestParam String kind, String id, Model model) throws JsonProcessingException {
+    public String modify(@PathVariable("bno") long bno, @RequestParam String kind, String id, Model model, Authentication authentication) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         map.put("bno", bno);
         map.put("kind", kind);
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap = boardService.get("board.getBoardContent", map);
+        resultMap = boardService.get("board.getBoardContent", map, authentication);
         String json = new ObjectMapper().writeValueAsString(resultMap);
-        model.addAttribute("kindNm", boardService.getMenuNm("board.getMenuNm", map));
-        model.addAttribute("boardHtml", resultMap);
         model.addAttribute("board", json);
         
         return "board/writing";

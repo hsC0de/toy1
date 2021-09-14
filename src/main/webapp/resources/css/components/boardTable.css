@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
-.noticeList {
-	background-color: tomato;
+.noticeList { 
+	background-color: #F9F9F8;
+	color: tomato;
 }
 
 .board {

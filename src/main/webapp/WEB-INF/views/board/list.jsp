@@ -153,11 +153,16 @@
               <td>
                 <c:choose>
                 <c:when test="${kind ne 'BA'}">
+                  <c:choose>
+                  <c:when test="${board.kind eq 'BA'}">
+<!--                   <div class="noticeBox" -->
+                  </c:when>
+                  <c:otherwise>
                   <c:out value="${board.bno}" />
+                  </c:otherwise>
+                  </c:choose>
                 </c:when>
-<%--                 <c:when test="${board.type eq 'Y'}"> --%>
-<%--                   <a class="moveBoardKind noticeList" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a> --%>
-<%--                 </c:when> --%>
+                
                 <c:otherwise>
                   <a class="moveBoardKind" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
                 </c:otherwise>
@@ -168,6 +173,9 @@
                   <span>${board.title}</span>
                   <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
                 </a>
+<%--                 <c:when test="${board.type eq 'Y'}"> --%>
+<%--                   <a class="moveBoardKind noticeList" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a> --%>
+<%--                 </c:when> --%>
               </td>
               <td><c:out value="${board.id}" /></td>
               <td><c:out value="${board.reg_date}" /></td>
@@ -231,14 +239,14 @@
   <script type="text/javascript">
     var boardKind = "${kind}";
     $(function() {
-      var sp = $(".article").offset().top;
-      $(window).scrollTop(Number(sp) - 20); 
+//       var sp = $(".article").offset().top;
+//       $(window).scrollTop(Number(sp) - 20); 
     });
     
-    window.addEventListener('beforeunload', () => {
-      var sp = $(".article").offset().top;
-      $(window).scrollTop(Number(sp) - 20); 
-    });
+//     window.addEventListener('beforeunload', () => {
+//       var sp = $(".article").offset().top;
+//       $(window).scrollTop(Number(sp) - 20); 
+//     });
   
     function userDisplay(val) {
       console.log(val);

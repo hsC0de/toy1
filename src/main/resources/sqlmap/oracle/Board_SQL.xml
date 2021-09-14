@@ -142,10 +142,12 @@
     
     <resultMap type="hashmap" id="getMenuNmMap">
       <result property="kind_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="kind" column="MENU_ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </resultMap>
     
     <select id="getMenuNm" resultMap="getMenuNmMap">
       SELECT MENU_NM
+           , MENU_ID
         FROM MENU
        WHERE 1=1
          AND MENU_ID = #{kind}
