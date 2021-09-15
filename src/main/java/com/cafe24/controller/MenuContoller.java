@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,9 @@ public class MenuContoller {
     private final MenuService menuService;
     
     @GetMapping("menuList")
-    public List<Map<String, Object>> menuList(Model model) {
+    public List<Map<String, Object>> menuList(Model model, Authentication authentication) {
         List<Map<String, Object>> resultList = new ArrayList<>();
-        resultList = menuService.getMenuList("menu.getMenuList", null);
+        resultList = menuService.getMenuList("menu.getMenuList", null, authentication);
         
         return resultList;
     }

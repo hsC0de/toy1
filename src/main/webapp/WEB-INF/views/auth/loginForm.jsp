@@ -82,6 +82,14 @@
       justify-content: space-between;
     }
     
+    .checkbox input {
+      margin-right: 10px;
+    }
+    
+    .mainLogo {
+      width: 461px;
+    }
+    
   </style>
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
@@ -99,7 +107,7 @@
   <div class="wrap">
     <div id="container">
     <div id="header">
-      <img src="#" class="mainLogo">
+      <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
     </div>
     <div id="login_container">
       <div class="content">
@@ -115,7 +123,7 @@
             <input type="submit" id="loginButton" value="로그인"/>
             <div class="login_tools">
 	            <div class="checkbox">
-			          <label><input name="remember-me" type="checkbox">로그인 상태 유지</label>
+			          <input id="rememberMe" name="remember-me" type="checkbox"><label for="rememberMe">로그인 상태 유지</label>
 	            </div>
 	            <div>
                 <a href="/common/signUp">회원가입</a>

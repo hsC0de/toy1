@@ -117,12 +117,14 @@ public class BoardService {
     public Map<String, Object> get(String statement, Map<String, Object> condition, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = dao.selectOne(statement, condition);
-        UserDetails userVo = (UserDetails) authentication.getPrincipal();
         boolean auth = false;
-        Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
-        List<String> list = auths.stream().filter(x -> x.toString().equals("ROLE_MANAGER") || x.toString().equals("ROLE_ADMIN")).map(x -> x.toString()).collect(Collectors.toList());
-        if(list.size() >= 1) {
-            auth = true;
+        if(authentication != null) {
+            UserDetails userVo = (UserDetails) authentication.getPrincipal();
+            Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+            List<String> list = auths.stream().filter(x -> x.toString().equals("ROLE_MANAGER") || x.toString().equals("ROLE_ADMIN")).map(x -> x.toString()).collect(Collectors.toList());
+            if(list.size() >= 1) {
+                auth = true;
+            }
         }
         resultMap.put("auth", auth);
         return resultMap;

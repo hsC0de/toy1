@@ -33,43 +33,7 @@
           <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
         </div>
         <div class="navbar_menu">
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="#" class="menu_list_btn">게시판</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
-              <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
-              <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
-            </div>
-          </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">웹하드</a>
-            </div>
-          </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">코로나</a>
-              <a href="#" class="menu_sublistItem">도서정보</a>
-            </div>
-          </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">매뉴관리</a>
-              <a href="#" class="menu_sublistItem">회원관리</a>
-            </div>
-          </div>
+          
         </div>
       </div>
       <div class="navbar_userInfo">

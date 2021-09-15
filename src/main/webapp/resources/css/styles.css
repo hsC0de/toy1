@@ -11,12 +11,13 @@
 /* Screens */
 @import "screens/home.css";
 @import "screens/writing.css";
+@import "screens/contactMe.css";
 
 /* Common CSS */
 body {
   color: #2e363e;
   font-family: 'Noto Sans KR', sans-serif;
-  height: 200vh;
+  height: 250vh;
 }
 
 #wrap {

@@ -9,7 +9,6 @@
       <result property="upid" column="A_UPID" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="id" column="A_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="name" column="A_NM" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result property="auth" column="A_AUTH" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="sort" column="A_SORT" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="path" column="A_PATH" jdbcType="VARCHAR" javaType="java.lang.String" />
       <collection property="submenuList" resultMap="submenuMap" javaType="arraylist"></collection>
@@ -19,7 +18,6 @@
       <result property="upid" column="B_UPID" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="id"   column="B_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="name" column="B_NM" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result property="auth" column="B_AUTH" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="sort" column="B_SORT" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="path" column="B_PATH" jdbcType="VARCHAR" javaType="java.lang.String" />
     </resultMap>
@@ -28,13 +26,11 @@
           SELECT A.MENU_UPID A_UPID
                , A.MENU_ID   A_ID
                , A.MENU_NM   A_NM
-               , A.MENU_AUTH A_AUTH
                , A.MENU_SORT A_SORT
                , A.MENU_PATH A_PATH
                , B.MENU_UPID B_UPID
                , B.MENU_ID   B_ID
                , B.MENU_NM   B_NM
-               , B.MENU_AUTH B_AUTH
                , B.MENU_SORT B_SORT
                , B.MENU_PATH B_PATH
             FROM MENU A
@@ -45,6 +41,11 @@
              <if test="upid != null and upid != ''">
              AND B.MENU_UPID = #{upid}
              </if>
+             AND B.MENU_ID IN (SELECT MENU_ID
+                                 FROM AUTH_GRP A
+                      LEFT OUTER JOIN AUTH B
+                                   ON A.AUTH_GRP_CD = B.AUTH_GRP_CD
+                                WHERE AUTH_GRP_NM = #{menu_auth})
         ORDER BY A.MENU_SORT, B.MENU_SORT
     </select>
     

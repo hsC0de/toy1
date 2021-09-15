@@ -146,6 +146,11 @@
       color: red;
       font-size: 14px;
     }
+    
+    .mainLogo {
+      width: 490px;
+      margin-bottom: 10px;
+    }
   </style>
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
@@ -299,7 +304,7 @@
   <div class="wrap">
     <div id="container">
 	    <div id="header">
-	      <img src="#" class="mainLogo">
+	      <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
 	    </div>
 	    <div id="register_container">
 		    <div class="content">

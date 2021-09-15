@@ -24,43 +24,7 @@
           <a href="/" class="logoImgLink"><img class="logoImg" src="/resources/img/logo-black.png"></a>
 	      </div>
 	      <div class="navbar_menu">
-	        <div class="menu_list">
-            <div class="menu_list_name">
-	   	        <a href="#" class="menu_list_btn">게시판</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="/board/list?page=1&userDisplay=15&kind=BN" class="menu_sublistItem">공지글</a>
-              <a href="/board/list?page=1&userDisplay=15&kind=BA" class="menu_sublistItem">전체게시판</a>
-  	   	      <a href="/board/list?page=1&userDisplay=15&kind=BF" class="menu_sublistItem">자유게시판</a>
-  	 		      <a href="/board/list?page=1&userDisplay=15&kind=BQ" class="menu_sublistItem">질문게시판</a>
-  	 	      </div>
-	        </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">자료실</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">웹하드</a>
-            </div>
-          </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">다른서비스</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">코로나</a>
-              <a href="#" class="menu_sublistItem">도서정보</a>
-            </div>
-          </div>
-          <div class="menu_list">
-            <div class="menu_list_name">
-              <a href="/board/list?page=1&userDisplay=10" class="menu_list_btn">관리자기능</a>
-            </div>
-            <div class="menu_sublist">
-              <a href="#" class="menu_sublistItem">매뉴관리</a>
-              <a href="#" class="menu_sublistItem">회원관리</a>
-            </div>
-          </div>
+	        
 	      </div>
       </div>
       <div class="navbar_userInfo">
@@ -155,16 +119,17 @@
         </div>
         
         <hr />
+        <h1 class="contactTitle">Contact</h1>
         <div>
-          <form action="/">
+          <form class="emailForm" method="post" action="/emailMe">
             <ul>
               <li>
                 <ul>
                   <li>
-                    <span>이름</span>
+                    <span>이름</span><span>*</span>
                   </li>
                   <li>
-                    <input type="text" name="name">
+                    <input type="text" name="name" required>
                   </li>
                 </ul>
               </li>
@@ -173,10 +138,10 @@
               <li>
                 <ul>
                   <li>
-                    <span>이메일</span>
+                    <span>이메일</span><span>*</span>
                   </li>
                   <li>
-                    <input type="text" name="email">
+                    <input type="email" name="email" required>
                   </li>
                 </ul>
               </li>
@@ -185,27 +150,35 @@
               <li>
                 <ul>
                   <li>
-                    <span>회사</span>
+                    <span>웹사이트</span>
                   </li>
                   <li>
-                    <input type="text" name="company">
+                    <input type="text" name="website">
                   </li>
                 </ul>
               </li>
             </ul>
             <ul>
               <li>
-                <textarea rows="6" cols="50" name="comments"></textarea>
+                <ul>
+                  <li>
+                    <span>내용</span><span>*</span>
+                  </li>
+                  <li>
+                    <textarea class="emailComment" rows="6" cols="50" name="comments" required></textarea>
+                  </li>
+                </ul>
               </li>
             </ul>
             <ul>
-              <li>
-                <input type="submit" >
+              <li class="btnLi">
+                <input class="emailSubmitBtn" type="submit" >
               </li>
             </ul>
-            
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           </form>
         </div>
+        
       </section>
       
     </div>
@@ -220,6 +193,54 @@
     var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
     console.log(auth);
     
+    $(document).on("click", ".emailSubmitBtn", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var formData = new FormData();
+      formData = $(".emailForm").serialize();
+      var name = $("input[name='name']").val();
+      var comment = $("textarea[name='comments']").val();
+      var email = $("input[type='email']").val();
+      if(!name) {
+        $("input[name='name']").focus();
+        
+        return;
+      }
+      else if(!email) {
+        $("input[type='email']").focus();
+      }
+      else if(!comment) {
+        $("textarea[name='comments']").focus();
+        return;
+      }
+      var re = new RegExp(/^[\w]+@[\w]+\.(com|co.kr|net|org|biz|info|or.kr|ne.kr|re.kr|go.kr|pe.kr|ac.kr|es.kr|ms.kr)$/);
+      console.log(re.test($("input[type='email']").val()));
+      if(!re.test($("input[type='email']").val())) {
+        alert("이메일 주소가 올바르지 않습니다.asdf@asdf.(com|co.kr|net|org|biz|info|or.kr|ne.kr|re.kr|go.kr|pe.kr|ac.kr|es.kr|ms.kr)");
+        $("input[type='email']").focus();
+        return;
+      }
+      if(confirm("등록하시겠습니까?")) {
+        $.ajax({
+          url: $(".emailForm").attr("action"),
+          method: 'post',
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+          },
+          data: formData,
+          success: function() {
+            $("input[name='name']").val("");
+            $("textarea[name='comments']").val("");
+            $("input[type='email']").val("");
+            $("input[name='website']").val("");
+            alert("등록되었습니다.");
+          },
+          error: function(error) {
+            alert(error.status);
+          }
+        });
+      }
+    });
     
     function getTodoList() {
       
@@ -235,11 +256,11 @@
             str += '<div class="toDo_listItem_container">';
             if(res[i].done === 'Y') {
               str += '<li class="toDo_listItem activeList">';
-              str += '<input type="checkbox" value="' + res[i].num + '" checked id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+              str += '<input type="checkbox" class="toDoCheckbox" value="' + res[i].num + '" checked id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
             }
             else {
               str += '<li class="toDo_listItem">';
-              str += '<input type="checkbox" value="' + res[i].num + '" id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+              str += '<input type="checkbox" class="toDoCheckbox" value="' + res[i].num + '" id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
             }
             str += '<div class="listContent">';
             str += '<span style="word-break:break-all;" class="toDo_listContent">' + res[i].do_list + '</span>';
@@ -274,11 +295,11 @@
             str += '<div class="toDo_listItem_container">';
             if(res[i].done === 'Y') {
               str += '<li class="toDo_listItem1 activeList">';
-              str += '<input type="checkbox" value="' + res[i].num + '" checked id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+              str += '<input type="checkbox" class="toDoCheckbox" value="' + res[i].num + '" checked id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
             }
             else {
               str += '<li class="toDo_listItem1">';
-              str += '<input type="checkbox" value="' + res[i].num + '" id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
+              str += '<input type="checkbox" class="toDoCheckbox" value="' + res[i].num + '" id="done' + res[i].num + '"><label for="done' + res[i].num + '">';
             }
             str += '<div class="listContent">';
             str += '<span style="word-break:break-all;" class="toDo_listContent">' + res[i].do_list + '</span>';

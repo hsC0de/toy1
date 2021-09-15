@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe24.service.HomeService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class HomeController {
     
@@ -85,4 +87,10 @@ public class HomeController {
     public void doneTodoListManager(@RequestParam Map<String, Object> map) {
         homeService.doneTodoList("home.doneTodoListManager", map);
     }
+	
+	@PostMapping("emailMe")
+	public String emailMe(@RequestParam Map<String, Object> map) {
+	    homeService.emailMe(map);
+	    return "home/contactMe";
+	}
 }

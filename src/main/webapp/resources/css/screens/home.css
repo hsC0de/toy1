@@ -2,9 +2,12 @@ body {
 /* 	background-image: url("/resources/img/body_bg.png"); */
 }
 
+.contactTitle {
+	font-size: 40px;
+	margin-left: 20px;
+}
 
-
-.section {
+section {
 /* 	display: flex; */
 /*   background-color: #71AABE; */
 }
@@ -125,7 +128,7 @@ body {
 	margin-right: 20px;
 }
 
-input[type="checkbox"] {
+.toDoCheckbox {
   display: block;
   position: absolute;
   left: 10px;
