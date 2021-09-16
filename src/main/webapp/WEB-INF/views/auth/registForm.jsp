@@ -17,7 +17,8 @@
       width: 490px;
       margin: 0 auto;
     }
-    .id_area {
+    .id_area,
+    .email_area {
       box-sizing: border-box;
       width: 300px;
       height: 40px;
@@ -25,15 +26,8 @@
       padding: 3px 10px;
       background-color: #fff;
     }
-    #id {
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
     
-    #id:focus {
-      outline: none;
-    }
+    
     
     .pw_area {
       box-sizing: border-box;
@@ -44,6 +38,8 @@
       background-color: #fff;
     }
     
+    #id,
+    #email,
     #password,
     #passwordCheck {
       border: none;
@@ -51,14 +47,14 @@
       height: 100%;
     }
     
-    #password:focus{
+    #id:focus,
+    #email:focus,
+    #password:focus,
+    #passwordCheck:focus {
       outline:none;
     }
     
-    #passwordCheck:focus {
-      outline: none;
-    } 
-    
+    #submitButton:hover,
     #id_check:hover {
       cursor:pointer;
     }
@@ -70,7 +66,8 @@
       position: relative;
     }
     
-    .pw_area_container {
+    .pw_area_container,
+    .email_area_container {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
@@ -142,7 +139,8 @@
     }
     
     .id_info,
-    .password_info {
+    .password_info,
+    .email_info {
       color: red;
       font-size: 14px;
     }
@@ -163,18 +161,28 @@
 	      
 	      var password = $("#password").val();
 	      
+	      var email = $("#email").val();
+	      
 	      var passwordCheck = $("#passwordCheck").val();
 	      
 	      console.log(idCheck + "dd");
 	      if(idCheck === "false") {
-	        
 	        alert("아이디를 확인해 주세요.");
+	        $("#id").focus();
+	        return;
+	      }
+	      
+	      var re = new RegExp(/^[\w]+@[\w]+\.(com|co.kr|net|org|biz|info|or.kr|ne.kr|re.kr|go.kr|pe.kr|ac.kr|es.kr|ms.kr)$/);
+	      
+	      if(!re.test(email)) {
+	        alert("이메일 주소가 올바르지 않습니다. asdf@asdf.(com|co.kr|net|org|biz|info|or.kr|ne.kr|re.kr|go.kr|pe.kr|ac.kr|es.kr|ms.kr)");
+	        $("#email").focus();
 	        return;
 	      }
 	      
 	      if(password !== passwordCheck || password < 2) {
-	        
 	        alert("비밀번호를 확인해 주세요.");
+	        $("#password").fucus();
 	        return;
 	      }
 	      
@@ -193,6 +201,31 @@
           $(".id_info").html("").css("margin-bottom", "0");
 	      }
 	    });
+	    
+	    $("#email").on("keyup", function() {
+        
+	      var email = $(this).val();
+	      
+        $(".email_info").html("");
+        
+        if(!email) {
+          $(".email_info").html("").css("margin-bottom", "0");
+        }
+        
+        var re = new RegExp(/^[\w]+@[\w]+\.(com|co.kr|net|org|biz|info|or.kr|ne.kr|re.kr|go.kr|pe.kr|ac.kr|es.kr|ms.kr)$/);
+        
+        if(!re.test(email)) {
+          $(".email_info").append("<span> ※ 이메일 주소가 올바르지 않습니다. </span>");
+          $(".email_info").css({ "color": "red",
+            "margin-bottom": "10px"});
+        }
+        else {
+          $(".email_info").append("<span> ※ 올바른 주소입니다.</span>");
+          $(".email_info").css({"color": "blue",
+                                   "margin-bottom": "10px"});
+        }
+        
+      });
 	    
 	    $("#passwordCheck").on("keyup", function() {
 	      
@@ -304,7 +337,9 @@
   <div class="wrap">
     <div id="container">
 	    <div id="header">
-	      <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
+      <a href="/">
+        <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
+      </a>
 	    </div>
 	    <div id="register_container">
 		    <div class="content">
@@ -325,8 +360,21 @@
 								  <div id="id_check" class="btn_id_check"><span>중복확인</span></div>
 								  
 						    </div>
+                <div class="id_info"></div>
 						    
-	              <div class="id_info"></div>
+	              <div class="email_area_container">
+                  <div class="input_name">
+                    <div>
+                      <span>
+                        이메일
+                      </span><span>*</span>
+                    </div>
+                  </div>
+                  <div class="email_area">
+                    <input type="email" name="email" id="email"/>
+                  </div>
+                </div>
+                <div class="email_info"></div>
 		            <div class="pw_area_container">
 		              <div class="input_name">
 	                  <div>

@@ -1,6 +1,5 @@
 package com.cafe24.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,14 +33,14 @@ public class BoardController {
     
     @GetMapping("list")
     public String list(PageDTO map, Model model) {
-        List<Map<String, Object>> resultList = new ArrayList<>();
+        Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
 
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
-        resultList = boardService.boardList("board.getBoardList", toMap);
+        resultMap = boardService.boardList("board.getBoardList", toMap);
         Map<String, Object> paging = boardService.getTotal("board.getTotal", toMap);
         Map<String, Object> kind_nm = boardService.getMenuNm("board.getMenuNm", toMap);
         
-        model.addAttribute("list", resultList);
+        model.addAttribute("list", resultMap);
         model.addAttribute("paging", paging);
         model.addAttribute("kind", map.getKind());
         model.addAttribute("kind_nm", kind_nm);

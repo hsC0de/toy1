@@ -858,7 +858,7 @@
       if(!board.nextContent) {
         $(".btn_get_next").css("display", "none");
       }
-      else if(!board.preContent) {
+      if(!board.preContent) {
         $(".btn_get_pre").css("display", "none");
       }
       

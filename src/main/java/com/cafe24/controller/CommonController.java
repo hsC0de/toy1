@@ -46,6 +46,11 @@ public class CommonController {
         return "auth/loginForm";
     }
     
+    @PostMapping("login")
+    public String login() {
+        return "auth/loginForm";
+    }
+    
     @GetMapping("signUp")
     public String signUp() {
         return "auth/registForm";

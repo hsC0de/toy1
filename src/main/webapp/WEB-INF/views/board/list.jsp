@@ -112,21 +112,102 @@
             </tr>
           </thead>
           <tbody>
-            <c:forEach items="${list}" var="board">
-            <tr>
-              <td>
+            <c:if test="${paging.page eq 1}">
+            <c:forEach items="${list.noticeBoardList}" var="board">
+            <tr class="noticeList">
+              <td class="noticeTd">
                 <c:choose>
                 <c:when test="${kind ne 'BA'}">
                   <c:choose>
-                  <c:when test="${board.kind eq 'BA'}">
-<!--                   <div class="noticeBox" -->
+                  <c:when test="${board.kind eq 'BN' and board.type ne 'N'}">
+                    <c:choose>
+                    <c:when test="${board.type eq 'Y'}">
+                    <div class="noticeBoardBox">공지</div>
+                    </c:when>
+                    <c:otherwise>
+                    <div class="noticeBoardBox">필독</div>
+                    </c:otherwise>
+                    </c:choose>
+                  </c:when>
+                  <c:when test="${board.kind ne 'BN' and board.type ne 'N'}">
+                    <c:choose>
+                    <c:when test="${board.type eq 'Y'}">
+                    <div class="noticeBoardBox">공지</div>
+                    </c:when>
+                    <c:otherwise>
+                    <div class="noticeBoardBox">필독</div>
+                    </c:otherwise>
+                    </c:choose>
                   </c:when>
                   <c:otherwise>
                   <c:out value="${board.bno}" />
                   </c:otherwise>
                   </c:choose>
                 </c:when>
-                
+                <c:otherwise>
+                  <c:choose>
+                  <c:when test="${board.kind eq 'BN' and board.type ne 'N'}">
+                    <c:choose>
+                    <c:when test="${board.type eq 'Y'}">
+                    <div class="noticeBoardBox">공지</div>
+                    </c:when>
+                    <c:otherwise>
+                    <div class="noticeBoardBox">필독</div>
+                    </c:otherwise>
+                    </c:choose>
+                  </c:when>
+                  <c:otherwise>
+                  <a class="moveBoardKind" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
+                  </c:otherwise>
+                  </c:choose>
+                </c:otherwise>
+                </c:choose>
+              </td>
+              <td>
+                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}&kind=${board.kind}"/>' >
+                  <span>${board.title}</span>
+                  <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
+                </a>
+              </td>
+              <td><c:out value="${board.id}" /></td>
+              <td><c:out value="${board.reg_date}" /></td>
+              <td><c:out value="${board.cnt}" /></td>
+              <td><c:out value="${board.good}" /></td>
+            </tr>
+            </c:forEach>
+            <c:forEach items="${list.boardNoticeList}" var="board">
+            <tr class="noticeList">
+              <td class="noticeTd">
+                <c:choose>
+                <c:when test="${kind ne 'BA'}">
+                  <c:choose>
+                  <c:when test="${board.kind ne 'BN' and board.type eq 'Y'}">
+                    <div class="noticeBox">공지</div>
+                  </c:when>
+                  </c:choose>
+                </c:when>
+                </c:choose>
+              </td>
+              <td>
+                <a class="getBoardList" href='/board/get?bno=<c:out value="${board.bno}"/>&page=${paging.page}&userDisplay=<c:out value="${paging.userDisplay}&kind=${board.kind}"/>' >
+                  <span>${board.title}</span>
+                  <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
+                </a>
+              </td>
+              <td><c:out value="${board.id}" /></td>
+              <td><c:out value="${board.reg_date}" /></td>
+              <td><c:out value="${board.cnt}" /></td>
+              <td><c:out value="${board.good}" /></td>
+            </tr>
+            </c:forEach>
+            </c:if>
+            <c:forEach items="${list.boardList}" var="board">
+            <tr>
+              <td>
+                <c:choose>
+                <c:when test="${kind ne 'BA'}">
+                  <c:out value="${board.bno}" />
+                </c:when>
                 <c:otherwise>
                   <a class="moveBoardKind" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a>
                 </c:otherwise>
@@ -137,9 +218,6 @@
                   <span>${board.title}</span>
                   <span class="getBoardListReplyCnt">[<c:out value="${board.replyCnt}" />]</span>
                 </a>
-<%--                 <c:when test="${board.type eq 'Y'}"> --%>
-<%--                   <a class="moveBoardKind noticeList" href="/board/list?page=1&userDisplay=15&kind=${board.kind}"><c:out value="${board.menu_nm}"/></a> --%>
-<%--                 </c:when> --%>
               </td>
               <td><c:out value="${board.id}" /></td>
               <td><c:out value="${board.reg_date}" /></td>

@@ -40,20 +40,30 @@
 
       SELECT BNO
            , (SELECT BNO 
-                FROM BOARD 
-               WHERE BNO &gt; #{bno} 
+                FROM BOARD C
+               WHERE BNO &gt; #{bno}
                  AND DEL = 'N'
-                 <if test="kind != 'BA'">
+                 <choose>
+                 <when test="kind != 'BA'">
                  AND KIND = #{kind}
-                 </if>
+                 </when>
+                 <when test="kind == 'BA'">
+                 AND (CASE WHEN C.KIND = 'BN' THEN C.TYPE = 'N' ELSE A.TYPE IN ('Y', 'N') END)
+                 </when>
+                 </choose>
             ORDER BY BNO LIMIT 1) AS PRECONTENT
            , (SELECT BNO 
-                FROM BOARD 
+                FROM BOARD C
                WHERE BNO &lt; #{bno} 
                  AND DEL = 'N'
-                 <if test="kind != 'BA'">
+                 <choose>
+                 <when test="kind != 'BA'">
                  AND KIND = #{kind}
-                 </if>
+                 </when>
+                 <when test="kind == 'BA'">
+                 AND (CASE WHEN C.KIND = 'BN' THEN C.TYPE = 'N' ELSE A.TYPE IN ('Y', 'N') END)
+                 </when>
+                 </choose>
             ORDER BY BNO DESC LIMIT 1) AS NEXTCONTENT
            , TITLE
            , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i') AS REG_DATE
@@ -97,7 +107,6 @@
     </resultMap>
     
     <select id="getBoardList" parameterType="hashmap" resultMap="getBoardListMap">
-        
       SELECT A.BNO      AS BNO
            , A.TITLE    AS TITLE
            , A.ID       AS ID
@@ -133,11 +142,99 @@
           ON A.KIND = D.MENU_ID
        WHERE 1=1
          AND DEL = 'N'
-         <if test="kind != 'BA'">
+         <choose>
+         <when test="kind != 'BA'">
          AND KIND = #{kind}
-         </if>
-    ORDER BY A.BNO DESC 
+         AND TYPE = 'N'
+         </when>
+         <when test="kind == 'BA'">
+         AND (CASE WHEN A.KIND = 'BN' THEN A.TYPE = 'N' ELSE A.TYPE IN ('Y', 'N') END)
+         </when>
+         </choose>
+    ORDER BY A.BNO DESC
        LIMIT #{offset}, #{userDisplay}
+    </select>
+    
+    <select id="getBoardNoticeList" parameterType="hashmap" resultMap="getBoardListMap">
+      SELECT A.BNO      AS BNO
+           , A.TITLE    AS TITLE
+           , A.ID       AS ID
+           , UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
+           , CASE WHEN (UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE)) &lt; 0 THEN DATE_FORMAT(A.REG_DATE, '%H:%i')
+                                                                                                            ELSE DATE_FORMAT(A.REG_DATE, '%Y.%m.%d.')
+             END AS REG_DATE
+<!--            , A.REG_DATE AS REG_DATE -->
+           , A.CNT      AS CNT
+           , C.CNT      AS GOOD
+           , B.CNT      AS REPLYCNT
+           , A.KIND
+           , D.MENU_NM
+           , A.TYPE
+        FROM BOARD AS A
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.RNO) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN REPLY AS B
+                  ON A.BNO = B.BNO
+               WHERE 1=1
+            GROUP BY A.BNO) AS B
+          ON A.BNO = B.BNO
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.ID) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN GOOD AS B
+                  ON A.BNO = B.BNO
+               WHERE 1=1
+            GROUP BY A.BNO) AS C
+          ON A.BNO = C.BNO
+        JOIN MENU D
+          ON A.KIND = D.MENU_ID
+       WHERE 1=1
+         AND DEL = 'N'
+         AND KIND = #{kind}
+         AND TYPE = 'Y'
+    ORDER BY A.BNO DESC
+    </select>
+    
+    <select id="getNoticeBoardList" parameterType="hashmap" resultMap="getBoardListMap">
+      SELECT A.BNO      AS BNO
+           , A.TITLE    AS TITLE
+           , A.ID       AS ID
+           , UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE) AS GAP
+           , CASE WHEN (UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE)) &lt; 0 THEN DATE_FORMAT(A.REG_DATE, '%H:%i')
+                                                                                                            ELSE DATE_FORMAT(A.REG_DATE, '%Y.%m.%d.')
+             END AS REG_DATE
+<!--            , A.REG_DATE AS REG_DATE -->
+           , A.CNT      AS CNT
+           , C.CNT      AS GOOD
+           , B.CNT      AS REPLYCNT
+           , A.KIND
+           , D.MENU_NM
+           , A.TYPE
+        FROM BOARD AS A
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.RNO) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN REPLY AS B
+                  ON A.BNO = B.BNO
+               WHERE 1=1
+            GROUP BY A.BNO) AS B
+          ON A.BNO = B.BNO
+        JOIN (SELECT A.BNO AS BNO
+                   , COUNT(B.ID) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN GOOD AS B
+                  ON A.BNO = B.BNO
+               WHERE 1=1
+            GROUP BY A.BNO) AS C
+          ON A.BNO = C.BNO
+        JOIN MENU D
+          ON A.KIND = D.MENU_ID
+       WHERE 1=1
+         AND DEL = 'N'
+         AND KIND = 'BN'
+         AND TYPE IN ('M', 'Y')
+    ORDER BY A.TYPE ASC, A.BNO DESC;
     </select>
     
     <resultMap type="hashmap" id="getMenuNmMap">

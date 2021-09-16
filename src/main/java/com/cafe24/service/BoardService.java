@@ -25,10 +25,18 @@ public class BoardService {
 
     public final CommonDao dao;
     
-    public List<Map<String, Object>> boardList(String statement, Map<String, Object> condition) {
+    public Map<String, List<Map<String, Object>>> boardList(String statement, Map<String, Object> condition) {
+        Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
         List<Map<String, Object>> resultList = new ArrayList<>();
         resultList = dao.selectList(statement, condition);
-        return resultList;
+        resultMap.put("boardList", resultList);
+        resultMap.put("noticeBoardList", dao.selectList("board.getNoticeBoardList", condition));
+        log.info("" + !("BA".equals(condition.get("kind"))));
+        if(!("BA".equals(condition.get("kind"))) && !("BN".equals(condition.get("kind")))) {
+            resultMap.put("boardNoticeList", dao.selectList("board.getBoardNoticeList", condition));
+        }
+        
+        return resultMap;
     }
     
     public Map<String, Object> getTotal(String statement, Map<String, Object> condition) {

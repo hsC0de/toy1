@@ -25,7 +25,7 @@
 th {
 	border-top: 1px solid rgba(0, 0, 0, 0.7);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	padding: 12px; 0
+	padding: 12px;
 	font-weight: 700;
 	
 }
@@ -36,6 +36,7 @@ thead tr th:first-child {
 }
 
 thead tr th:nth-child(2) {
+  box-sizing: border-box;
 	width: 446px;
 }
 
@@ -66,10 +67,13 @@ tbody tr {
 }
 
 td {
-  padding: 10px;
+  padding: 10px 5px;
   text-align: center;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.7);
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
 }
 
 td:nth-child(2) a {
@@ -87,23 +91,31 @@ td:nth-child(2) span:first-child {
 	white-space: nowrap;
 }
 
+
 td:nth-child(2),
 td:nth-child(3) {
 	text-align: left;
 }
 
 td:nth-child(2) {
+  box-sizing: border-box;
 	width: 446px;
 }
 
 td:nth-child(3) {
-	overflow: hidden; 
-  text-overflow: ellipsis; 
-  white-space: nowrap;
+  font-size: 13px;
 }
 
 td:first-child {
   font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.noticeTd {
+	padding: 7px 9px;
 }
 
 td:nth-child(4),
@@ -172,7 +184,7 @@ td:last-child {
 }
 
 .board_option select:focus {
-      outline: none;
+  outline: none;
 }
 
 .board_footer {
@@ -226,4 +238,34 @@ td:last-child {
 
 .moveBoardKind:hover {
   text-decoration: underline; 
+}
+
+.noticeBoardBox {
+	border: 1px solid #ffc6c9;
+	background-color: #ffe3e4;
+	color: #ff4e59;
+	width: 56px;
+	height: 21px;
+	box-sizing: border-box;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 18px;
+}
+
+.noticeBox {
+  border: 1px solid #ffc6c9;
+  background-color: #fff;
+  color: #ff4e59;
+  width: 56px;
+  height: 21px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.noticeList {
+	background-color: #F9F9F8;
 }

@@ -40,10 +40,12 @@
       INSERT INTO MEMBERS ( ID
                           , PASSWORD
                           , JOIN_DATE
-                          , AUTH_GRP_CD )
+                          , AUTH_GRP_CD
+                          , EMAIL )
                    VALUES ( #{id}
                           , #{password}
                           , NOW()
-                          , '30')
+                          , '30'
+                          , #{email})
     </insert>
 </mapper>

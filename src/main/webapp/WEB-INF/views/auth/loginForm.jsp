@@ -73,7 +73,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      
+      position: relative;
     }
     
     .login_tools {
@@ -90,13 +90,19 @@
       width: 461px;
     }
     
+    .authenticationErrorMsg {
+      display: block;
+      color: tomato;
+      margin-bottom: 10px;
+      position: relative;
+      left: -74px;
+    }
+    
   </style>
 	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<script>
 	  $(function() {
-	    var idObj = $(".id_info");
-	    var pwObj = $(".pw_info");
-	    
+	    $("input[name='username']").focus();
 	    
 	  });
 	</script>
@@ -107,20 +113,34 @@
   <div class="wrap">
     <div id="container">
     <div id="header">
-      <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
+      <a href="/">
+        <img src="/resources/img/cxooxc-logo-black1.png" class="mainLogo">
+      </a>
     </div>
     <div id="login_container">
       <div class="content">
         <form id="loginForm" name="loginform" method="post" action="/login">
           <fieldset class="login_form">
             <div class="id_area">
-              <input type="text" name="username" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
+              <c:choose>
+              <c:when test="${not empty loginidname}">
+                <input type="text" name="username" id="id" placeholder="아이디" minlength="2" maxlength="20" value="${loginidname}"/>
+              </c:when>
+              <c:otherwise>
+                <input type="text" name="username" id="id" placeholder="아이디" minlength="2" maxlength="20"/>
+              </c:otherwise>
+              </c:choose>
+              
             </div>
             <div class="pw_area">
               <input type="password" name="password" id="password" placeholder="비밀번호" minlength="2" maxlength="16"/>
             </div>
-            <div class="id_info"></div>
             <input type="submit" id="loginButton" value="로그인"/>
+            <span class="authenticationErrorMsg">
+            <c:if test="${not empty loginFailMsg}">
+              ※ ${loginFailMsg}
+            </c:if>
+            </span>
             <div class="login_tools">
 	            <div class="checkbox">
 			          <input id="rememberMe" name="remember-me" type="checkbox"><label for="rememberMe">로그인 상태 유지</label>
