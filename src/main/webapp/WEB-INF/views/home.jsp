@@ -29,7 +29,7 @@
       </div>
       <div class="navbar_userInfo">
       <sec:authorize access="isAnonymous()">
-        <a href="/common/login" class="loginButton">로그인</a>
+        <a href="/common/login" class="loginButton"><span>로그인</span></a>
 <!--         <div class="divider"></div> -->
       </sec:authorize>
       <sec:authorize access="isAuthenticated()">
@@ -46,7 +46,7 @@
               <div class="userInfo_id">
                 <span class="userInfo_name"><b><sec:authentication property="principal.username"/></b>님</span>
                 <form role="form" method="post" action="/logout">
-                  <a href="#" class="loginButton logout">로그아웃</a>
+                  <a href="#" class="loginButton logout"><span>로그아웃</span></a>
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
@@ -228,12 +228,13 @@
             xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
           },
           data: formData,
-          success: function() {
+          dataType: 'text',
+          success: function(res) {
             $("input[name='name']").val("");
             $("textarea[name='comments']").val("");
             $("input[type='email']").val("");
             $("input[name='website']").val("");
-            alert("등록되었습니다.");
+            alert(res);
           },
           error: function(error) {
             alert(error.status);

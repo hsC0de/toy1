@@ -86,12 +86,17 @@
 }
 
 .loginButton {
-	display: block;
-	padding: 5px;
+	display: flex;
+	align-items: center;
+	padding: 3px 5px;
 	font-size: 12px;
-	height: 24px;
+	height: 22px;
 	color: #777777;
 	border: 1px solid #dadada;
+}
+
+.loginButton span {
+	display: block;
 }
 
 .userInfoButton:hover {
@@ -126,6 +131,10 @@
   justify-content: space-around;
   position: relative;
   top: -5px;
+}
+
+.userInfo_auth {
+	margin-bottom: 3px;
 }
 
 .userInfo_id {
@@ -199,10 +208,6 @@
      linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
-}
-
-.navbar_userInfo a {
-	display: block;
 }
 
 .navbar_userInfo a:last-child {

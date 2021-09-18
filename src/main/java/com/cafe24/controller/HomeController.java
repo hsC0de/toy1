@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.domain.common.EmailDTO;
 import com.cafe24.service.HomeService;
 
 import lombok.RequiredArgsConstructor;
@@ -88,9 +90,10 @@ public class HomeController {
         homeService.doneTodoList("home.doneTodoListManager", map);
     }
 	
-	@PostMapping("emailMe")
-	public String emailMe(@RequestParam Map<String, Object> map) {
-	    homeService.emailMe(map);
-	    return "home/contactMe";
+	@PostMapping(value="emailMe", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String emailMe(EmailDTO email) {
+	    homeService.emailMe(email);
+	    return "등록되었습니다.";
 	}
 }
