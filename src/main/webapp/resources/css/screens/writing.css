@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+body {
+  height: auto;
+}
+#editor {
+  width : 100%;
+  margin : 0 auto;
+}
+
 .writing_Header {
 	display: flex;
 	justify-content: space-between;

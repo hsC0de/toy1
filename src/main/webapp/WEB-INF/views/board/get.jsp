@@ -7,314 +7,10 @@
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
   <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css" />
-  <style>
-    .get_tools {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-      align-items: center;
-    }
-    
-    .modify_tools {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-    
-    .list_tools {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-    
-    .btn_board_modify {
-      margin-right: 10px;
-    }
-    
-    .btn_get_next {
-      margin-right: 10px;
-    }
-    
-    .btn_get_pre {
-      margin-right: 10px;
-    }
-    
-    .get_tools span {
-      display: inline-block;
-      
-    }
-    
-    .get_tools_bottom {
-      display: flex;
-      justify-content: space-between;
-    }
-    
-    .get_tool_list {
-      display: flex;
-    }
-    
-    .get_tool_list .btn_board_list {
-      margin-right: 10px;
-    }
-    
-    .get_btn {
-      background-color: #EFF0F2;
-      padding: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-    
-    .get_btn img {
-      width: 12px;
-      margin-right: 4px;
-    }
-    
-    #viewer {
-      margin: 26px 0 0 0;
-    }
-    
-    .get_contents_container {
-      padding: 30px;
-      border: 1px solid #ebecef;
-      border-radius: 6px;
-    }
-    
-    .contents_info {
-      display: flex;
-      justify-content: space-between;
-    }
-    
-    .contents_tools {
-      display: flex;
-      align-items: center;
-      font-size: 13px;
-      position: relative;
-    }
-    
-    .contents_tools a {
-      display: flex;
-      margin-right: 10px;
-    }
-    
-    .contents_comments_button {
-      align-items: center;
-    }
-    
-    .contents_comments_button img {
-      display: block;
-      margin-right: 4px;
-      width: 15px;
-    }
-    
-    .contents_comments_button span {
-      display: block;
-    }
-    
-    .contents_comments_writer {
-      border: 2px solid #dadada;
-      border-radius: 6px;
-      padding: 10px;
-      margin-top: 14px;
-    }
-    
-    .register_box {
-      text-align: right;
-    }
-    
-    .register_box a {
-      display: inline-block;
-      font-size: 14px;
-      color: #cccccc;
-      
-    }
-    
-    .comments_refresh_button {
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      border:none;
-      cursor: pointer;
-    }
-    
-    .comments_refresh_button img {
-      width: 14px;
-    }
-    
-    .contents_comments_header {
-      margin-top: 18px;
-      display: flex;
-    }
-    
-    .contents_comments_tab_list {
-      display: flex;
-      margin: 0 10px;
-      font-size: 14px;
-    }
-    
-    .contents_comments_tab_list li:first-child {
-      margin-right: 10px;
-    }
-    
-    .contents_comments_inbox_text {
-      display: block;
-      width: 100%;
-      border: none;
-      resize: none;
-    }
-    
-    .contents_comments_inbox_text:focus {
-      outline: none;
-    }
-    
-    .contents_comments_inbox_text::placeholder {
-      color: #dadada;
-      font-size: 13px;
-    }
-    
-    
-    .contents_comments_inbox {
-      margin-bottom: 10px;
-    }
-    
-    .contents_comments_name {
-      margin-bottom: 10px;
-      display: inline-block;
-      font-size: 14px;
-    
-    }
-    
-    .contents_kind_button {
-      font-size: 13px;
-      color: #3D96C2;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .contents_kind_button span {
-      font-size: 13px;
-      display: inline-block;
-/*       margin-left: 7px; */
-    }
-    
-    .contents_title {
-      margin-bottom: 10px;
-    }
-    
-    .contents_title span {
-      font-size: 26px;
-      font-weight: 400;
-    }
-    
-    .profile_info {
-      margin-bottom: 10px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-    
-    .contents_info {
-      margin-bottom: 20px;
-    }
-    .article_info {
-      color: #bbbbbb;
-      font-size: 12px;
-    }
-    
-    .contents_comments_title {
-      font-size: 18px;
-      
-    }
-    
-    .contents_comments_list {
-      margin-top: 8px;
-    }
-    
-    .commentsItem {
-      padding: 10px 0;
-      border-top: 1px solid #eeeeee;
-      position: relative;
-    }
-    
-    .commentsItemMineBg {
-      background: #f9f9fa;
-    }
-    
-    .commentsItemMineBg::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -29px;
-      bottom: -1px;
-      width: 858px;
-      background: #f9f9fa;
-      z-index: -1;
-    }
-    
-    .commentsItem:first-child {
-      border: none;
-    }
-    
-    .commentsItem_id_box {
-      font-size: 15px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    
-    .comment_nickname {
-      display: inline-block;
-      margin-right: 5px;
-    }
-    
-    .commentsItem_text_box {
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-    
-    .commentsItem_info_box {
-      font-size: 12px;
-      color: bbbbbb;
-    }
-    
-    .commentsItem_info_box span {
-      display: inline-block;
-      margin-right: 10px;
-    }
-    
-    .get_user_contents {
-      margin-top: 97px;
-    }
-    
-    .toast_url_copy_successful {
-      position: absolute;
-      top: 40px;
-      right: 6px;
-      width: 358px;
-      background-color: #6F6F6F;
-      border-radius: 7px;
-      padding: 10px 14px 9px;
-      font-size: 15px;
-      color: #ffffff;
-    }
-    
-    .comments_tab_item {
-      padding-top:2px;
-    }
-    
-    .get_tool_write {
-      display: flex;
-    }
-    
-    
-  </style>
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Get</title>
-	
 </head>
 <body>
   <div id="wrap">
@@ -351,7 +47,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
+              <div class="userInfo_auth">${authName}</div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -592,8 +288,9 @@
   </sec:authorize>
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/get.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
+  <script type="text/javascript" src="/resources/js/util/autoSize.js"></script>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.js"></script>
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
@@ -621,15 +318,14 @@
     
 
     
-    window.addEventListener('beforeunload', () => {
+//     window.addEventListener('beforeunload', () => {
 //       var sp = $(".tab").offset().top;
 //       $(window).scrollTop(sp);  
-    });
+//     });
     
     $(function() {
       function getReplyList(rno) {
         
-  //       $.getJSON("/reply/getReplyList?bno=" + board.bno , function(data) {
         $.ajax({
           url: "/reply/getReplyList",
           method: "get",
@@ -708,9 +404,6 @@
         });
       }
       
-//       var sp = $(".tab").offset().top;
-//       $(window).scrollTop(sp); 
-      
       console.log(board);
      
       $(".kind_button_val").html(board.menu_nm + " 〉");
@@ -724,10 +417,6 @@
         el: document.querySelector('#viewer'),
         initialValue: board.content
       });
-      
-//       var date = board.reg_date;
-//       date = replyService.displayTime1(date);
-//       date = date.substring(0, 10).replaceAll("/", ".") + "." + date.substring(10, 16);
 
       $(".date").text(board.reg_date);
       
@@ -737,7 +426,6 @@
         location.href = "/board/list?page=1&userDisplay=15&kind=" + board.kind;
       });
       
-//       $(document).on("click", ".contents_comments_button", function(e) {
       $(".contents_comments_button").on("click", function(e) {  
         e.preventDefault();
         e.stopPropagation();

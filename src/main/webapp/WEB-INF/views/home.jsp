@@ -50,7 +50,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
+              <div class="userInfo_auth">${authName}</div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -190,8 +190,6 @@
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
-    var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
-    console.log(auth);
     
     $(document).on("click", ".emailSubmitBtn", function(e) {
       e.preventDefault();

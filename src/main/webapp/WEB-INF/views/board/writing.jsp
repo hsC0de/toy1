@@ -6,19 +6,10 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
-<!--   <link rel="stylesheet" href="/node_modules/codemirror/lib/codemirror.css" /> -->
+  <link rel="stylesheet" href="/resources/css/screens/writing.css" />
   <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor.css" />
   <style type="text/css">
-    body {
-      height: auto;
-    }
     
-    #editor {
-/*     border : 1px solid; */
-    width : 100%;
-/*     height: 500px; */
-    margin : 0 auto;
-    }
   </style>
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
@@ -59,7 +50,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
+              <div class="userInfo_auth">${authName}</div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -146,14 +137,14 @@
   </div>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/list.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script>
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";
     var board = ${board != null and !empty board? board : "0"};
     var id = $("#tempUsername").text();
-    var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
+//     var auth = $("#tempAuthorities").text().substring(6, $("#tempAuthorities").text().length - 1);
     var boardInfo = ${boardInfo != null and boardInfo != ""? boardInfo : "0"};
     console.log(boardInfo);
     console.log(board);
@@ -394,24 +385,8 @@
         $(".writing_option_select_type .option_list").html(str1);
       }
       
-//$(".kindSelect .optionButton").attr("value")
-
-
-      
-//       $(document).on("click", ".option_list .item .option", function() {
-//       var value$(".optionButton").
-        
-//       <ul class="option_list">
-//       <li class="item">
-//         <button type="button" class="option" value="${kind}">자유게시판1</button>
-//       </li>
-      
       console.log(board);
       if(board) {
-//         $(".kind_button_val").html(board.menu_nm + " 〉");
-//         $(".nick_box span").html(board.id);
-//         $(".cnt").html("조회 " + board.cnt);
-//         $("#refreshReplyCnt").html("댓글 " + board.replyCnt);
         $(".writingContent_smartEditor textarea").val(board.content); 
         $(".textarea_input").val(board.title);
       }
@@ -423,8 +398,6 @@
         e.stopPropagation();
         
         var title = $(".textarea_input").val();
-//         console.log(title);
-//         var content = $(".writingContent_smartEditor textarea").val();
         var content = editor.getMarkdown();
         console.log(content);
         if(!title) {
@@ -446,12 +419,13 @@
         else {
           board.content = content;
           board.title = title;
+          board.kind = $(".kindSelect .optionButton").attr("value");
+          board.type = $(".typeSelect .optionButton").attr("value");
           if(location.pathname != '/board/writing') {
             board.upd_seq = board.upd_seq + 1;
           }
           data = board; 
         }
-        
         console.log(data);
         
         
@@ -462,9 +436,11 @@
             url = "/board/modifyPost"; 
           }
           
-	        $.post({
+	        $.ajax({
 	          url: url,
+	          method: 'post',
 	          data: data,
+	          dataType: 'text',
 	          beforeSend: function(xhr) {
 	            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 	          },
@@ -478,8 +454,7 @@
                 self.close();
 	            }
 	            else {
-	              alert('fail');
-	              location.href = '/exception/error';	              
+	              alert(res);            
 	            }
 	          },
 	          error: function() {

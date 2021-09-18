@@ -46,7 +46,7 @@
                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form>
               </div>
-              <div class="userInfo_auth"><sec:authentication property="principal.member.authGrpNm"/></div>
+              <div class="userInfo_auth">${authName}</div>
               <div class="userInfo_Activities">
                 <a href="">내가 쓴 글</a>
                 <div class="divider"></div>
@@ -228,7 +228,7 @@
           </tbody>
           
         </table>
-        <div class="get_tools_bottom">
+        <div class="list_tools_bottom">
 	        <div class="board_new">
             <c:choose>
             <c:when test="${kind ne 'BN' and kind ne 'BA'}">
@@ -276,31 +276,14 @@
     
   </div>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/board.js"></script>
+  <script type="text/javascript" src="/resources/js/list.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript">
     var boardKind = "${kind}";
-    $(function() {
-//       var sp = $(".article").offset().top;
-//       $(window).scrollTop(Number(sp) - 20); 
-    });
-    
-//     window.addEventListener('beforeunload', () => {
-//       var sp = $(".article").offset().top;
-//       $(window).scrollTop(Number(sp) - 20); 
-//     });
   
     function userDisplay(val) {
       console.log(val);
       if(val) location.href = '/board/list?page=1&userDisplay=' + val + '&kind=${kind}';
-    }
-		
-    window.onpageshow = function(event) {
-      if(event.persisted || (window.performance && window.performance.navigation.type == 2)) {
-        location.reload();
-        
-      }
-    openWritingPage(boardKind);
     }
   </script>
 </body>

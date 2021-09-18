@@ -1,11 +1,15 @@
 package com.cafe24.controller;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.domain.AuthVO;
 import com.cafe24.domain.PageDTO;
 import com.cafe24.service.BoardService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +37,7 @@ public class BoardController {
     private final BoardService boardService;
     
     @GetMapping("list")
-    public String list(PageDTO map, Model model) {
+    public String list(PageDTO map, Model model, Authentication authentication) {
         Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
 
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
@@ -72,15 +77,45 @@ public class BoardController {
         return "board/writing";
     }
     
-    @PostMapping("regPost")
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value="regPost", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String regPost(@RequestParam Map<String, Object> map) {
+    public String regPost(@RequestParam Map<String, Object> map, Authentication authentication) {
         log.info("" + map);
-        Map<String, Object> resultMap = boardService.regPost("board.insertPost", map);
-        return "/board/get?bno=" + resultMap.get("bno") + "&page=1&userDisplay=10&kind=" + resultMap.get("kind");
+        String result = "";
+        Map<String, Object> resultMap = new HashMap<>();
+        String userAuth = "";
+        boolean auth = false;
+        
+        if(authentication != null) {
+            UserDetails userVo = (UserDetails) authentication.getPrincipal();
+            Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+            userAuth = auths.toArray()[0].toString();
+            userAuth = AuthVO.sortAuthName(userAuth.toString());
+        }
+        
+        if("매니저".equals(userAuth) || "관리자".equals(userAuth)) {
+            auth = true;
+        }
+        
+        if(!"BN".equals(map.get("kind")) && "N".equals(map.get("type"))) {
+            resultMap = boardService.regPost("board.insertPost", map);
+            result = "/board/get?bno=" + resultMap.get("bno") + "&page=1&userDisplay=10&kind=" + resultMap.get("kind");
+        }
+        else {
+            if(auth) {
+                resultMap = boardService.regPost("board.insertPost", map);
+                result = "/board/get?bno=" + resultMap.get("bno") + "&page=1&userDisplay=10&kind=" + resultMap.get("kind");
+            }
+            else {
+                result = "권한이 없습니다.";
+            }
+        }
+        
+        return result;
     }
     
-    @PreAuthorize("principal.username == #id")
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
     @GetMapping("modify/{bno}")
     public String modify(@PathVariable("bno") long bno, @RequestParam String kind, String id, Model model, Authentication authentication) throws JsonProcessingException {
         Map<String, Object> map = new HashMap<>();
@@ -94,16 +129,45 @@ public class BoardController {
         return "board/writing";
     }
     
-    @PreAuthorize("principal.username == #id")
-    @PostMapping("modifyPost")
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
+    @PostMapping(value="modifyPost", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String modifyPost(@RequestParam Map<String, Object> map, @RequestParam("id") String id) {
+    public String modifyPost(@RequestParam Map<String, Object> map, @RequestParam("id") String id, Authentication authentication) {
         log.info(id);
-        boardService.modifyPost("board.updatePost", map);
-        return "ok";
+//        boardService.modifyPost("board.updatePost", map);
+        String result = "";
+        String userAuth = "";
+        boolean auth = false;
+        
+        if(authentication != null) {
+            UserDetails userVo = (UserDetails) authentication.getPrincipal();
+            Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+            userAuth = auths.toArray()[0].toString();
+            userAuth = AuthVO.sortAuthName(userAuth.toString());
+        }
+        
+        if("매니저".equals(userAuth) || "관리자".equals(userAuth)) {
+            auth = true;
+        }
+        
+        if(!"BN".equals(map.get("kind")) && "N".equals(map.get("type"))) {
+            boardService.modifyPost("board.updatePost", map);
+            result = "ok";
+        }
+        else {
+            if(auth) {
+                boardService.modifyPost("board.updatePost", map);
+                result = "ok";
+            }
+            else {
+                result = "권한이 없습니다.";
+            }
+        }
+        
+        return result;
     }
     
-    @PreAuthorize("principal.username == #id")
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
     @GetMapping("delete/{bno}")
     public String delete(@PathVariable("bno") long bno, String id, PageDTO pageMap, Model model) {
         Map<String, Object> map = new HashMap<>();

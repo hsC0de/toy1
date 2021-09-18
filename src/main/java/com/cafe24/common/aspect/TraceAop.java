@@ -1,5 +1,6 @@
 package com.cafe24.common.aspect;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +11,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.cafe24.domain.AuthVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,5 +58,27 @@ public class TraceAop {
 
         return result;
         
+    }
+    
+    @Around("execution(public * com.cafe24.controller..*(..)) && args(.., model, authentication) ")
+    public Object authCheck(ProceedingJoinPoint joinPoint, Model model, Authentication authentication) throws Throwable {
+        String userAuth = "";
+        boolean auth = false;
+        Object result = new Object();
+        
+        if(authentication != null) {
+            UserDetails userVo = (UserDetails) authentication.getPrincipal();
+            Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
+            userAuth = auths.toArray()[0].toString();
+            userAuth = AuthVO.sortAuthName(userAuth.toString());
+            model.addAttribute("authName", userAuth);           
+        }
+        
+        if("매니저".equals(userAuth) || "관리자".equals(userAuth)) {
+            auth = true;
+        }
+        model.addAttribute("auth", auth);
+        result = joinPoint.proceed();
+        return result;
     }
 }

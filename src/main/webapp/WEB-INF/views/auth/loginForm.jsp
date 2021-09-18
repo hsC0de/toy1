@@ -8,108 +8,10 @@
 <meta charset="UTF-8">
 <title>Login</title>
   <link rel="stylesheet" href="/resources/css/styles.css" />
-<style>
-    
-    body {
-      
-      background-color: #F5F6F7;
-    }
-    #container {
-      width: 461px;
-      margin: 0 auto;
-    }
-    .id_area {
-      box-sizing: border-box;
-      width: 461px;
-      height: 46px;
-      border: 1px solid #dadada;
-      padding:10px;
-      margin-bottom: 10px;
-      background-color: #fff;
-    }
-    #id {
-      font-size: 15px;
-      border: none;
-      width: 100%;
-      vertical-align: middle;
-      margin-top: 4px;
-    }
-    
-    .pw_area {
-      box-sizing: border-box;
-      width: 461px;
-      height: 46px;
-      border: 1px solid #dadada;
-      padding:10px;
-      margin-bottom: 10px;
-      background-color: #fff;
-    }
-    
-    #password {
-      font-size: 15px;
-      border: none;
-      width: 100%;
-      vertical-align: middle;
-      margin-top: 4px;
-    }
-    
-    #loginButton {
-      box-sizing: border-box;
-      width: 461px;
-      height: 46px;
-      border: 1px solid #3D96C2;
-      background-color: #3D96C2;
-      padding:10px;
-      margin-bottom: 10px;
-      color: #fff;
-      text-align: center;
-      vertical-align: middle;
-      font-size: 17px;
-      font-weight: 700;
-    }
-    
-    .login_form {
-      width: 461px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-    
-    .login_tools {
-      width: 100%;
-      display:flex;
-      justify-content: space-between;
-    }
-    
-    .checkbox input {
-      margin-right: 10px;
-    }
-    
-    .mainLogo {
-      width: 461px;
-    }
-    
-    .authenticationErrorMsg {
-      display: block;
-      color: tomato;
-      margin-bottom: 10px;
-      position: relative;
-      left: -74px;
-    }
-    
-  </style>
-	<script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
-	<script>
-	  $(function() {
-	    $("input[name='username']").focus();
-	    
-	  });
-	</script>
+  <link rel="stylesheet" href="/resources/css/screens/loginForm.css" />
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
-	
-<%--     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
   <div class="wrap">
     <div id="container">
     <div id="header">
@@ -158,5 +60,8 @@
     </div>
     </div>
   </div>
+  <script type="text/javascript">
+      $("#id").focus();
+  </script>
 </body>
 </html>
