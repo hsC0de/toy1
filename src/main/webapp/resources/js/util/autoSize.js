@@ -267,4 +267,5 @@ if (typeof window === 'undefined' || typeof window.getComputedStyle !== 'functio
   };
 }
 
+// module.exports = autosize;
 // export default autosize;

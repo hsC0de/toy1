@@ -76,7 +76,7 @@
         <div class="board_option">
           <ul>
             <li>
-              <select onchange="userDisplay(this.value)">
+              <select onchange="getUserDisplay(this.value)">
                 <option value="5" <c:out value="${paging.userDisplay eq '5'? 'selected':'' }"/>>5개씩</option>
                 <option value="10" <c:out value="${paging.userDisplay eq '10'? 'selected':'' }"/>>10개씩</option>
                 <option value="15" <c:out value="${paging.userDisplay eq '15'? 'selected':'' }"/>>15개씩</option>
@@ -107,7 +107,7 @@
                 조회
               </th>
               <th>
-                좋아요<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/>
+                <a href="#" class="sort_likes">좋아요<img src="/node_modules/bootstrap-icons/icons/chevron-compact-down.svg"/></a>
               </th>
             </tr>
           </thead>
@@ -275,16 +275,18 @@
     </main>
     
   </div>
-  <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/list.js"></script>
-  <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript">
     var boardKind = "${kind}";
+    var userDisplay = "${userDisplay}";
+    var sortLike = ${sortLike != null and !empty sortLike? sortLike : '0'};
   
-    function userDisplay(val) {
+    function getUserDisplay(val) {
       console.log(val);
       if(val) location.href = '/board/list?page=1&userDisplay=' + val + '&kind=${kind}';
     }
   </script>
+  <script type="text/javascript" src="/resources/js/reply.js"></script>
+  <script type="text/javascript" src="/resources/js/list.js"></script>
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
 </body>
 </html>

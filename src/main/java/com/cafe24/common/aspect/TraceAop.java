@@ -63,8 +63,8 @@ public class TraceAop {
     @Around("execution(public * com.cafe24.controller..*(..)) && args(.., model, authentication) ")
     public Object authCheck(ProceedingJoinPoint joinPoint, Model model, Authentication authentication) throws Throwable {
         String userAuth = "";
-        boolean auth = false;
         Object result = new Object();
+        boolean auth = false;
         
         if(authentication != null) {
             UserDetails userVo = (UserDetails) authentication.getPrincipal();
@@ -72,12 +72,12 @@ public class TraceAop {
             userAuth = auths.toArray()[0].toString();
             userAuth = AuthVO.sortAuthName(userAuth.toString());
             model.addAttribute("authName", userAuth);           
+            if("매니저".equals(userAuth) || "관리자".equals(userAuth)) {
+                auth = true;
+            }
+            model.addAttribute("auth", auth);
         }
         
-        if("매니저".equals(userAuth) || "관리자".equals(userAuth)) {
-            auth = true;
-        }
-        model.addAttribute("auth", auth);
         result = joinPoint.proceed();
         return result;
     }

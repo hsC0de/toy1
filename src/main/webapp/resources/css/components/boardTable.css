@@ -5,6 +5,10 @@
 	color: tomato;
 }
 
+.noticeList td:nth-child(2) span {
+	color: tomato;
+}
+
 .board {
   font-size: 14px;
   width: 861px;
@@ -266,6 +270,7 @@ td:last-child {
   line-height: 18px;
 }
 
-.noticeList {
-	background-color: #F9F9F8;
+
+.sort_likes:hover {
+	text-decoration: underline;
 }

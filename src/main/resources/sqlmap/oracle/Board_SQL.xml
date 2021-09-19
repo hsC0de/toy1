@@ -28,6 +28,7 @@
       <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="cnt" column="CNT" />
+      <result property="like" column="GOOD" />
       <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="menu_nm" column="MENU_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
       <result property="content" column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />  
@@ -75,6 +76,12 @@
                WHERE 1=1
                  AND A.BNO = B.BNO
                  AND A.BNO = #{bno} ) AS REPLYCNT
+           , (SELECT COUNT(B.ID) AS CNT
+                FROM BOARD AS A
+     LEFT OUTER JOIN GOOD AS B
+                  ON A.BNO = B.BNO
+               WHERE 1=1
+                 AND A.BNO = #{bno} ) AS GOOD
            , MENU_NM
            , CONTENT
            , UPD_SEQ
@@ -151,7 +158,14 @@
          AND (CASE WHEN A.KIND = 'BN' THEN A.TYPE = 'N' ELSE A.TYPE IN ('Y', 'N') END)
          </when>
          </choose>
+         <choose>
+         <when test="sortLike != null and sortLike != ''">
+    ORDER BY GOOD DESC, BNO DESC
+         </when>
+         <otherwise>
     ORDER BY A.BNO DESC
+         </otherwise>
+         </choose>
        LIMIT #{offset}, #{userDisplay}
     </select>
     
@@ -282,6 +296,29 @@
     GROUP BY KIND
     </select>
     
+    <resultMap type="hashmap" id="getLikeCntMap">
+      <result property="cnt" column="CNT" />
+    </resultMap>
+    
+    <select id="getLikeCnt" parameterType="hashmap" resultMap="getLikeCntMap">
+         SELECT COUNT(B.ID) AS CNT
+           FROM BOARD AS A
+LEFT OUTER JOIN GOOD AS B
+             ON A.BNO = B.BNO
+          WHERE 1=1
+            AND A.BNO = #{bno}
+    </select>
+    
+    
+    
+    <select id="existLike" parameterType="hashmap" resultType="int">
+      SELECT COUNT(A.ID) AS CNT
+        FROM GOOD AS A
+       WHERE 1=1
+         AND A.BNO = #{bno}
+         AND A.ID = #{id}
+    </select>
+    
     <insert id="insertPost" parameterType="hashmap">
       INSERT INTO BOARD ( UPD_SEQ
                         , ID
@@ -360,6 +397,15 @@
                             , NOW(3) )
     </insert>
     
+    <insert id="insertLike" parameterType="hashmap">
+      INSERT INTO GOOD ( BNO
+                       , ID
+                       , LIKE_DATE )
+                VALUES ( #{bno}
+                       , #{id}
+                       , NOW(3) )
+    </insert>
+    
     <update id="delete" parameterType="hashmap">
       UPDATE BOARD
          SET DEL = 'Y'
@@ -377,4 +423,11 @@
        WHERE 1=1
          AND BNO = #{bno}
     </update>
+    
+    <delete id="deleteLike" parameterType="hashmap">
+      DELETE FROM GOOD
+       WHERE 1=1
+         AND BNO = #{bno}
+         AND ID = #{id}
+    </delete>
 </mapper>

@@ -41,8 +41,8 @@ public class ReplyController {
     @ResponseBody
     public Map<String, Object> regReply(@RequestParam Map<String, Object> map) {
         Map<String, Object> resultMap = new HashMap<>();
-        replyService.regReply("reply.insertReply", map);
-        resultMap = replyService.getRelpyCnt("reply.getRelpyCnt", map);
+        resultMap = replyService.regReply("reply.insertReply", map);
         return resultMap;
     }
+    
 }

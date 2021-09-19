@@ -13,3 +13,14 @@ window.onpageshow = function(event) {
   }
   openWritingPage(boardKind);
 }
+
+$(document).on("click", ".sort_likes", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!sortLike) {
+    location.href = '/board/list?page=1&userDisplay=' + userDisplay + '&kind=' + boardKind + '&sortLike=true';
+  } else {
+    location.href = '/board/list?page=1&userDisplay=' + userDisplay + '&kind=' + boardKind;
+  }
+});

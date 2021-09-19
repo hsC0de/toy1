@@ -26,13 +26,9 @@ public class ReplyService {
     }
     
     @Transactional
-    public String regReply(String statement, Map<String, Object> condition) {
+    public Map<String, Object> regReply(String statement, Map<String, Object> condition) {
         dao.insert(statement, condition);
-        return "ok";
-    }
-    
-    public Map<String, Object> getRelpyCnt(String statement, Map<String, Object> condition) {
-        Map<String, Object> resultMap = dao.selectOne(statement, condition);
+        Map<String, Object> resultMap = dao.selectOne("reply.getRelpyCnt", condition);
         return resultMap;
     }
 }

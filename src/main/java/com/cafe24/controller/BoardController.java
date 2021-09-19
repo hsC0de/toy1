@@ -37,10 +37,14 @@ public class BoardController {
     private final BoardService boardService;
     
     @GetMapping("list")
-    public String list(PageDTO map, Model model, Authentication authentication) {
+    public String list(PageDTO map, String sortLike, Model model, Authentication authentication) {
         Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
 
         Map<String, Object> toMap = new ObjectMapper().convertValue(map, Map.class);
+        if(sortLike != null) {
+            toMap.put("sortLike", sortLike);
+            model.addAttribute("sortLike", sortLike);
+        }
         resultMap = boardService.boardList("board.getBoardList", toMap);
         Map<String, Object> paging = boardService.getTotal("board.getTotal", toMap);
         Map<String, Object> kind_nm = boardService.getMenuNm("board.getMenuNm", toMap);
@@ -49,6 +53,7 @@ public class BoardController {
         model.addAttribute("paging", paging);
         model.addAttribute("kind", map.getKind());
         model.addAttribute("kind_nm", kind_nm);
+        model.addAttribute("userDisplay", map.getUserDisplay());
         return "board/list";
     }
     
@@ -176,5 +181,21 @@ public class BoardController {
         return "redirect:/board/list" + pageMap.getListLink();
     }
     
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
+    @PostMapping("like")
+    @ResponseBody
+    public Map<String, Object> like(@RequestParam Map<String, Object> map, @RequestParam("id") String id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = boardService.like("board.insertLike", map);
+        return resultMap;
+    }
     
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
+    @PostMapping("deleteLike")
+    @ResponseBody
+    public Map<String, Object> deleteLike(@RequestParam Map<String, Object> map, @RequestParam("id") String id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap = boardService.deleteLike("board.deleteLike", map);
+        return resultMap;
+    }
 }

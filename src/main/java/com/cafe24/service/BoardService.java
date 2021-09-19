@@ -122,10 +122,12 @@ public class BoardService {
         return dao.update(statement, condition);
     }
     
+    @Transactional
     public Map<String, Object> get(String statement, Map<String, Object> condition, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap = dao.selectOne(statement, condition);
         boolean auth = false;
+        boolean existLike = false;
         if(authentication != null) {
             UserDetails userVo = (UserDetails) authentication.getPrincipal();
             Collection<? extends GrantedAuthority> auths = userVo.getAuthorities();
@@ -133,12 +135,47 @@ public class BoardService {
             if(list.size() >= 1) {
                 auth = true;
             }
+//            System.out.println(userVo.getUsername());
+            condition.put("id", (String) userVo.getUsername());
+            if(dao.selectInt("board.existLike", condition) == 1) {
+                existLike = true;
+            }
         }
+        
+        resultMap.put("existLike", existLike);
         resultMap.put("auth", auth);
         return resultMap;
     }
     
     public Map<String, Object> getMenuNm(String statement, Map<String, Object> condition) {
         return dao.selectOne(statement, condition);
+    }
+    
+    @Transactional
+    public Map<String, Object> like(String statement, Map<String, Object> condition) {
+        Map<String, Object> resultMap = new HashMap<>();
+        boolean existLike = false;
+        if(dao.insert(statement, condition) == 1) {
+            resultMap = dao.selectOne("board.getLikeCnt", condition);
+            if(dao.selectInt("board.existLike", condition) == 1) {
+                existLike = true;
+            }
+        }
+        resultMap.put("existLike", existLike);
+        return resultMap;
+    }
+    
+    @Transactional
+    public Map<String, Object> deleteLike(String statement, Map<String, Object> condition) {
+        Map<String, Object> resultMap = new HashMap<>();
+        boolean existLike = false;
+        if(dao.delete(statement, condition) == 1) {
+            resultMap = dao.selectOne("board.getLikeCnt", condition);
+            if(dao.selectInt("board.existLike", condition) == 1) {
+                existLike = true;
+            }
+        }
+        resultMap.put("existLike", existLike);
+        return resultMap;
     }
 }
