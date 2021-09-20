@@ -75,7 +75,8 @@
                    , REPLY B
                WHERE 1=1
                  AND A.BNO = B.BNO
-                 AND A.BNO = #{bno} ) AS REPLYCNT
+                 AND A.BNO = #{bno}
+                 AND B.DEL_YN = 'N' ) AS REPLYCNT
            , (SELECT COUNT(B.ID) AS CNT
                 FROM BOARD AS A
      LEFT OUTER JOIN GOOD AS B
@@ -248,7 +249,7 @@
          AND DEL = 'N'
          AND KIND = 'BN'
          AND TYPE IN ('M', 'Y')
-    ORDER BY A.TYPE ASC, A.BNO DESC;
+    ORDER BY A.TYPE ASC, A.BNO DESC
     </select>
     
     <resultMap type="hashmap" id="getMenuNmMap">

@@ -7,7 +7,7 @@
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
   <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css" />
-  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Get</title>
@@ -204,6 +204,20 @@
 		                    </span>
 		                    <a href="#" role="button" class="comment_info_button">답글쓰기</a>
 		                  </div>
+                      <div class="comment_list_tool">
+                        <a href=# class="comment_list_tool_button">
+                          <svg xmlns="/node_modules/bootstrap-icons/icons/three-dots-vertical.svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
+                          </svg>
+                        </a>
+                        <div class="comment_more">
+                          <ul>
+                            <li class="more_item">
+                              <a href="#" class="more_btn">신고</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
 	                  </div>
 		              </li>
 		              <li id="#" class="commentsItem commentItem-repl"></li>
@@ -294,7 +308,6 @@
   <sec:authorize access="isAuthenticated()">
   <div id="tempUsername" style="display:none"><sec:authentication property='principal.username'/></div>
   </sec:authorize>
-  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue="${_csrf.token}";

@@ -31,4 +31,11 @@ public class ReplyService {
         Map<String, Object> resultMap = dao.selectOne("reply.getRelpyCnt", condition);
         return resultMap;
     }
+    
+    @Transactional
+    public Map<String, Object> deleteReply(String statement, Map<String, Object> condition) {
+        dao.update(statement, condition);
+        Map<String, Object> resultMap = dao.selectOne("reply.getRelpyCnt", condition);
+        return resultMap;
+    }
 }

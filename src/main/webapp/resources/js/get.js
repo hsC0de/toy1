@@ -1,5 +1,7 @@
 //import autosize from "/resources/js/util/autoSize.js";
 
+var sortState = '';
+
 function openWritingPage(boardKind) {
   $(".board_new span").on("click", function() {
 
@@ -72,7 +74,7 @@ $(function() {
               str += '<ul class="contents_comments_list">';
 
               for (var i = 0; i < data.length; i++) {
-                str += '<li id="#" class="commentsItem">';
+                str += '<li id="#" class="commentsItem" data-rno="' + data[i].rno + '">';
                 str += '<div class="comments_area">';
                 str += '<div class="commentsItem_id_box">';
                 str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">'
@@ -88,6 +90,20 @@ $(function() {
                 str += '<div class="commentsItem_info_box">';
                 str += '<span class="commentsItem_info_date">' + data[i].reg_date + '</span>';
                 str += '<a href="#" role="button" class="comment_info_button">답글쓰기</a>';
+                str += '</div>';
+                str += '<div class="comment_list_tool">';
+                str += '<a href=# class="comment_list_tool_button">';
+                str += '<svg xmlns="/node_modules/bootstrap-icons/icons/three-dots-vertical.svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">';
+                str += '<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>';
+                str += '</svg>';
+                str += '</a>';
+                str += '<div class="comment_more">';
+                str += '<ul>';
+                str += '<li class="more_item">';
+                str += '<a href="#" class="more_btn">신고</a>';
+                str += '</li>';
+                str += '</ul>';
+                str += '</div>';
                 str += '</div>';
                 str += '</div>';
                 str += '</li>';
@@ -107,9 +123,18 @@ $(function() {
 
             for (var i = 0; i < $(".comment_nickname").length; i++) {
               var listItem = $(".comment_nickname")[i];
+              var moreObj = $(".comment_more").eq(i);
               var name = listItem.innerText;
+              var strA = '';
+              strA += '<li class="more_item">';
+              strA += '<a href="#" class="more_btn">수정</a>';
+              strA += '</li>';
+              strA += '<li class="more_item">';
+              strA += '<a href="#" class="more_btn">삭제</a>';
+              strA += '</li>';
               if (id === name) {
                 listItem.closest(".commentsItem").classList.add('commentsItemMineBg');
+                moreObj.children('ul').html(strA);
               }
             }
           }
@@ -148,6 +173,50 @@ $(function() {
   });
 
   $(".date").text(board.reg_date);
+
+  $(document).on("click", ".comment_list_tool_button", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $(".commentsItem .comments_area .comment_list_tool .comment_more").not($(this).next()).removeClass('btn_toggle');
+    $(this).next('.comment_more').toggleClass("btn_toggle");
+  });
+
+  $(document).on("click", ".more_btn", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var objText = $(this).text();
+    var rno = $(this).closest('.commentsItem').data("rno");
+    // console.log(rno);
+    if (objText == '삭제') {
+      if (confirm("댓글을 삭제하시겠습니까?")) {
+        $.ajax({
+          url : '/reply/deleteReply',
+          method : 'post',
+          beforeSend : function(xhr) {
+            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+          },
+          data : {
+            bno : board.bno,
+            rno : rno,
+            id : id
+          },
+          success : function(res) {
+            getReplyList(sortState);
+            $(".refreshReplyCnt").html("댓글 " + res.REPLYCNT);
+          },
+          error : function(error) {
+            alert(error.status);
+          }
+        });
+      }
+    } else if (objText == '수정') {
+
+    } else if (objText == '신고') {
+      alert("신고하시겠습니까? 구현 안했습니다.");
+    }
+  });
 
   $(".contents_kind_button").on("click", function(e) {
     e.preventDefault();
@@ -256,7 +325,6 @@ $(function() {
     });
   });
 
-  var sortState = '';
   getReplyList(sortState);
   $(".contents_url_info").on("click", function(e) {
     e.preventDefault();

@@ -26,6 +26,7 @@
       FROM REPLY A
      WHERE 1=1
        AND bno = #{bno}
+       AND DEL_YN = 'N'
   <if test="rno != null and rno !=''">
   ORDER BY RNO
 	  <choose>
@@ -38,6 +39,7 @@
     SELECT COUNT(RNO) AS REPLYCNT
       FROM REPLY
      WHERE BNO = #{bno}
+       AND DEL_YN = 'N'
   </select>
   
   <insert id="insertReply" parameterType="hashmap">
@@ -60,5 +62,13 @@
                       , #{comments}
                       , now(3) )
   </insert>
+  
+  <update id="deleteReply" parameterType="hashmap">
+    UPDATE REPLY
+       SET DEL_YN = 'Y'
+     WHERE 1=1
+       AND BNO = #{bno}
+       AND RNO = #{rno}
+  </update>
   
 </mapper>

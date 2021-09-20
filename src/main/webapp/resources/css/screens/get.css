@@ -1,5 +1,53 @@
 @charset "UTF-8";
 
+.btn_toggle {
+  display: flex !important;
+}
+
+.comment_list_tool {
+	position: absolute;
+	right: 0px;
+	top: 10px;
+}
+
+.comment_list_tool_button {
+	color: #BBBBBB;
+}
+
+.comment_more {
+  right:5px;
+  margin-top: 7px;
+  overflow-y: auto;
+  position: absolute;
+  top: auto;
+  z-index: 1;
+  max-height: 416px;
+  padding: 10px 0;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 1px 12px 0 rgb(0 0 0 / 6%);
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #000;
+  display: none;
+}
+
+.more_btn {
+  display: block;
+  min-width: 100px;
+  height: 36px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 37px;
+  white-space: nowrap;
+  color: #666666;
+}
+
+.more_item:hover {
+	background-color: #eff0f2;
+}
+
 .noticeBoardBox1 {
   border: 1px solid #ffc6c9;
   background-color: #ffe3e4;
