@@ -19,6 +19,9 @@ openWritingPage(boardKind);
 function newlineReplacement(text) {
   return text.replace(/(?:\r\n|\r|\n)/g, '<br/>').replace(/ /g, "&nbsp;");
 }
+function backNewlineReplacement(text) {
+  return text.replace(/(?:<br>)/g, '\r\n').replace(/&nbsp;/g, " ");
+}
 
 function printContent() {
   $("body")
@@ -74,7 +77,8 @@ $(function() {
               str += '<ul class="contents_comments_list">';
 
               for (var i = 0; i < data.length; i++) {
-                str += '<li id="#" class="commentsItem" data-rno="' + data[i].rno + '">';
+                str += '<li id="#" class="commentsItem" data-rno="' + data[i].rno + '" data-updyn="' + data[i].upd_seq
+                    + '">';
                 str += '<div class="comments_area">';
                 str += '<div class="commentsItem_id_box">';
                 str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">'
@@ -182,12 +186,15 @@ $(function() {
     $(this).next('.comment_more').toggleClass("btn_toggle");
   });
 
+  var preComment;
   $(document).on("click", ".more_btn", function(e) {
     e.preventDefault();
     e.stopPropagation();
-
+    var str = '';
+    var obj = $(this);
     var objText = $(this).text();
     var rno = $(this).closest('.commentsItem').data("rno");
+    var nickname = $(this).closest('.comments_area').find('.comment_nickname').text();
     // console.log(rno);
     if (objText == '삭제') {
       if (confirm("댓글을 삭제하시겠습니까?")) {
@@ -200,7 +207,7 @@ $(function() {
           data : {
             bno : board.bno,
             rno : rno,
-            id : id
+            id : nickname
           },
           success : function(res) {
             getReplyList(sortState);
@@ -212,9 +219,69 @@ $(function() {
         });
       }
     } else if (objText == '수정') {
+      preComment = obj.closest(".comments_area").find('.text_comment').html();
+      console.log(preComment);
+      str += '<div class="contents_comments_writer">';
+      str += '<div class="contents_comments_inbox">';
+      str += '<span class="contents_comments_name">' + id + '</span>';
+      str += '<textarea placeholder="댓글을 남겨보세요" rows="1" class="contents_comments_inbox_text"';
+      str += 'cols="80" style="overflow: hidden; overflow-wrap: break-word; height:1rem;">';
+      str += backNewlineReplacement(preComment);
+      str += '</textarea>';
+      str += '</div>';
+      str += '<div class="contents_comments_tools">';
+      str += '<div class="modify_box">';
+      str += '<a href="#" role="button" class="btn_cancle">취소</a>';
+      str += '<a href="#" role="button" class="btn_modify">등록</a>';
+      str += '</div>';
+      str += '</div>';
+      str += '</div>';
+      obj.closest(".commentsItem").removeClass("commentsItemMineBg");
+      obj.closest(".commentsItem").addClass("commentsItemModify");
+      obj.closest(".commentsItem").html(str);
+
+      autosize($(".contents_comments_inbox_text"));
 
     } else if (objText == '신고') {
       alert("신고하시겠습니까? 구현 안했습니다.");
+    }
+  });
+
+  $(document).on("click", ".btn_modify", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var rno = $(this).closest('.commentsItem').data("rno");
+    var updYn = $(this).closest('.commentsItem').data("updyn");
+    console.log(updYn);
+    var comments = $(this).closest(".contents_comments_writer").find(".contents_comments_inbox_text").val();
+    var nickname = $(this).closest(".contents_comments_writer").find(".contents_comments_name").text();
+    if (!comments) {
+      alert("내용을 입력하세요.");
+      return;
+    }
+    if (confirm("수정하시겠습니까?")) {
+      $.ajax({
+        url : "/reply/modifyReply",
+        method : 'post',
+        data : {
+          id : nickname,
+          comments : comments,
+          bno : board.bno,
+          rno : rno,
+          upd_seq : updYn + 1,
+          preComment : backNewlineReplacement(preComment)
+        },
+        beforeSend : function(xhr) {
+          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+        },
+        success : function(res) {
+          alert("수정되었습니다.");
+          getReplyList(sortState);
+        },
+        error : function() {
+          alert("등록에 실패했습니다.");
+        }
+      });
     }
   });
 
@@ -247,7 +314,8 @@ $(function() {
 
   $(".btn_register").on("click", function(e) {
     e.preventDefault();
-    var comments = $(".contents_comments_inbox_text").val();
+    var comments = $(this).closest(".contents_comments_writer").find(".contents_comments_inbox_text").val();
+    var nickname = $(this).closest(".contents_comments_writer").find(".contents_comments_name").text();
     if (!comments) {
       alert("내용을 입력하세요.");
       return;
@@ -256,7 +324,7 @@ $(function() {
       $.post({
         url : "/reply/regReply",
         data : {
-          id : id,
+          id : nickname,
           comments : comments,
           bno : board.bno
         },

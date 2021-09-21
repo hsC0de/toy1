@@ -137,7 +137,6 @@
   </div>
   <script type="text/javascript" src="/node_modules/@toast-ui/editor/dist/toastui-editor.js"></script>
   <script type="text/javascript" src="/resources/js/reply.js"></script>
-  <script type="text/javascript" src="/resources/js/list.js"></script>
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript" src="/resources/js/writing.js"></script>
   <script>

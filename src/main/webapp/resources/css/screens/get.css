@@ -223,15 +223,39 @@
   margin-top: 14px;
 }
 
+.modify_box,
 .register_box {
   text-align: right;
 }
 
+.modify_box {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.modify_box a,
 .register_box a {
   display: inline-block;
   font-size: 14px;
   color: #cccccc;
-  
+}
+
+.modify_box a:first-child {
+  margin-right: 14px;
+}
+
+.modify_box a:last-child {
+  display: block;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: rgb(165, 200, 228, 0.5);
+  color: #0F4A7E;
+  font-size: 14px;
+}
+
+.commentsItem .contents_comments_writer {
+  margin-top: 0px;
 }
 
 .comments_refresh_button {

@@ -244,6 +244,7 @@ $(function() {
       data["kind"] = $(".kindSelect .optionButton").attr("value");
       data["type"] = $(".typeSelect .optionButton").attr("value");
     } else {
+      board["preContent"] = board.content;
       board.content = content;
       board.title = title;
       board.kind = $(".kindSelect .optionButton").attr("value");

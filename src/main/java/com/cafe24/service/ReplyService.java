@@ -33,6 +33,13 @@ public class ReplyService {
     }
     
     @Transactional
+    public void modifyReply(String statement, Map<String, Object> condition) {
+        if(dao.update(statement, condition) == 1) {
+            dao.insert("reply.insertReplyHst", condition);
+        };
+    }
+    
+    @Transactional
     public Map<String, Object> deleteReply(String statement, Map<String, Object> condition) {
         dao.update(statement, condition);
         Map<String, Object> resultMap = dao.selectOne("reply.getRelpyCnt", condition);

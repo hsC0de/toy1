@@ -45,6 +45,13 @@ public class ReplyController {
     }
     
     @PreAuthorize("isAuthenticated() and principal.username == #id")
+    @PostMapping("modifyReply")
+    public void modifyReply(@RequestParam Map<String, Object> map, String id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        replyService.modifyReply("reply.modifyReply", map);
+    }
+    
+    @PreAuthorize("isAuthenticated() and principal.username == #id")
     @PostMapping("deleteReply")
     public Map<String, Object> deleteReply(@RequestParam Map<String, Object> map, String id) {
         Map<String, Object> resultMap = new HashMap<>();

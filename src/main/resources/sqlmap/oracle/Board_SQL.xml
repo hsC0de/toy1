@@ -129,22 +129,22 @@
            , A.KIND
            , D.MENU_NM
            , A.TYPE
-        FROM BOARD AS A
+        FROM BOARD A
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.RNO) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN REPLY AS B
+                FROM BOARD A
+     LEFT OUTER JOIN (SELECT A.* FROM REPLY A WHERE DEL_YN = 'N') B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS B
+            GROUP BY A.BNO) B
           ON A.BNO = B.BNO
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.ID) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN GOOD AS B
+                FROM BOARD A
+     LEFT OUTER JOIN GOOD B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS C
+            GROUP BY A.BNO) C
           ON A.BNO = C.BNO
         JOIN MENU D
           ON A.KIND = D.MENU_ID
@@ -185,22 +185,22 @@
            , A.KIND
            , D.MENU_NM
            , A.TYPE
-        FROM BOARD AS A
+        FROM BOARD A
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.RNO) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN REPLY AS B
+                FROM BOARD A
+     LEFT OUTER JOIN (SELECT A.* FROM REPLY A WHERE DEL_YN = 'N') B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS B
+            GROUP BY A.BNO) B
           ON A.BNO = B.BNO
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.ID) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN GOOD AS B
+                FROM BOARD A
+     LEFT OUTER JOIN GOOD B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS C
+            GROUP BY A.BNO) C
           ON A.BNO = C.BNO
         JOIN MENU D
           ON A.KIND = D.MENU_ID
@@ -226,22 +226,22 @@
            , A.KIND
            , D.MENU_NM
            , A.TYPE
-        FROM BOARD AS A
+        FROM BOARD A
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.RNO) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN REPLY AS B
+                FROM BOARD A
+     LEFT OUTER JOIN (SELECT A.* FROM REPLY A WHERE DEL_YN = 'N') B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS B
+            GROUP BY A.BNO) B
           ON A.BNO = B.BNO
         JOIN (SELECT A.BNO AS BNO
                    , COUNT(B.ID) AS CNT
-                FROM BOARD AS A
-     LEFT OUTER JOIN GOOD AS B
+                FROM BOARD A
+     LEFT OUTER JOIN GOOD B
                   ON A.BNO = B.BNO
                WHERE 1=1
-            GROUP BY A.BNO) AS C
+            GROUP BY A.BNO) C
           ON A.BNO = C.BNO
         JOIN MENU D
           ON A.KIND = D.MENU_ID
@@ -391,7 +391,7 @@ LEFT OUTER JOIN GOOD AS B
                             , #{id}
                             , #{title}
                             , #{upd_seq}
-                            , #{content}
+                            , #{preContent}
                             , #{type}
                             , #{cnt}
                             , #{kind}

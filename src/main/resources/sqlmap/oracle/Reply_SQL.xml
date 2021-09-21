@@ -63,6 +63,31 @@
                       , now(3) )
   </insert>
   
+  <insert id="insertReplyHst" parameterType="hashmap">
+  
+    INSERT INTO REPLY_HST ( bno
+                          , rno
+                          , upd_seq
+                          , id
+                          , comments
+                          , upd_date )
+                   VALUES ( #{bno}
+                          , #{rno}
+                          , #{upd_seq}
+                          , #{id}
+                          , #{preComment}
+                          , now(3) )
+  </insert>
+  
+  <update id="modifyReply" parameterType="hashmap">
+    UPDATE REPLY
+       SET UPD_SEQ = #{upd_seq}
+         , COMMENTS = #{comments}
+     WHERE 1=1
+       AND BNO = #{bno}
+       AND RNO = #{rno}
+  </update>
+  
   <update id="deleteReply" parameterType="hashmap">
     UPDATE REPLY
        SET DEL_YN = 'Y'
