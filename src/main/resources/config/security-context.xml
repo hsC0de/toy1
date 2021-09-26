@@ -13,6 +13,8 @@
   <beans:bean id="userLoginFailHandler" class="com.cafe24.security.UserLoginFailHandler" >
     <beans:property name="loginidname" value="username"/>
   </beans:bean>
+  <beans:bean id="customLoginSuccessHandler" class="com.cafe24.security.CustomLoginSuccessHandler"/>
+  
 <!--   <beans:bean id="grantedAuthorityDefaults" class="org.springframework.security.config.core.GrantedAuthorityDefaults"> -->
 <!--     <beans:constructor-arg value="" /> -->
 <!--   </beans:bean> -->
@@ -33,7 +35,8 @@
     
     <sec:form-login login-page="/common/login"
                     username-parameter="username"
-                    authentication-failure-handler-ref="userLoginFailHandler" />
+                    authentication-failure-handler-ref="userLoginFailHandler" 
+                    authentication-success-handler-ref="customLoginSuccessHandler"/>
     
     <sec:logout logout-url="/logout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID" logout-success-url="/"/>
 

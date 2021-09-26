@@ -38,16 +38,24 @@ public class CommonController {
     }
     
     @GetMapping("login")
-    public String login(String error, String logout, Model model, HttpServletResponse res, HttpServletRequest req) {
-        log.info("error: " + error);
-        log.info("logout: " + logout);
+    public String login(Model model, HttpServletResponse res, HttpServletRequest req) {
+        String uri = req.getHeader("Referer");
+        if(!uri.contains("/login")) {
+            String referrer = req.getHeader("Referer");
+            req.getSession().setAttribute("prevPage", referrer);
+        }
         res.setHeader("redirectLogin", "true");
         res.setHeader("redirectUrl", req.getRequestURI());
         return "auth/loginForm";
     }
     
     @PostMapping("login")
-    public String login() {
+    public String login(HttpServletResponse res, HttpServletRequest req) {
+        String uri = req.getHeader("Referer");
+        if(!uri.contains("/login")) {
+            String referrer = req.getHeader("Referer");
+            req.getSession().setAttribute("prevPage", referrer);
+        }
         return "auth/loginForm";
     }
     

@@ -83,8 +83,11 @@ $(function() {
                 str += '<div class="commentsItem_id_box">';
                 str += '<a id="#" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="comment_nickname">'
                     + data[i].id + '</a>';
-                str += '<span class="commentsItem_info_box">' + replyService.displayGap(data[i].gap, data[i].reg_date)
-                    + '</span>'
+                str += '<span class="commentsItem_info_box">' + replyService.displayGap(data[i].gap, data[i].reg_date);
+                if (data[i].upd_seq >= 1) {
+                  str += '(수정됨)';
+                }
+                str += '</span>';
                 str += '</div>';
                 str += '<div class="commentsItem_text_box">';
                 str += '<p class="comments_text_view">';
@@ -166,6 +169,10 @@ $(function() {
   $(".user_contents_list span").text(board.id);
   // $(".text_content").html(newlineReplacement(board.content));
   console.log(board);
+
+  if (board.upd_seq >= 1) {
+    $(".cnt").append("(수정됨)");
+  }
 
   if (board.existLike) {
     $(".contents_like_button img").attr("src", "/resources/img/ico-post-like-on-f-53535.svg");
@@ -338,8 +345,12 @@ $(function() {
           getReplyList(sortState);
           $(".refreshReplyCnt").html("댓글 " + res.REPLYCNT);
         },
-        error : function() {
-          alert("등록에 실패했습니다.");
+        error : function(res) {
+          if (res.responseText.indexOf("Access Denied") != -1) {
+            location.href = "/common/login";
+          } else {
+            location.href = "/exception/error";
+          }
         }
       });
     }

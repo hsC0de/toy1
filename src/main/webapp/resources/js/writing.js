@@ -279,7 +279,11 @@ $(function() {
             opener.location.reload();
             self.close();
           } else {
-            alert(res);
+            if (res.indexOf("Access Denied") != -1) {
+              location.href = "/common/login";
+            } else {
+              location.href = "/exception/error";
+            }
           }
         },
         error : function() {
