@@ -125,6 +125,10 @@ public class BoardService {
     @Transactional
     public Map<String, Object> get(String statement, Map<String, Object> condition, Authentication authentication) {
         Map<String, Object> resultMap = new HashMap<>();
+        int preCnt = dao.selectInt("board.getCnt", condition);
+        condition.put("cnt", preCnt + 1);
+        dao.update("board.increaseCnt", condition);
+        
         resultMap = dao.selectOne(statement, condition);
         boolean auth = false;
         boolean existLike = false;

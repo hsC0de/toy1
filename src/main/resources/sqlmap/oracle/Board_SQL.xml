@@ -303,11 +303,18 @@
     
     <select id="getLikeCnt" parameterType="hashmap" resultMap="getLikeCntMap">
          SELECT COUNT(B.ID) AS CNT
-           FROM BOARD AS A
-LEFT OUTER JOIN GOOD AS B
+           FROM BOARD A
+LEFT OUTER JOIN GOOD B
              ON A.BNO = B.BNO
           WHERE 1=1
             AND A.BNO = #{bno}
+    </select>
+    
+    <select id="getCnt" parameterType="hashmap" resultType="int">
+      SELECT A.CNT
+        FROM BOARD A
+       WHERE 1=1
+         AND A.BNO = #{bno}
     </select>
     
     
@@ -421,6 +428,13 @@ LEFT OUTER JOIN GOOD AS B
            , CONTENT = #{content}
            , TYPE    = #{type}
            , KIND    = #{kind}
+       WHERE 1=1
+         AND BNO = #{bno}
+    </update>
+    
+    <update id="increaseCnt" parameterType="hashmap">
+      UPDATE BOARD
+         SET CNT = #{cnt}
        WHERE 1=1
          AND BNO = #{bno}
     </update>
