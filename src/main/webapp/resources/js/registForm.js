@@ -1,6 +1,5 @@
 $(function() {
-  var csrfHeaderName = "${_csrf.headerName}";
-  var csrfTokenValue = "${_csrf.token}";
+
   var idCheck;
 
   $("#id").focus();
@@ -188,8 +187,9 @@ $(function() {
         }
 
       },
-      error : function() {
-        alert("error");
+      error : function(error) {
+        console.log(error);
+        alert(error.status);
       }
 
     });

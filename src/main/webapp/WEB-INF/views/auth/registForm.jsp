@@ -89,6 +89,10 @@
 	    </div>
     </div>
   </div>
+  <script type="text/javascript">
+  var csrfHeaderName = "${_csrf.headerName}";
+  var csrfTokenValue = "${_csrf.token}";
+  </script>
   <script type="text/javascript" src="/resources/js/registForm.js"></script>
 </body>
 </html>

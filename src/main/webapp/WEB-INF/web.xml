@@ -89,4 +89,8 @@
     <location>/exception/error</location>
   </error-page>
   
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/exception/error</location>
+  </error-page>
 </web-app>

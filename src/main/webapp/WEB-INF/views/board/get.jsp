@@ -266,35 +266,35 @@
               </div>
             </div>		        
 	        </div>
-	        <div class="relatedArticles">
-	          <div class="article_board_title">
-	            <strong class="title">
+<!-- 	        <div class="relatedArticles"> -->
+<!-- 	          <div class="article_board_title"> -->
+<!-- 	            <strong class="title"> -->
                 
-              </strong>
-	            <span class="text"> 글</span>
-	          </div>
-	          <div class="relatedArticlesTabContainer">
-	            <div class="relatedArticlesTabContainer_tab">
-	              <div class="tab_content">
-	                <ul class="relatedArticlesList">
-	                  <li class="list_item">
-	                    <div class="tit_area">
-	                      <a href="#" target="_self" class="tit">
-	                        <span>제목!!!</span>
-	                      </a>
-	                    </div>
-	                    <div class="member_area">
-	                      <a href="#" role="button" class="member">아이디</a>
-	                    </div>
-	                    <div class="date_area">
-	                      2020.20.20
-	                    </div>
-	                  </li>
-	                </ul>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
+<!--               </strong> -->
+<!-- 	            <span class="text"> 글</span> -->
+<!-- 	          </div> -->
+<!-- 	          <div class="relatedArticlesTabContainer"> -->
+<!-- 	            <div class="relatedArticlesTabContainer_tab"> -->
+<!-- 	              <div class="tab_content"> -->
+<!-- 	                <ul class="relatedArticlesList"> -->
+<!-- 	                  <li class="list_item"> -->
+<!-- 	                    <div class="tit_area"> -->
+<!-- 	                      <a href="#" target="_self" class="tit"> -->
+<!-- 	                        <span>제목!!!</span> -->
+<!-- 	                      </a> -->
+<!-- 	                    </div> -->
+<!-- 	                    <div class="member_area"> -->
+<!-- 	                      <a href="#" role="button" class="member">아이디</a> -->
+<!-- 	                    </div> -->
+<!-- 	                    <div class="date_area"> -->
+<!-- 	                      2020.20.20 -->
+<!-- 	                    </div> -->
+<!-- 	                  </li> -->
+<!-- 	                </ul> -->
+<!-- 	              </div> -->
+<!-- 	            </div> -->
+<!-- 	          </div> -->
+<!-- 	        </div> -->
 	        <div class="board_footer">
 	          <div class="board_footer_paging">
 	          </div>

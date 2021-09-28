@@ -183,15 +183,13 @@
       
     </div>
   </div>
-  <sec:authorize access="isAuthenticated()">
-  <div id="tempAuthorities" style="display:none"><sec:authentication property="principal.authorities"/></div>
-  </sec:authorize>
-  <script type="text/javascript" src="/resources/js/navbar.js"></script>
-  <script type="text/javascript" src="/resources/js/todoList.js"></script>
-  <script type="text/javascript" src="/resources/js/email.js"></script>
+  
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
     var csrfTokenValue= "${_csrf.token}";
   </script>
+  <script type="text/javascript" src="/resources/js/navbar.js"></script>
+  <script type="text/javascript" src="/resources/js/todoList.js"></script>
+  <script type="text/javascript" src="/resources/js/email.js"></script>
 </body>
 </html>
