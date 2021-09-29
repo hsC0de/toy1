@@ -39,6 +39,12 @@ public class BoardService {
         return resultMap;
     }
     
+    public List<Map<String, Object>> getDashBoard(String statement, Map<String, Object> condition) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        resultList = dao.selectList(statement, condition);
+        return resultList;
+    }
+    
     public Map<String, Object> getTotal(String statement, Map<String, Object> condition) {
         Map<String, Object> resultMap = new HashMap<>();
         int total = dao.selectInt(statement, condition);

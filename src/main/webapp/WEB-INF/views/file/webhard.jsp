@@ -78,6 +78,22 @@
       <div id="grid"></div>
       
     </div>
+    <form id="form" method="post" enctype="multipart/form-data" >
+      <table id="fileTable" border=1 style="width:95%; margin: 10px 6px;">
+        <tr>
+          <td>
+            <input type="file" name="uploadFile" accept="" multiple="multiple" />
+          </td>
+        </tr>
+      </table>
+      <br/>
+      <input type="button" value="등록" onclick="javascript:fileReg()">
+    </form>
+    <div id="dropzone">Drag & Drop Files Here</div>
+    ** 첨부된 파일 목록
+    <div id="downloadzone"></div>
+    <br/>
+    <div id="zipzone"></div>
   </div>
   
   <script type="text/javascript">
@@ -86,6 +102,8 @@
   </script>
   
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
+  <script type="text/javascript" src="/resources/js/common/common.js"></script>
   <script type="text/javascript" src="/resources/js/webhard.js"></script>
+  
 </body>
 </html>

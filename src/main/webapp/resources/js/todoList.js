@@ -238,5 +238,12 @@ $(document).on("click", ".toDo_listItem_container li", function(e) {
   });
 });
 
+$(document).on("click", ".toDoList_toggleBtn", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  $(".toDoList_Container").toggleClass("btn_toggle");
+});
+
 getTodoList();
 getTodoListManager();

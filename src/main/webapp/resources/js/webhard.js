@@ -11,253 +11,6 @@ var gridData = [ {
   price : 10000,
   downloadCount : 1000,
   listenCount : 5000,
-}, {
-  id : 436461,
-  name : 'X',
-  artist : 'Ed Sheeran',
-  release : '2014.06.24',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Pop',
-  genreCode : '1',
-  grade : '3',
-  price : 20000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 295651,
-  name : 'Moves Like Jagger',
-  release : '2011.08.08',
-  artist : 'Maroon5',
-  type : 'Single',
-  typeCode : '3',
-  genre : 'Pop,Rock',
-  genreCode : '1,2',
-  grade : '2',
-  price : 7000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 541713,
-  name : 'A Head Full Of Dreams',
-  artist : 'Coldplay',
-  release : '2015.12.04',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Rock',
-  genreCode : '2',
-  grade : '3',
-  price : 25000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 265289,
-  name : '21',
-  artist : 'Adele',
-  release : '2011.01.21',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Pop,R&B',
-  genreCode : '1,3',
-  grade : '3',
-  price : 15000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 555871,
-  name : 'Warm On A Cold Night',
-  artist : 'HONNE',
-  release : '2016.07.22',
-  type : 'EP',
-  typeCode : '1',
-  genre : 'R&B,Electronic',
-  genreCode : '3,4',
-  grade : '2',
-  price : 11000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 550571,
-  name : 'Take Me To The Alley',
-  artist : 'Gregory Porter',
-  release : '2016.09.02',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Jazz',
-  genreCode : '5',
-  grade : '3',
-  price : 30000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 544128,
-  name : 'Make Out',
-  artist : 'LANY',
-  release : '2015.12.11',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Electronic',
-  genreCode : '4',
-  grade : '2',
-  price : 12000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 366374,
-  name : 'Get Lucky',
-  artist : 'Daft Punk',
-  release : '2013.04.23',
-  type : 'Single',
-  typeCode : '3',
-  genre : 'Pop,Funk',
-  genreCode : '1,5',
-  grade : '3',
-  price : 9000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 8012747,
-  name : 'Valtari',
-  artist : 'Sigur Rós',
-  release : '2012.05.31',
-  type : 'EP',
-  typeCode : '3',
-  genre : 'Rock',
-  genreCode : '2',
-  grade : '3',
-  price : 10000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 502792,
-  name : 'Bush',
-  artist : 'Snoop Dogg',
-  release : '2015.05.12',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Hiphop',
-  genreCode : '5',
-  grade : '3',
-  price : 18000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 294574,
-  name : '2',
-  artist : 'Beyoncé',
-  release : '2011.07.26',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Pop',
-  genreCode : '1',
-  grade : '3',
-  price : 12000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 317659,
-  name : "I Won't Give Up",
-  artist : 'Jason Mraz',
-  release : '2012.01.03',
-  type : 'Single',
-  typeCode : '3',
-  genre : 'Pop',
-  genreCode : '1',
-  grade : '2',
-  price : 7000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 583551,
-  name : 'Following My Intuition',
-  artist : 'Craig David',
-  release : '2016.10.01',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'R&B,Electronic',
-  genreCode : '3,4',
-  grade : '3',
-  price : 15000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 490500,
-  name : 'Blue Skies',
-  release : '2015.03.18',
-  artist : 'Lenka',
-  type : 'Single',
-  typeCode : '3',
-  genre : 'Pop,Rock',
-  genreCode : '1,2',
-  grade : '3',
-  price : 6000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 587871,
-  name : 'This Is Acting',
-  artist : 'Sia',
-  release : '2016.10.22',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Pop',
-  genreCode : '1',
-  grade : '3',
-  price : 20000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 504288,
-  name : 'Blurryface',
-  artist : 'Twenty One Pilots',
-  release : '2015.05.19',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Rock',
-  genreCode : '2',
-  grade : '1',
-  price : 13000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 450720,
-  name : "I'm Not The Only One",
-  artist : 'Sam Smith',
-  release : '2014.09.15',
-  type : 'Single',
-  typeCode : '3',
-  genre : 'Pop,R&B',
-  genreCode : '1,3',
-  grade : '2',
-  price : 8000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 498896,
-  name : 'The Magic Whip',
-  artist : 'Blur',
-  release : '2015.04.27',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Rock',
-  genreCode : '2',
-  grade : '3',
-  price : 15000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, {
-  id : 491379,
-  name : 'Chaos And The Calm',
-  artist : 'James Bay',
-  release : '2015.03.23',
-  type : 'EP',
-  typeCode : '2',
-  genre : 'Pop,Rock',
-  genreCode : '1,2',
-  grade : '3',
-  price : 12000,
-  downloadCount : 1000,
-  listenCount : 5000,
 }, ];
 
 const grid = new tui.Grid({
@@ -284,3 +37,107 @@ const grid = new tui.Grid({
 });
 
 tui.Grid.applyTheme('clean');
+
+function fileReg() {
+  if (confirm("등록하시겠습니까?")) {
+    var form = $("#form")[0];
+    var formData = new FormData(form);
+    util.requestSyncFile("/file/upload", formData, "POST", "text", registResult);
+  }
+}
+function registResult(data) {
+  console.log(data);
+  $("#form").load(location.href + ' #form');
+  if (data.indexOf("login") != -1) {
+    location.href = "/common/login";
+  } else {
+    alert("업로드가 완료되었습니다.");
+  }
+}
+
+var obj = $("#dropzone");
+// util.requestSync("/file/getFileList", null, "POST", "json", function(file) {
+// var set = new Set();
+// for (var i = 0; i < file.length; i++) {
+// $("#downloadzone").append(
+// "<a href='/file/getFileDownload?FILE_KEY=" + file[i].FILE_KEY + "'>" +
+// file[i].FILE_REALNAME + "</a><br>\n");
+// set.add(file[i].GROUP_KEY);
+// }
+// var array = Array.from(set);
+// for (var i = 0; i < array.length; i++) {
+// $("#zipzone").append("<a href='/file/getZipDownload?GROUP_KEY=" + array[i]
+// + "'>" + array[i] + "</a><br>\n");
+// }
+
+// });
+
+obj.on("dragenter", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  $(this).css('border', '2px solid #5272a0');
+});
+obj.on("dragleave", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  $(this).css('border', '2px dotted #8296c2');
+});
+obj.on("dragover", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+});
+obj.on("drop", function(e) {
+  e.preventDefault();
+  $(this).css('border', '2px solid #8296c2');
+
+  var files = e.originalEvent.dataTransfer.files;
+  if (files.length < 1)
+    return;
+
+  // for(var i = 0; i < files.length; i++) {
+  // var file = files[i];
+  // console.dir(file);
+  // }
+  F_FileMultiUpload(files, obj);
+});
+
+function F_FileMultiUpload(files, obj) {
+  if (confirm(files.length + "개의 파일을 업로드 하시겠습니까?")) {
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+      data.append('uploadFile', files[i]);
+    }
+    var url = "/file/upload";
+    util.requestSyncFile(url, data, "POST", "text", success, error);
+  }
+}
+function success(res) {
+  alert("업로드가 완료되었습니다.");
+  if (res.indexOf("login") != -1) {
+    location.href = "/common/login";
+  } else {
+    alert(data);
+  }
+  // F_FileMultiUpload_Callback(res.files);
+}
+function error(res) {
+  alert("업로드 중에 에러가 발생했습니다. 파일은 20M를 넘을 수 없습니다.");
+  console.dir(res)
+}
+// function F_FileMultiUpload_Callback(files) {
+// for (var i = 0; i < files.length; i++) {
+// var file = files[i];
+// $("#downloadzone").append(
+// "<a class='fileList' href='/file/getFileDownload?FILE_KEY=" + file.FILE_KEY +
+// "'>" + file.FILE_REALNAME
+// + "</a><br>\n");
+// }
+// $("#zipzone").append(
+// "<a class='fileList' href='/file/getZipDownload?FILE_KEY=" + file.FILE_KEY
+// + "'>" + file.FILE_KEY + "</a><br>\n");
+// }
+
+function fnAlert(e, msg) {
+  e.stopPropagation();
+  alert(msg);
+}

@@ -6,6 +6,7 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
+  <link rel="stylesheet" href="/resources/css/components/boardTable.css" />
   <link rel="stylesheet" href="/node_modules/@toast-ui/editor/dist/toastui-editor-viewer.css" />
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />

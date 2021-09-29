@@ -1,5 +1,6 @@
 package com.cafe24.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,16 @@ public class BoardController {
         model.addAttribute("kind_nm", kind_nm);
         model.addAttribute("userDisplay", map.getUserDisplay());
         return "board/list";
+    }
+    
+    @GetMapping("dashBoard")
+    @ResponseBody
+    public List<Map<String, Object>> getDashBoard(@RequestParam String kind) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("kind", kind);
+        resultList = boardService.getDashBoard("board.getDashBoard", map);
+        return resultList;
     }
     
     @GetMapping("get")

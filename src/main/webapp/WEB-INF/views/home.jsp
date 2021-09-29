@@ -6,7 +6,9 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
-  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="/node_modules/tui-grid/dist/tui-grid.min.css">
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/node_modules/tui-grid/dist/tui-grid.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta property="og:url" content="http://cxooxc.com">
@@ -74,6 +76,7 @@
     </div>
     <div>
       <section class="section">
+        <a class="toDoList_toggleBtn" href="#">To do list</a>
         <div class="toDoList_Container">
           <div class="toDoList">
             <div class="container">
@@ -113,6 +116,34 @@
               <div class="getToDoList1">
                 <ul class="toDo_listItems">
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="dashBoard_container">
+          <h1 class="dashBoardTitle">Recent</h1>
+          
+          <div class="dashBoard">
+            <div class="dashBoard_contents">
+              <div class="dashBoard_contents_tabs">
+                <ul class="dashBoard_tabs_list">
+                  <li class="dashBoard_tabs_listItem selected_tab">
+                    <a class="dashBoard_tabs_btn" href="BN">공지사항</a>
+                  </li>
+                  <li class="dashBoard_tabs_listItem">
+                    <a class="dashBoard_tabs_btn" href="BA">전체게시판</a>
+                  </li>
+                  <li class="dashBoard_tabs_listItem">
+                    <a class="dashBoard_tabs_btn" href="BF">자유게시판</a>
+                  </li>
+                  <li class="dashBoard_tabs_listItem">
+                    <a class="dashBoard_tabs_btn" href="BQ">질문게시판</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="dashBoard_articleList">
+                <div id="grid"></div>
               </div>
             </div>
           </div>
@@ -191,5 +222,6 @@
   <script type="text/javascript" src="/resources/js/navbar.js"></script>
   <script type="text/javascript" src="/resources/js/todoList.js"></script>
   <script type="text/javascript" src="/resources/js/email.js"></script>
+  <script type="text/javascript" src="/resources/js/dashboard.js"></script>
 </body>
 </html>

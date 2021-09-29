@@ -5,13 +5,13 @@
 @import "variables.css";
 
 /* Components */
-@import "components/boardTable.css";
 @import "components/navbar.css";
 @import "components/contactMe.css";
 
 /* Screens */
 @import "screens/home.css";
 @import "screens/get.css";
+@import "screens/webhard.css";
 
 /* Common CSS */
 body {

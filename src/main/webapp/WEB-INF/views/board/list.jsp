@@ -6,6 +6,7 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
+  <link rel="stylesheet" href="/resources/css/components/boardTable.css" />
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
 	<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

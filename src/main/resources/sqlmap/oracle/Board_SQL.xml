@@ -5,20 +5,7 @@
 	
 <mapper namespace="board">
     
-    <select id="selectFileGroupKey" parameterType="hashmap" resultType="string">
-      SELECT SYS_GUID() FROM DUAL
-    </select>
     
-    <select id="getFileInfo" parameterType="hashmap" resultType="hashmap">
-      SELECT * FROM MCO_FILES A
-       WHERE 1=1
-         <if test='GROUP_KEY != null and GROUP_KEY != "" '>         
-         AND A.GROUP_KEY = #{GROUP_KEY}
-         </if> 
-         <if test='FILE_KEY != null and FILE_KEY != "" '>
-         AND A.FILE_KEY  = #{FILE_KEY}         
-         </if>
-    </select>
     
     <resultMap type="hashmap" id="selectBoard">
       <result property="bno" column="BNO" />
@@ -98,6 +85,31 @@
          AND KIND = #{kind}
          </if>
 
+    </select>
+    
+    <resultMap type="hashmap" id="getDashBoardMap">
+      <result property="bno" column="BNO" />
+      <result property="title" column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="reg_date" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="kind" column="KIND" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getDashBoard" parameterType="hashmap" resultMap="getDashBoardMap">
+      SELECT A.BNO      AS BNO
+           , A.TITLE    AS TITLE
+           , CASE WHEN (UNIX_TIMESTAMP(DATE_FORMAT(NOW(), '%Y-%m-%d')) - UNIX_TIMESTAMP(A.REG_DATE)) &lt; 0 THEN DATE_FORMAT(A.REG_DATE, '%H:%i')
+                                                                                                            ELSE DATE_FORMAT(A.REG_DATE, '%Y.%m.%d.')
+             END AS REG_DATE
+<!--            , A.REG_DATE AS REG_DATE -->
+           , A.KIND
+        FROM BOARD A
+       WHERE 1=1
+         AND DEL = 'N'
+         <if test="kind != 'BA'">
+         AND KIND = #{kind}
+         </if>
+    ORDER BY A.BNO DESC
+       LIMIT 0, 5
     </select>
     
     <resultMap type="hashmap" id="getBoardListMap">
@@ -357,32 +369,7 @@ LEFT OUTER JOIN GOOD B
 <!--       } -->
     </insert>
     
-    <insert id="insertFileInfo">
-      INSERT INTO MCO_FILES ( GROUP_KEY
-                            , FILE_KEY
-                            , FILE_REALNAME
-                            , FILE_NAME
-                            , FILE_PATH
-                            , FILE_LENGTH
-                            , FILE_TYPE
-                            , DEL_YN
-                            , REG_ID
-                            , REG_DATE
-                            , CHG_ID
-                            , CHG_DATE)
-                     VALUES ( #{GROUP_KEY}
-                            , #{FILE_KEY}
-                            , #{FILE_REALNAME}
-                            , #{FILE_NAME}
-                            , #{FILE_PATH}
-                            , #{FILE_LENGTH}
-                            , #{FILE_TYPE}
-                            , 'N'
-                            , #{USER_ID}
-                            , SYSDATE
-                            , #{USER_ID}
-                            , SYSDATE)
-    </insert>
+    
     
     <insert id="insertModifyHst" parameterType="hashmap">
       INSERT INTO BOARD_HST ( BNO
