@@ -64,7 +64,8 @@ const grid = new tui.Grid({
     name : 'reg_date',
     renderer : {
       styles : {
-        'font-size' : '15px'
+        'font-size' : '15px',
+        'text-align' : 'center'
       }
     }
   } ]
