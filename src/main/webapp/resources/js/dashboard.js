@@ -56,7 +56,8 @@ const grid = new tui.Grid({
     width : 600,
     renderer : {
       styles : {
-        'font-size' : '15px'
+        'font-size' : '15px',
+        cursor : 'pointer'
       }
     }
   }, {
@@ -85,11 +86,14 @@ tui.Grid.applyTheme('clean', {
   }
 });
 
-grid.on('click', function(ev) {
-  var path = ev.nativeEvent.path[2].innerText;
-  console.log(path.substring(0, path.indexOf('\n\t\n')));
-  var bno = path.substring(0, path.indexOf('\n\t\n'));
-  location.href = '/board/get?bno=' + bno + '&page=1&userDisplay=15&kind=' + kind;
+$(document).on("click", "td[data-column-name='title']", function(ev) {
+  var bno = $(this).siblings("td[data-column-name='bno']").text();
+  if (bno != "") {
+    location.href = '/board/get?bno=' + bno + '&page=1&userDisplay=15&kind=' + kind;
+  } else {
+    return;
+  }
+
 });
 
 // grid.hideColumn('bno');

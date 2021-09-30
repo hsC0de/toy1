@@ -1,17 +1,4 @@
-var gridData = [ {
-  id : 549731,
-  name : 'Beautiful Lies',
-  artist : 'Birdy',
-  release : '2016.03.26',
-  type : 'Deluxe',
-  typeCode : '1',
-  genre : 'Pop',
-  genreCode : '1',
-  grade : '2',
-  price : 10000,
-  downloadCount : 1000,
-  listenCount : 5000,
-}, ];
+var gridData;
 
 const grid = new tui.Grid({
   el : document.getElementById('grid'),
@@ -19,24 +6,61 @@ const grid = new tui.Grid({
   scrollX : false,
   scrollY : false,
   columns : [ {
-    header : 'Name',
-    name : 'name'
+    header : ' ',
+    name : 'seq'
   }, {
-    header : 'Artist',
-    name : 'artist'
+    header : '파일명',
+    name : 'realName'
   }, {
-    header : 'Type',
+    header : '등록자',
+    name : 'id'
+  }, {
+    header : '용량',
+    name : 'length'
+  }, {
+    header : '등록일',
+    name : 'regDate'
+  }, {
+    header : '파일유형',
     name : 'type'
-  }, {
-    header : 'Release',
-    name : 'release'
-  }, {
-    header : 'Genre',
-    name : 'genre'
   } ]
 });
 
 tui.Grid.applyTheme('clean');
+
+var webPath = '/';
+
+getFileList(webPath);
+
+function getFileList(webPath) {
+
+  $.ajax({
+    url : '/file/getFileList?webPath=' + webPath,
+    method : 'get',
+    dataType : 'json',
+    success : function(res) {
+      console.log(res);
+      // gridData = res;
+      grid.resetData(eval(res));
+    },
+    error : function(error) {
+      console.log(error);
+      alert(error.status);
+    }
+  });
+}
+
+$(document).on("click", ".btn_openUploadWindow", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  $("input[name='uploadFile']").click();
+});
+
+$(document).on("click", ".btn_unfoldListOrDrop", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  $(".uploadZone").toggleClass("btn_toggle");
+});
 
 function fileReg() {
   if (confirm("등록하시겠습니까?")) {
@@ -50,12 +74,15 @@ function registResult(data) {
   $("#form").load(location.href + ' #form');
   if (data.indexOf("login") != -1) {
     location.href = "/common/login";
-  } else {
+  } else if (data == 'ok') {
     alert("업로드가 완료되었습니다.");
+    getFileList(webPath);
+  } else {
+    alert(date);
   }
 }
 
-var obj = $("#dropzone");
+var obj = $(".upld_fileList");
 // util.requestSync("/file/getFileList", null, "POST", "json", function(file) {
 // var set = new Set();
 // for (var i = 0; i < file.length; i++) {
@@ -72,32 +99,28 @@ var obj = $("#dropzone");
 
 // });
 
-obj.on("dragenter", function(e) {
+$(document).on("dragenter", ".upld_fileList", function(e) {
   e.stopPropagation();
   e.preventDefault();
-  $(this).css('border', '2px solid #5272a0');
+  $(this).css('border', '1px solid #5272a0');
 });
-obj.on("dragleave", function(e) {
+$(document).on("dragleave", ".upld_fileList", function(e) {
   e.stopPropagation();
   e.preventDefault();
-  $(this).css('border', '2px dotted #8296c2');
+  $(this).css('border', '1px dotted #8296c2');
 });
-obj.on("dragover", function(e) {
+$(document).on("dragover", ".upld_fileList", function(e) {
   e.stopPropagation();
   e.preventDefault();
 });
-obj.on("drop", function(e) {
+$(document).on("drop", ".upld_fileList", function(e) {
   e.preventDefault();
-  $(this).css('border', '2px solid #8296c2');
+  $(this).css('border', '1px solid #8296c2');
 
   var files = e.originalEvent.dataTransfer.files;
   if (files.length < 1)
     return;
 
-  // for(var i = 0; i < files.length; i++) {
-  // var file = files[i];
-  // console.dir(file);
-  // }
   F_FileMultiUpload(files, obj);
 });
 
@@ -112,11 +135,13 @@ function F_FileMultiUpload(files, obj) {
   }
 }
 function success(res) {
-  alert("업로드가 완료되었습니다.");
   if (res.indexOf("login") != -1) {
     location.href = "/common/login";
+  } else if (res == 'ok') {
+    alert("업로드가 완료되었습니다.");
+    getFileList(webPath);
   } else {
-    alert(data);
+    alert(res);
   }
   // F_FileMultiUpload_Callback(res.files);
 }
@@ -136,8 +161,3 @@ function error(res) {
 // "<a class='fileList' href='/file/getZipDownload?FILE_KEY=" + file.FILE_KEY
 // + "'>" + file.FILE_KEY + "</a><br>\n");
 // }
-
-function fnAlert(e, msg) {
-  e.stopPropagation();
-  alert(msg);
-}

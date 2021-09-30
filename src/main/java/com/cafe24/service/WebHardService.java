@@ -2,6 +2,7 @@ package com.cafe24.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,9 +24,15 @@ public class WebHardService {
     public final CommonDao dao;
     public final FileService fileService;
     
+    public List<Map<String, Object>> getFileList(String statement, Map<String, Object> condition) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        resultList = dao.selectList(statement, condition);
+        return resultList;
+    }
+    
     public List<FileDTO> upload(MultipartFile[] uploadFile, Authentication authentication, String intersection) {
         List<FileDTO> resultList = new ArrayList<>();
-        String id = "개발자준비중";
+        String id = "";
         if(authentication != null) {
             UserDetails userVo = (UserDetails) authentication.getPrincipal();
             id = userVo.getUsername();

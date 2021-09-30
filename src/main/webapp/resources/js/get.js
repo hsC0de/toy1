@@ -194,6 +194,7 @@ $(function() {
   });
 
   var preComment;
+  var recoveryHtml = '';
   $(document).on("click", ".more_btn", function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -245,6 +246,7 @@ $(function() {
       str += '</div>';
       obj.closest(".commentsItem").removeClass("commentsItemMineBg");
       obj.closest(".commentsItem").addClass("commentsItemModify");
+      recoveryHtml = obj.closest(".commentsItem").html();
       obj.closest(".commentsItem").html(str);
 
       autosize($(".contents_comments_inbox_text"));
@@ -252,6 +254,17 @@ $(function() {
     } else if (objText == '신고') {
       alert("신고하시겠습니까? 구현 안했습니다.");
     }
+  });
+
+  $(document).on("click", ".btn_cancle", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $(this).closest(".commentsItem").removeClass("commentsItemModify");
+    $(this).closest(".commentsItem").addClass("commentsItemMineBg");
+    $(this).closest(".commentsItem").html(recoveryHtml);
+    $('.comment_more').removeClass("btn_toggle");
+    // $(this).closest(".commentsItem").load(location.href + " .commentsItem");
   });
 
   $(document).on("click", ".btn_modify", function(e) {

@@ -75,25 +75,66 @@
       </div>
     </div>
     <div>
+      <div class="fileGridTools">
+        <a href="#" class="btn_createFolder">새폴더</a>
+        <a href="#" class="btn_openUploadWindow">업로드</a>
+        <a href="#" class="btn_unfoldListOrDrop">
+          <svg class="unfoldImg" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+            <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+          </svg>
+        </a>
+      </div>
+      <form id="form" method="post" enctype="multipart/form-data" >
+        <table id="fileTable" border=1 style="width:95%; margin: 10px 6px;">
+          <tr>
+            <td>
+              <input type="file" 
+                     name="uploadFile" 
+                     accept=".zip, .7z, .tar, .jar, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, image/*, .pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+                     multiple="multiple" />
+            </td>
+          </tr>
+        </table>
+        <div class="uploadZone">
+          <div id="dropzone">
+            <div class="tempFileList">
+              <div class="upld_header">
+                <span>
+                  <label>
+                    <input type="checkbox">
+                  </label>
+                </span>
+                <span>파일명</span>
+                <span>용량</span>
+                <span>유형</span>
+              </div>
+              <div class="upld_fileList">
+                <ul class="html_fileList"></ul>
+                <div class="dropzoneSpan">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                  </svg>
+                  <span>마우스로 파일을 끌어오세요.</span>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div id="downloadzone"></div>
+          <div id="zipzone"></div>
+          <br/>
+          <div class="uploadTool_container">
+            <input class="btn_fileUploadConfirm" type="button" value="등록" onclick="javascript:fileReg()">
+          </div>
+        </div>
+      </form>
       <div id="grid"></div>
       
     </div>
-    <form id="form" method="post" enctype="multipart/form-data" >
-      <table id="fileTable" border=1 style="width:95%; margin: 10px 6px;">
-        <tr>
-          <td>
-            <input type="file" name="uploadFile" accept="" multiple="multiple" />
-          </td>
-        </tr>
-      </table>
-      <br/>
-      <input type="button" value="등록" onclick="javascript:fileReg()">
-    </form>
-    <div id="dropzone">Drag & Drop Files Here</div>
-    ** 첨부된 파일 목록
-    <div id="downloadzone"></div>
-    <br/>
-    <div id="zipzone"></div>
+    
+    
   </div>
   
   <script type="text/javascript">

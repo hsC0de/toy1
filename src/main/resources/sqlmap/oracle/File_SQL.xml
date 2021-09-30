@@ -9,15 +9,38 @@
       SELECT SYS_GUID() FROM DUAL
     </select>
     
-    <select id="getFileInfo" parameterType="hashmap" resultType="hashmap">
-      SELECT * FROM MCO_FILES A
+    <resultMap id="getFileListMap" type="hashmap">
+      <result property="seq" column="SEQ" />
+      <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="serverName" column="SERVER_FILE_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="length" column="FILE_LENGTH"/>
+      <result property="type" column="FILE_TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="regDate" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="del" column="DEL_YN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="webPath" column="WEB_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getFileList" parameterType="hashmap" resultMap="getFileListMap">
+      SELECT SEQ
+           , FILE_NAME
+           , SERVER_FILE_NM
+           , FILE_PATH
+           , CASE WHEN FILE_LENGTH &gt; (1024 * 1024) THEN CONCAT(ROUND(FILE_LENGTH / (1024 * 1024)), 'MB')
+                  WHEN FILE_LENGTH &gt; 1024          THEN CONCAT(ROUND(FILE_LENGTH / 1024), 'KB')
+                                                      ELSE CONCAT(FILE_LENGTH, 'byte')
+             END AS FILE_LENGTH
+           , FILE_TYPE
+           , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i') AS REG_DATE
+           , DEL_YN
+           , ID
+           , WEB_PATH 
+        FROM WEBHARD_FILE A
        WHERE 1=1
-         <if test='GROUP_KEY != null and GROUP_KEY != "" '>         
-         AND A.GROUP_KEY = #{GROUP_KEY}
-         </if> 
-         <if test='FILE_KEY != null and FILE_KEY != "" '>
-         AND A.FILE_KEY  = #{FILE_KEY}         
-         </if>
+         AND DEL_YN   = 'N'
+         AND WEB_PATH = #{webPath}
+    ORDER BY SEQ DESC
     </select>
     
     
@@ -41,7 +64,10 @@
                             , FILE_TYPE
                             , REG_DATE
                             , DEL_YN
-                            , ID)
+                            , ID
+                            <if test="webPath != null and webPath != ''">
+                            , WEB_PATH
+                            </if>)
                      VALUES ( <if test="groupKey != null and groupKey != ''">
                               #{groupKey}
                             , #{seq},
@@ -53,7 +79,10 @@
                             , #{type}
                             , NOW(3)
                             , 'N'
-                            , #{userId})
+                            , #{userId}
+                            <if test="webPath != null and webPath != ''">
+                            , #{webPath}
+                            </if>)
     </insert>
     
     
