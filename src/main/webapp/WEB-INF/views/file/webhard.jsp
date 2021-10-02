@@ -85,51 +85,62 @@
           </svg>
         </a>
       </div>
-      <form id="form" method="post" enctype="multipart/form-data" >
+      <form id="formFile" method="post" enctype="multipart/form-data" >
         <table id="fileTable" border=1 style="width:95%; margin: 10px 6px;">
           <tr>
             <td>
-              <input type="file" 
+              <input id="tempInput"
+                     type="file" 
                      name="uploadFile" 
                      accept=".zip, .7z, .tar, .jar, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, image/*, .pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
                      multiple="multiple" />
             </td>
           </tr>
         </table>
-        <div class="uploadZone">
-          <div id="dropzone">
-            <div class="tempFileList">
-              <div class="upld_header">
-                <span>
-                  <label>
-                    <input type="checkbox">
-                  </label>
-                </span>
-                <span>파일명</span>
-                <span>용량</span>
-                <span>유형</span>
-              </div>
-              <div class="upld_fileList">
-                <ul class="html_fileList"></ul>
-                <div class="dropzoneSpan">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
-                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
-                  </svg>
-                  <span>마우스로 파일을 끌어오세요.</span>
-                </div>
-              </div>
+      </form>
+      <div class="uploadZone">
+        <div id="dropzone">
+          <div class="tempFileList">
+            <div class="upld_header">
+              <span class="file_select">
+                <label>
+                  <input class="allCheckbox_temp" type="checkbox">
+                </label>
+              </span>
+              <span class="file_name">파일명</span>
+              <span class="file_size">용량</span>
             </div>
             
+            <div class="upld_fileList">
+              <form id="formIdx">
+                <ul class="html_fileList">
+                  
+                </ul>
+              </form>
+              <div class="dropzoneSpan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                  <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
+                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                </svg>
+                <span>마우스로 파일을 끌어오세요.</span>
+              </div>
+            </div>
           </div>
-          <div id="downloadzone"></div>
-          <div id="zipzone"></div>
-          <br/>
-          <div class="uploadTool_container">
+          
+        </div>
+        <div class="uploadTool_container">
+          <div class="delete_container">
+            <a class="delete_tempList" href="#">
+              <object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/trash.svg"></object>
+              <span>삭제</span>
+            </a>
+          </div>
+          <div>
             <input class="btn_fileUploadConfirm" type="button" value="등록" onclick="javascript:fileReg()">
           </div>
         </div>
-      </form>
+      </div>
+      
       <div id="grid"></div>
       
     </div>

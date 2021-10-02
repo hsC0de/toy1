@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.common.util.FileService;
@@ -30,6 +31,7 @@ public class WebHardService {
         return resultList;
     }
     
+    @Transactional
     public List<FileDTO> upload(MultipartFile[] uploadFile, Authentication authentication, String intersection) {
         List<FileDTO> resultList = new ArrayList<>();
         String id = "";
