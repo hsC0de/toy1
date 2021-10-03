@@ -6,8 +6,10 @@
 <html lang="ko">
 <head>
   <link rel="stylesheet" href="/resources/css/styles.css" />
+  <link rel="stylesheet" href="/node_modules/tui-pagination/dist/tui-pagination.min.css">
   <link rel="stylesheet" href="/node_modules/tui-grid/dist/tui-grid.min.css">
   <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/node_modules/tui-pagination/dist/tui-pagination.min.js"></script>
   <script type="text/javascript" src="/node_modules/tui-grid/dist/tui-grid.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -74,29 +76,33 @@
         <a href="https://github.com/hsC0de/toy1.git" target="_black">github: https://github.com/hsC0de/toy1.git</a>
       </div>
     </div>
-    <div>
+    <div class="file_container">
       <div class="fileGridTools">
-        <a href="#" class="btn_createFolder">새폴더</a>
-        <a href="#" class="btn_openUploadWindow">업로드</a>
-        <a href="#" class="btn_unfoldListOrDrop">
-          <svg class="unfoldImg" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
-            <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
-          </svg>
-        </a>
+        <div class="fileGridTools_container">
+          <a href="#" class="btn_createFolder">새 폴더</a>
+          <a href="#" class="btn_openUploadWindow">업로드</a>
+          <a href="#" class="btn_unfoldListOrDrop">
+            <svg class="unfoldImg" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-caret-down-square" viewBox="0 0 16 16">
+              <path d="M3.626 6.832A.5.5 0 0 1 4 6h8a.5.5 0 0 1 .374.832l-4 4.5a.5.5 0 0 1-.748 0l-4-4.5z"/>
+              <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2z"/>
+            </svg>
+          </a>
+        </div>
+        
+      </div>
+      <div class="createFolder_container">
+        <span class="createFolder_title">name</span>
+        <div class="folder_input_container">
+          <input type="text" class="inputFolderName" placeholder="새 폴더">
+          <button type="button" class="btn_inputFolderName">등록</button>
+        </div>
       </div>
       <form id="formFile" method="post" enctype="multipart/form-data" >
-        <table id="fileTable" border=1 style="width:95%; margin: 10px 6px;">
-          <tr>
-            <td>
-              <input id="tempInput"
-                     type="file" 
-                     name="uploadFile" 
-                     accept=".zip, .7z, .tar, .jar, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, image/*, .pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
-                     multiple="multiple" />
-            </td>
-          </tr>
-        </table>
+        <input id="tempInput"
+               type="file" 
+               name="uploadFile" 
+               accept=".zip, .7z, .tar, .jar, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/plain, image/*, .pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+               multiple="multiple" />
       </form>
       <div class="uploadZone">
         <div id="dropzone">
@@ -129,19 +135,40 @@
           
         </div>
         <div class="uploadTool_container">
+          <div class="btn_fileUploadConfirm_container">
+            <span class="fic_fileUpload"></span>
+            <a href="#" class="btn_fileUploadConfirm">등록</a>
+<!--             <input class="btn_fileUploadConfirm" type="button" value="등록" onclick="javascript:fileReg()"> -->
+          </div>
           <div class="delete_container">
             <a class="delete_tempList" href="#">
               <object class="object" type="image/svg+xml" data="/node_modules/bootstrap-icons/icons/trash.svg"></object>
               <span>삭제</span>
             </a>
           </div>
-          <div>
-            <input class="btn_fileUploadConfirm" type="button" value="등록" onclick="javascript:fileReg()">
-          </div>
         </div>
       </div>
-      
-      <div id="grid"></div>
+      <div class="board_option">
+        <div class="board_option_container">
+          <a href="#" class="file_option_save"><span class="fic_zip"></span>모두 저장</a>
+            <div class="divider"></div>
+          <a href="#" class="file_option_delete"><span class="fic_trash"></span>삭제</a>
+        </div>
+        <ul>
+          <li>
+            <select onchange="setPerPage(this.value)">
+              <option value="5" >5개씩</option>
+              <option value="10" selected>10개씩</option>
+              <option value="15" >15개씩</option>
+              <option value="20" >20개씩</option>
+              <option value="30" >30개씩</option>
+              <option value="40" >40개씩</option>
+              <option value="50" >50개씩</option>
+            </select>
+          </li>
+        </ul>
+        </div>
+      <div id="fileListGgrid"></div>
       
     </div>
     

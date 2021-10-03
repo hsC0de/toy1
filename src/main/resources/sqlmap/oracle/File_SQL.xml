@@ -9,6 +9,26 @@
       SELECT SYS_GUID() FROM DUAL
     </select>
     
+    <resultMap id="getFileInfoMap" type="hashmap">
+      <result property="seq" column="SEQ" />
+      <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="serverName" column="SERVER_FILE_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="length" column="FILE_LENGTH"/>
+      <result property="type" column="FILE_TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="regDate" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="del" column="DEL_YN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="webPath" column="WEB_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getFileInfo" parameterType="hashmap" resultMap="getFileInfoMap">
+      SELECT * 
+        FROM WEBHARD_FILE A
+       WHERE 1=1
+         AND A.SEQ = #{seq}
+    </select>
+    
     <resultMap id="getFileListMap" type="hashmap">
       <result property="seq" column="SEQ" />
       <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -40,9 +60,44 @@
        WHERE 1=1
          AND DEL_YN   = 'N'
          AND WEB_PATH = #{webPath}
-    ORDER BY SEQ DESC
+         AND FILE_TYPE = 'folder'
+      UNION
+      SELECT SEQ
+           , FILE_NAME
+           , SERVER_FILE_NM
+           , FILE_PATH
+           , CASE WHEN FILE_LENGTH &gt; (1024 * 1024) THEN CONCAT(ROUND(FILE_LENGTH / (1024 * 1024)), 'MB')
+                  WHEN FILE_LENGTH &gt; 1024          THEN CONCAT(ROUND(FILE_LENGTH / 1024), 'KB')
+                                                      ELSE CONCAT(FILE_LENGTH, 'byte')
+             END AS FILE_LENGTH
+           , FILE_TYPE
+           , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d. %H:%i') AS REG_DATE
+           , DEL_YN
+           , ID
+           , WEB_PATH 
+        FROM WEBHARD_FILE A
+       WHERE 1=1
+         AND DEL_YN   = 'N'
+         AND WEB_PATH = #{webPath}
+         AND FILE_LENGTH IS NOT NULL
+    ORDER BY FILE_LENGTH IS NULL DESC, SEQ DESC
     </select>
     
+    <resultMap id="existFolderNameMap" type="hashmap">
+      <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="folderName" column="SERVER_FILE_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="existFolderName" parameterType="hashmap" resultMap="existFolderNameMap">
+      SELECT FILE_NAME
+           , SERVER_FILE_NM
+        FROM WEBHARD_FILE A
+       WHERE 1=1
+         AND DEL_YN         = 'N'
+         AND WEB_PATH       = #{webPath}
+         AND SERVER_FILE_NM = #{folderName} 
+    ORDER BY FILE_NAME
+    </select>
     
     <insert id="insertFileInfo" parameterType="hashmap">
       INSERT INTO <choose>
@@ -85,5 +140,23 @@
                             </if>)
     </insert>
     
+    <insert id="insertFolder" parameterType="hashmap">
+      INSERT INTO WEBHARD_FILE ( FILE_NAME
+                               , SERVER_FILE_NM
+                               , FILE_PATH
+                               , FILE_TYPE
+                               , REG_DATE
+                               , DEL_YN
+                               , ID
+                               , WEB_PATH )
+                        VALUES ( #{realName}
+                               , #{folderName}
+                               , #{folderPath}
+                               , #{type}
+                               , NOW(3)
+                               , 'N'
+                               , #{userId}
+                               , #{webPath} )
+    </insert>
     
 </mapper>

@@ -1,10 +1,13 @@
 var gridData;
-
+var pathList = ['/'];
+var level = -1;
+var fpage = 10;
 const grid = new tui.Grid({
-  el : document.getElementById('grid'),
+  el : document.getElementById('fileListGgrid'),
   data : gridData,
   scrollX : false,
   scrollY : false,
+  rowHeaders: ['checkbox'],
   columns : [ {
     header : ' ',
     name : 'seq',
@@ -24,7 +27,7 @@ const grid = new tui.Grid({
   }, {
     header : '등록자',
     name : 'id',
-    width : 110,
+    width : 120,
     renderer : {
       styles : {}
     }
@@ -46,14 +49,42 @@ const grid = new tui.Grid({
         'text-align' : 'center'
       }
     }
-  },  ]
+  }, {
+    header : '경로',
+    name : 'filePath',
+    width : 0
+  }  ],
+// rowHeaders: ['rowNum'],
+ pageOptions: {
+ useClient: true,
+ perPage: 10
+ }
 });
+
+grid.hideColumn('seq');
+grid.hideColumn('filePath');
+
+function setPerPage(page) {
+  const pagination = grid.getPagination();
+  pagination._options.itemsPerPage = Number(page);
+  pagination._options.perPage = Number(page);
+  console.log(pagination);
+  
+  fpage = Number(page);
+  grid.setPerPage(page);
+
+  getFileList(webPath);
+  pagination.reset();
+  
+}
 
 tui.Grid.applyTheme('clean');
 
 var webPath = '/';
 
 getFileList(webPath);
+
+
 
 function getFileList(webPath) {
 
@@ -63,13 +94,30 @@ function getFileList(webPath) {
     dataType : 'json',
     success : function(res) {
       console.log(res);
+// totalCount = res.length;
       grid.resetData(eval(res));
+      
+      if(webPath != '/') {
+        grid.prependRow({
+          realName: '..',
+          filePath: pathList[level],
+          });
+        
+      }
+      
+      for(var i = 0; i < res.length; i++) {
+        if(!res[i].length) {
+          grid.addRowClassName(i, "folderRow")
+        }
+      }
     },
     error : function(error) {
       console.log(error);
       alert(error.status);
     }
   });
+  
+  
 }
 
 $(document).on("click", ".btn_openUploadWindow", function(e) {
@@ -125,7 +173,7 @@ function tempListUp(tempFiles) {
     str += '</label>';
     str += '</span>';
     str += '<span class="file_name">';
-    str += '<label for="upld_file_' + idx + '">';
+    str += '<label class="file_name_span" for="upld_file_' + idx + '">';
     if(file.type.indexOf('image') != -1) {
       str += '<span class="fic fic_img">';
     } else {
@@ -140,7 +188,7 @@ function tempListUp(tempFiles) {
     
  });
   if(sizeEx > 0) {
-    alert("파일은 10M를 넘을 수 없습니다.");
+    alert("파일은 10MB를 넘을 수 없습니다.");
   }
   $(".html_fileList").html(str);
 }
@@ -207,8 +255,20 @@ $(document).on("click", ".btn_unfoldListOrDrop", function(e) {
   $(".uploadZone").toggleClass("btn_toggle");
 });
 
+$(document).on("click", ".btn_fileUploadConfirm", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  fileReg();
+});
+
 function fileReg() {
   if (confirm("등록하시겠습니까?")) {
+    
+    if(dataTransfer.files.length == 0) {
+      alert("파일을 선택해 주세요.");
+      return;
+    }
     var size = 0;
     for(var i = 0; i < dataTransfer.files.length; i++) {
       size += dataTransfer.files.size;
@@ -220,7 +280,7 @@ function fileReg() {
         } else {
           $(".dropzoneSpan").css("display", "block");
         }
-        alert("업로드 중에 에러가 발생했습니다. 파일은 10M를 넘을 수 없습니다.");
+        alert("업로드 중에 에러가 발생했습니다. 파일은 10MB를 넘을 수 없습니다.");
         return;
       }
     }
@@ -229,6 +289,7 @@ function fileReg() {
          .forEach(x => {
            formData.append("uploadFile", x);
          });
+    formData.append("webPath", webPath);
     util.requestSyncFile("/file/upload", formData, "POST", "text", success, error);
   }
 }
@@ -246,14 +307,14 @@ function success(data) {
     }
     tempListUp(dataTransfer.files);
     idx = 0;
-    getFileList(webPath);
+    setPerPage(fpage);
     alert("업로드가 완료되었습니다.");
   } else {
     alert(date);
   }
 }
 function error(res) {
-  alert("업로드 중에 에러가 발생했습니다. 파일은 10M를 넘을 수 없습니다.");
+  alert("업로드 중에 에러가 발생했습니다. 파일은 10MB를 넘을 수 없습니다.");
   console.dir(res)
 }
 
@@ -280,4 +341,78 @@ $(document).on("drop", ".upld_fileList", function(e) {
     return;
 
   tempListUp(files);
+});
+
+$(document).on("click", ".btn_createFolder", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  $(this).closest(".fileGridTools").next().toggleClass("btn_toggle");
+  $(".inputFolderName").focus();
+});
+
+$(document).on("keyup", ".inputFolderName", function(e) {
+  if (e.keyCode === 13) {
+    $(".btn_inputFolderName").click();
+  }
+});
+
+$(document).on("click", ".btn_inputFolderName", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  var folderName = '새 폴더';
+  console.log($(".inputFolderName").val());
+  
+  if($(".inputFolderName").val().trim()) {
+    folderName = $(".inputFolderName").val().trim();
+    console.log(folderName);
+  }
+  var data = { folderName : folderName
+             , type : 'folder'
+             , webPath : webPath };
+  
+  console.log(data);
+  
+  util.requestSync("/file/createFolder", data, "POST", "text"
+   , function(res) {
+    if(res.indexOf("loginForm") != -1) {
+      location.href = "/common/login";
+    }
+    else {
+      $(".inputFolderName").val("");
+      $(".createFolder_container").removeClass("btn_toggle");
+      setPerPage(fpage);
+    }
+    console.log(res);
+  }, function(error) {
+    console.log(error);
+  });
+});
+
+grid.on('dblclick', ev => {
+  
+  console.log(grid.getValue(grid.getFocusedCell().rowKey, 'length'));
+  if(!grid.getValue(grid.getFocusedCell().rowKey, 'length')) {
+    console.log(grid.getValue(grid.getFocusedCell().rowKey, 'filePath'));
+    
+    webPath = grid.getValue(grid.getFocusedCell().rowKey, 'filePath');
+    if(pathList[pathList.length - 1].length < webPath.length) {
+      level++;
+      pathList.push(webPath);
+    }
+    else {
+      level--;
+      pathList.pop();
+    }
+// console.log(pathList);
+    getFileList(webPath);
+  } else {
+  var seq = grid.getValue(grid.getFocusedCell().rowKey, 'seq');
+    
+// var seq = {seq : grid.getValue(grid.getFocusedCell().rowKey, 'seq')}
+    
+    location.href="/file/downloadFile?seq=" + seq;
+        
+  }
 });

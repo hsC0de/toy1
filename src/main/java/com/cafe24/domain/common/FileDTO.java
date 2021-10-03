@@ -13,4 +13,5 @@ public class FileDTO {
     private long length;
     private String type;
     private String userId;
+    private String webPath;
 }

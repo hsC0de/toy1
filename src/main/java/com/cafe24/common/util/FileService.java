@@ -38,7 +38,7 @@ public class FileService {
     }
 
     @Transactional
-    public List<FileDTO> upload(MultipartFile[] uploadFile, String sGroupKey, String id) {
+    public List<FileDTO> upload(MultipartFile[] uploadFile, String sGroupKey, String id, String webPath) {
         List<FileDTO> resultList = new ArrayList<>();
         
         String sPath = "";
@@ -59,6 +59,9 @@ public class FileService {
                 if(sGroupKey != null) {
                     fileDto.setGroupKey(sGroupKey);
                     fileDto.setSeq(cnt);
+                }
+                else {
+                    fileDto.setWebPath(webPath);
                 }
                 String uploadFileName = "" + Calendar.getInstance().getTimeInMillis();
                 fileDto.setRealName(file.getOriginalFilename());
