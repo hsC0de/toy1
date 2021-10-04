@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cafe24.service.WebHardService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +89,39 @@ public class WebHardController {
         data.put("model", downloadFile);
         data.put("realName", fileMap.get("realName"));
         return new ModelAndView("downloadView", "downloadFile", data);
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("downloadZipFile")
+    public ModelAndView downloadZipFile(@RequestParam String dataMap, Authentication authentication) throws Exception {
+        
+        Gson gson = new Gson();
+        JsonArray jsonObj = JsonParser.parseString(dataMap).getAsJsonArray();
+        
+        List<String> list = gson.fromJson(jsonObj, new TypeToken<List<String>>() {}.getType());
+        Map<String, Object> map = new HashMap<>();
+        map.put("dataMap", list);
+        log.info("" + map);
+        List<Map<String, Object>> fileList = webhardService.getdownloadZipFile("file.getFileInfoList", map);
+        Map<String, Object> fileMap = new HashMap<>();
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        for(int i = 0; i < fileList.size(); i++) {
+            fileMap = fileList.get(i);
+            String path = "";
+            if(fileMap != null) {
+                path = File.separator + "jhseong112" + File.separator + "tomcat" + File.separator + "webapps" + File.separator + "NAS" + File.separator;
+                path += fileMap.get("filePath") + File.separator + fileMap.get("serverName");
+            }
+            File downloadFile = new File(path);
+            Map<String, Object> data = new HashMap<>();
+            data.put("model", downloadFile);
+            data.put("realName", fileMap.get("realName"));
+            if(authentication != null) {
+                UserDetails userVo = (UserDetails) authentication.getPrincipal();
+                data.put("id", (String) userVo.getUsername());
+            }
+            dataList.add(data);
+        }
+        return new ModelAndView("downloadZipView", "downloadFile", dataList);
     }
 }

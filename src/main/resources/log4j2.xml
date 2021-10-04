@@ -10,7 +10,7 @@
     <Logger name="jdbc.audit" level="off" />
     <Logger name="jdbc.resultset" level="off" />
     <Logger name="jdbc.connection" level="off" />
-    <Logger name="org.mybatis.spring.SqlSessionUtils" level="off" />
+    <Logger name="org.mybatis.spring.SqlSessionUtils" level="info" />
     <Logger name="study.selectItems" level="off" />
     <Logger name="log4jdbc.debug" level="off" />
     <Logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="off" />

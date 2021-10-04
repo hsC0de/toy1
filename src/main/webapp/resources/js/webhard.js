@@ -2,6 +2,8 @@ var gridData;
 var pathList = ['/'];
 var level = -1;
 var fpage = 10;
+var seqList = [];
+var userId = $("#tempUsername1").text();
 const grid = new tui.Grid({
   el : document.getElementById('fileListGgrid'),
   data : gridData,
@@ -101,13 +103,19 @@ function getFileList(webPath) {
         grid.prependRow({
           realName: '..',
           filePath: pathList[level],
+          _attributes: {
+            checkDisabled: true
+          }
           });
         
       }
       
       for(var i = 0; i < res.length; i++) {
         if(!res[i].length) {
-          grid.addRowClassName(i, "folderRow")
+          grid.addRowClassName(i, "folderRow");
+          grid.disableRowCheck(i);
+        } else if(res[i].id == userId) {
+          grid.addRowClassName(i, "mineRow");
         }
       }
     },
@@ -392,27 +400,94 @@ $(document).on("click", ".btn_inputFolderName", function(e) {
 
 grid.on('dblclick', ev => {
   
-  console.log(grid.getValue(grid.getFocusedCell().rowKey, 'length'));
-  if(!grid.getValue(grid.getFocusedCell().rowKey, 'length')) {
-    console.log(grid.getValue(grid.getFocusedCell().rowKey, 'filePath'));
-    
-    webPath = grid.getValue(grid.getFocusedCell().rowKey, 'filePath');
-    if(pathList[pathList.length - 1].length < webPath.length) {
-      level++;
-      pathList.push(webPath);
+  console.log(grid.getFocusedCell().columnName);
+  if(grid.getFocusedCell().columnName === 'realName') {
+// console.log(grid.getValue(grid.getFocusedCell().rowKey, 'length'));
+    if(!grid.getValue(grid.getFocusedCell().rowKey, 'length')) {
+// console.log(grid.getValue(grid.getFocusedCell().rowKey, 'filePath'));
+      
+      webPath = grid.getValue(grid.getFocusedCell().rowKey, 'filePath');
+      if(pathList[pathList.length - 1].length < webPath.length) {
+        level++;
+        pathList.push(webPath);
+      }
+      else {
+        level--;
+        pathList.pop();
+      }
+      getFileList(webPath);
+    } else {
+      var seq = grid.getValue(grid.getFocusedCell().rowKey, 'seq');
+      location.href="/file/downloadFile?seq=" + seq;
     }
-    else {
-      level--;
-      pathList.pop();
-    }
-// console.log(pathList);
-    getFileList(webPath);
-  } else {
-  var seq = grid.getValue(grid.getFocusedCell().rowKey, 'seq');
     
-// var seq = {seq : grid.getValue(grid.getFocusedCell().rowKey, 'seq')}
-    
-    location.href="/file/downloadFile?seq=" + seq;
-        
   }
+  
+});
+
+grid.on("check", (ev) => {
+  seqList.push(grid.getValue(`${ev.rowKey}`, 'seq'));
+  console.log(seqList);
+});
+
+$(document).on("click", ".tui-grid-cell-header span input", function() {
+  grid.checkAll(false);
+  var keys = grid.getCheckedRowKeys();
+  
+  for(var i = 0; i < keys.length; i++) {
+    if($(this).prop("checked") === true) {
+      seqList.push(grid.getValue(keys[i], 'seq'));
+    }
+    else {      
+      seqList = seqList.filter((x) => x !== grid.getValue(keys[i], 'seq'));
+    }
+  }
+  console.log(seqList);
+});
+
+grid.on("uncheck", (ev) => {
+  seqList = seqList.filter((x) => x !== grid.getValue(`${ev.rowKey}`, 'seq'));
+  console.log(seqList);
+});
+
+$(document).on("click", ".file_option_save", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  if(seqList.length == 0) {
+    alert("파일을 선택하세요.");
+    return;
+  }
+  
+  var dataMap = {};
+  dataMap["seqList"] = seqList;
+  var value = JSON.stringify(seqList);
+  console.log(value);
+  
+  $("#seqListInput").val(value);
+  
+  $(".seqListForm").submit();
+  
+  setPerPage(fpage);
+  seqList = [];
+ 
+});
+
+$(document).on("click", ".file_option_delete", function(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  
+  if(seqList.length == 0) {
+    alert("파일을 선택하세요.");
+    return;
+  }
+  for(var i = 0; i < seqList.length; i++) {
+    if(grid.getValue(seqList[i], 'id') !== userId) {
+      alert("내가 올린 파일만 삭제할 수 있습니다.");
+      return;
+    }
+  }
+  
+  
+  
 });

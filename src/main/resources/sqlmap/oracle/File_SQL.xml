@@ -29,6 +29,29 @@
          AND A.SEQ = #{seq}
     </select>
     
+    <resultMap id="getFileInfoListMap" type="hashmap">
+      <result property="seq" column="SEQ" />
+      <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="serverName" column="SERVER_FILE_NM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="filePath" column="FILE_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="length" column="FILE_LENGTH"/>
+      <result property="type" column="FILE_TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="regDate" column="REG_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="del" column="DEL_YN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="id" column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <result property="webPath" column="WEB_PATH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="getFileInfoList" parameterType="hashmap" resultMap="getFileInfoListMap">
+      SELECT * 
+        FROM WEBHARD_FILE A
+       WHERE 1=1
+         AND A.SEQ IN 
+         <foreach collection="dataMap" item="seq" index="SEQ" separator="," open="(" close=")">
+         #{seq}
+         </foreach>
+    </select>
+    
     <resultMap id="getFileListMap" type="hashmap">
       <result property="seq" column="SEQ" />
       <result property="realName" column="FILE_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>

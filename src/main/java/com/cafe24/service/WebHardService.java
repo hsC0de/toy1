@@ -99,4 +99,10 @@ public class WebHardService {
         Map<String, Object> resultMap = dao.selectOne(statement, condition);
         return resultMap;
     }
+    
+    @Transactional
+    public List<Map<String, Object>> getdownloadZipFile(String statement, Map<String, Object> condition) {
+        List<Map<String, Object>> resultList = dao.selectList(statement, condition);
+        return resultList;
+    }
 }

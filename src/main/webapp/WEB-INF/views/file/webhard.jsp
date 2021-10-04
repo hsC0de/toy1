@@ -154,6 +154,10 @@
             <div class="divider"></div>
           <a href="#" class="file_option_delete"><span class="fic_trash"></span>삭제</a>
         </div>
+        <form action="/file/downloadZipFile" method="post" class="seqListForm">
+          <input type="hidden" id="seqListInput" name="dataMap" value="">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
         <ul>
           <li>
             <select onchange="setPerPage(this.value)">
@@ -174,6 +178,9 @@
     
     
   </div>
+  <sec:authorize access="isAuthenticated()">
+  <div id="tempUsername1" style="display:none"><sec:authentication property='principal.username'/></div>
+  </sec:authorize>
   
   <script type="text/javascript">
     var csrfHeaderName = "${_csrf.headerName}";
