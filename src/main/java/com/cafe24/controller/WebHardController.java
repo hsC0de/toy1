@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,23 +55,15 @@ public class WebHardController {
     @PostMapping("createFolder")
     @ResponseBody
     public String createFolder(@RequestParam Map<String, Object> map, Authentication authentication) {
-        
         webhardService.createFolder("file.insertFolder", map, authentication);
-        
         return "ok";
     }
     
     @PreAuthorize("isAuthenticated()")
     @PostMapping("upload")
     @ResponseBody
-    public String upload(MultipartFile[] uploadFile, String webPath, Authentication authentication, HttpServletRequest req) {
-        String uri = req.getHeader("Referer");
-        String intersection = "board";
-        if(!uri.contains("/board")) {
-            intersection = "file";
-        }
-        webhardService.upload(uploadFile, authentication, intersection, webPath);
-        
+    public String upload(MultipartFile[] uploadFile, String webPath, Authentication authentication) {
+        webhardService.upload(uploadFile, authentication, webPath);
         return "ok";
     }
     
@@ -94,10 +86,8 @@ public class WebHardController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("downloadZipFile")
     public ModelAndView downloadZipFile(@RequestParam String dataMap, Authentication authentication) throws Exception {
-        
         Gson gson = new Gson();
         JsonArray jsonObj = JsonParser.parseString(dataMap).getAsJsonArray();
-        
         List<String> list = gson.fromJson(jsonObj, new TypeToken<List<String>>() {}.getType());
         Map<String, Object> map = new HashMap<>();
         map.put("dataMap", list);
@@ -123,5 +113,30 @@ public class WebHardController {
             dataList.add(data);
         }
         return new ModelAndView("downloadZipView", "downloadFile", dataList);
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value="deleteFile", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteFile(@RequestBody List<Map<String, Object>> dataMap, Authentication authentication) throws Exception {
+        String id = "";
+        List<Object> list = new ArrayList<>();
+        if(authentication != null) {
+            UserDetails userVo = (UserDetails) authentication.getPrincipal();
+            id = (String) userVo.getUsername();
+        }
+        Map<String, Object> map = new HashMap<>();
+        for(Map<String, Object> m : dataMap) {
+            if(id.equals(m.get("id"))) {
+                list.add(m.get("seq"));
+            }
+            else {
+                return "본인이 업로드한 파일만 삭제할 수 있습니다.";
+            }
+        }
+        map.put("dataMap", list);
+        log.info("" + map);
+        webhardService.deleteFile("file.deleteFile", map);
+        return "ok";
     }
 }

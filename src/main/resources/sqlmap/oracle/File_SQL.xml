@@ -182,4 +182,13 @@
                                , #{webPath} )
     </insert>
     
+    <delete id="deleteFile" parameterType="hashmap">
+      DELETE FROM WEBHARD_FILE
+       WHERE 1=1
+         AND SEQ IN 
+         <foreach collection="dataMap" item="seq" index="SEQ" separator="," open="(" close=")">
+         #{seq}
+         </foreach>
+    </delete>
+    
 </mapper>

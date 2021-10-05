@@ -2,7 +2,6 @@ var gridData;
 var pathList = ['/'];
 var level = -1;
 var fpage = 10;
-var seqList = [];
 var userId = $("#tempUsername1").text();
 const grid = new tui.Grid({
   el : document.getElementById('fileListGgrid'),
@@ -70,7 +69,7 @@ function setPerPage(page) {
   const pagination = grid.getPagination();
   pagination._options.itemsPerPage = Number(page);
   pagination._options.perPage = Number(page);
-  console.log(pagination);
+// console.log(pagination);
   
   fpage = Number(page);
   grid.setPerPage(page);
@@ -95,7 +94,7 @@ function getFileList(webPath) {
     method : 'get',
     dataType : 'json',
     success : function(res) {
-      console.log(res);
+// console.log(res);
 // totalCount = res.length;
       grid.resetData(eval(res));
       
@@ -120,7 +119,7 @@ function getFileList(webPath) {
       }
     },
     error : function(error) {
-      console.log(error);
+// console.log(error);
       alert(error.status);
     }
   });
@@ -164,7 +163,7 @@ function tempListUp(tempFiles) {
   }
   var files = dataTransfer.files;
   files = Array.from(files);
-  console.log(files);
+// console.log(files);
   var str = '';
   var sizeEx = 0;
   files.forEach(file => {
@@ -302,7 +301,7 @@ function fileReg() {
   }
 }
 function success(data) {
-  console.log(data);
+// console.log(data);
   if (data.indexOf("login") != -1) {
     location.href = "/common/login";
   } else if (data == 'ok') {
@@ -323,7 +322,7 @@ function success(data) {
 }
 function error(res) {
   alert("업로드 중에 에러가 발생했습니다. 파일은 10MB를 넘을 수 없습니다.");
-  console.dir(res)
+// console.dir(res)
 }
 
 $(document).on("dragenter", ".upld_fileList", function(e) {
@@ -370,19 +369,19 @@ $(document).on("click", ".btn_inputFolderName", function(e) {
   e.preventDefault();
   
   var folderName = '새 폴더';
-  console.log($(".inputFolderName").val());
+// console.log($(".inputFolderName").val());
   
   if($(".inputFolderName").val().trim()) {
     folderName = $(".inputFolderName").val().trim();
-    console.log(folderName);
+// console.log(folderName);
   }
   var data = { folderName : folderName
              , type : 'folder'
              , webPath : webPath };
   
-  console.log(data);
+// console.log(data);
   
-  util.requestSync("/file/createFolder", data, "POST", "text"
+  util.requestSync("/file/createFolder", data, "POST", "text", 'application/x-www-form-urlencoded; charset=utf-8'
    , function(res) {
     if(res.indexOf("loginForm") != -1) {
       location.href = "/common/login";
@@ -392,19 +391,18 @@ $(document).on("click", ".btn_inputFolderName", function(e) {
       $(".createFolder_container").removeClass("btn_toggle");
       setPerPage(fpage);
     }
-    console.log(res);
+// console.log(res);
   }, function(error) {
-    console.log(error);
+// console.log(error);
+    alert(error);
   });
 });
 
 grid.on('dblclick', ev => {
   
-  console.log(grid.getFocusedCell().columnName);
+// console.log(grid.getFocusedCell().columnName);
   if(grid.getFocusedCell().columnName === 'realName') {
-// console.log(grid.getValue(grid.getFocusedCell().rowKey, 'length'));
     if(!grid.getValue(grid.getFocusedCell().rowKey, 'length')) {
-// console.log(grid.getValue(grid.getFocusedCell().rowKey, 'filePath'));
       
       webPath = grid.getValue(grid.getFocusedCell().rowKey, 'filePath');
       if(pathList[pathList.length - 1].length < webPath.length) {
@@ -425,69 +423,69 @@ grid.on('dblclick', ev => {
   
 });
 
-grid.on("check", (ev) => {
-  seqList.push(grid.getValue(`${ev.rowKey}`, 'seq'));
-  console.log(seqList);
-});
-
-$(document).on("click", ".tui-grid-cell-header span input", function() {
-  grid.checkAll(false);
-  var keys = grid.getCheckedRowKeys();
-  
-  for(var i = 0; i < keys.length; i++) {
-    if($(this).prop("checked") === true) {
-      seqList.push(grid.getValue(keys[i], 'seq'));
-    }
-    else {      
-      seqList = seqList.filter((x) => x !== grid.getValue(keys[i], 'seq'));
-    }
-  }
-  console.log(seqList);
-});
-
-grid.on("uncheck", (ev) => {
-  seqList = seqList.filter((x) => x !== grid.getValue(`${ev.rowKey}`, 'seq'));
-  console.log(seqList);
-});
-
 $(document).on("click", ".file_option_save", function(e) {
   e.stopPropagation();
   e.preventDefault();
   
-  if(seqList.length == 0) {
+  var keys = grid.getCheckedRowKeys();
+  if(keys.length == 0) {
     alert("파일을 선택하세요.");
     return;
   }
-  
-  var dataMap = {};
-  dataMap["seqList"] = seqList;
-  var value = JSON.stringify(seqList);
-  console.log(value);
+  var dataMap = [];
+  for(var i = 0; i < keys.length; i++) {
+    dataMap.push(grid.getValue(keys[i], 'seq'));
+  }
+  var value = JSON.stringify(dataMap);
+// console.log(value);
   
   $("#seqListInput").val(value);
   
   $(".seqListForm").submit();
   
   setPerPage(fpage);
-  seqList = [];
+// seqList = [];
  
 });
-
 $(document).on("click", ".file_option_delete", function(e) {
   e.stopPropagation();
   e.preventDefault();
-  
-  if(seqList.length == 0) {
+  var keys = grid.getCheckedRowKeys();
+  var fileData = [];
+  for(var i = 0; i < keys.length; i++) {
+    fileData[i] = {
+        seq : grid.getValue(keys[i], 'seq'),
+        id  : grid.getValue(keys[i], 'id'),
+    };
+  }
+  var dataMap = JSON.stringify(fileData);
+  if(keys.length == 0) {
     alert("파일을 선택하세요.");
     return;
   }
-  for(var i = 0; i < seqList.length; i++) {
-    if(grid.getValue(seqList[i], 'id') !== userId) {
-      alert("내가 올린 파일만 삭제할 수 있습니다.");
-      return;
+  console.log(userId);
+  if(userId) {
+    for(var i = 0; i < keys.length; i++) {
+      if(grid.getValue(keys[i], 'id') !== userId) {
+        alert("본인이 업로드한 파일만 삭제할 수 있습니다.");
+        return;
+      }
     }
   }
-  
-  
-  
+  util.requestSync("/file/deleteFile", dataMap, "POST", "text", 'application/json'
+      , function(res) {
+       if(res.indexOf("loginForm") != -1) {
+         location.href = "/common/login";
+       }
+       else {
+         if(res.indexOf("ok") == -1) {
+           alert(res);
+         }
+         setPerPage(fpage);
+       }
+// console.log(res);
+     }, function(error) {
+// console.log(error);
+       alert(error);
+     });
 });

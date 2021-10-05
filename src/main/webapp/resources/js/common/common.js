@@ -9,25 +9,15 @@ var util = {
       error : error
     });
   },
-  requestSync : function(url, param, method, responseType, callback, error) {
+  requestSync : function(url, param, method, responseType, contentType, callback, error) {
     $.ajax({
       method : method,
       url : url,
       dataType : responseType,
       data : param,
+      contentType : contentType,
       beforeSend : function(xhr) {
         xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-      },
-      statusCode : {
-        401 : function() {
-          // console.log(sessionStorage.getItem("contextRoot"));
-          $('#frame').load(sessionStorage.getItem("contextRoot") + "/nosession/loginForm?oripath=",
-              function(response, status) {
-                if (status == 'error') {
-                  $('#frame').html(response);
-                }
-              });
-        }
       },
       error : error,
       success : callback
