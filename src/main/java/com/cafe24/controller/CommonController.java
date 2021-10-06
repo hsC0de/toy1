@@ -40,9 +40,11 @@ public class CommonController {
     @GetMapping("login")
     public String login(Model model, HttpServletResponse res, HttpServletRequest req) {
         String uri = req.getHeader("Referer");
+//        log.info("" + req.getRequestURI());
         if(!uri.contains("/login")) {
             String referrer = req.getHeader("Referer");
             req.getSession().setAttribute("prevPage", referrer);
+//            req.getSession().setAttribute("requestFile", req.getRequestURI());
         }
         res.setHeader("redirectLogin", "true");
         res.setHeader("redirectUrl", req.getRequestURI());

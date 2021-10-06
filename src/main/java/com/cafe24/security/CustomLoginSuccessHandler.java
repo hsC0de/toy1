@@ -23,12 +23,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         RequestCache requestCache = new HttpSessionRequestCache();
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         String prevPage = (String) request.getSession().getAttribute("prevPage");
-        
+//        String requestFile = (String) request.getSession().getAttribute("requestFile");
         if(prevPage != null) {
             request.getSession().removeAttribute("prevPage");
         }
 
-        if (savedRequest != null) {
+        if (savedRequest != null && !savedRequest.getRedirectUrl().contains("/file/download")) {
             uri = savedRequest.getRedirectUrl();
             
             // 세션에 저장된 객체를 다 사용한 뒤에는 지워줘서 메모리 누수 방지
