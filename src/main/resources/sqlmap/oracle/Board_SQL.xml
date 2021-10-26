@@ -279,12 +279,18 @@
     
     <select id="getTotal" resultType="int">
       SELECT COUNT(*) AS TOTAL
-        FROM BOARD
+        FROM BOARD A
        WHERE 1=1
          AND DEL = 'N'
-         <if test="kind != 'BA'">
+         <choose>
+         <when test="kind != 'BA'">
          AND KIND = #{kind}
-         </if>
+         AND TYPE = 'N'
+         </when>
+         <when test="kind == 'BA'">
+         AND (CASE WHEN A.KIND = 'BN' THEN A.TYPE = 'N' ELSE A.TYPE IN ('Y', 'N') END)
+         </when>
+         </choose>
     </select>
     
     <select id="getUpdSeq" resultType="int">
